@@ -1,5 +1,6 @@
 import { Component, Injector } from '@angular/core';
 import { finalize } from 'rxjs/operators';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {
   PagedListingComponentBase,
   PagedRequestDto
@@ -9,6 +10,7 @@ import {
   AppointmentDtoPagedResultDto,
   AppointmentDto
 } from '@shared/service-proxies/service-proxies';
+import { CreateAppointmentDialogComponent } from './create-appointment/create-appointment-dialog.component';
 
 class PagedAppointmentsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -27,11 +29,9 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
   constructor(
     injector: Injector,
     private _appointmentsService: AppointmentServiceProxy,
+    private _modalService: BsModalService
   ) {
     super(injector);
-  }
-
-  ngOnInit(): void {
   }
 
   list(
@@ -72,6 +72,37 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
         }
       }
     );
+  } 
+
+  showCreateOrEditAppointmentDialog(id?: number): void {
+    let createOrEditAppointmentDialog: BsModalRef;
+    if (!id) {
+      createOrEditAppointmentDialog = this._modalService.show(
+        CreateAppointmentDialogComponent,
+        {
+          class: 'modal-lg',
+        }
+      );
+    } 
+    // else {
+    //   createOrEditAppointmentDialog = this._modalService.show(
+    //     EditAppointmentDialogComponent,
+    //     {
+    //       class: 'modal-lg',
+    //       initialState: {
+    //         id: id,
+    //       },
+    //     }
+    //   );
+    // }
+    
+    createOrEditAppointmentDialog.content.onSave.subscribe(() => {
+      this.refresh();
+    });
+  }
+
+  createAppointment(): void {
+    this.showCreateOrEditAppointmentDialog();
   }
 
 }

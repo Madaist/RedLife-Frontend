@@ -1,16 +1,16 @@
-<div >
+<div [@routerTransition]>
     <section class="content-header">
       <div class="container-fluid">
         <div class="row">
           <div class="col-6">
             <h1>Appointments</h1>
           </div>
-          <!-- <div class="col-6 text-right">
+          <div class="col-6 text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="createAppointment()">
               <i class="fa fa-plus-square"></i>
               Create
             </a>
-          </div> -->
+          </div>
         </div>
       </div>
     </section>
@@ -75,6 +75,7 @@
                     <button
                       type="button"
                       class="btn btn-sm bg-danger mx-2"
+                      (click)="delete(appointment)"
                     >
                       <i class="fas fa-trash"></i>
                       Delete
