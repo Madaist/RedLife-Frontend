@@ -1,15 +1,13 @@
 import { Component, Injector } from '@angular/core';
 import { finalize } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { appModuleAnimation } from '@shared/animations/routerTransition';
 import {
   PagedListingComponentBase,
   PagedRequestDto
 } from '@shared/paged-listing-component-base';
 import {
   AppointmentServiceProxy,
-  AppointmentDto,
-  AppointmentDtoPagedResultDto
+  AppointmentDtoPagedResultDto,
+  AppointmentDto
 } from '@shared/service-proxies/service-proxies';
 
 class PagedAppointmentsRequestDto extends PagedRequestDto {
@@ -17,19 +15,23 @@ class PagedAppointmentsRequestDto extends PagedRequestDto {
 }
 
 @Component({
+  selector: 'app-appointments',
   templateUrl: './appointments.component.html',
-  animations: [appModuleAnimation()]
+  styleUrls: ['./appointments.component.css']
 })
 export class AppointmentsComponent extends PagedListingComponentBase<AppointmentDto> {
+
   appointments: AppointmentDto[] = [];
   keyword = '';
 
   constructor(
     injector: Injector,
     private _appointmentsService: AppointmentServiceProxy,
-    private _modalService: BsModalService
   ) {
     super(injector);
+  }
+
+  ngOnInit(): void {
   }
 
   list(
@@ -54,7 +56,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
 
   delete(appointment: AppointmentDto): void {
     abp.message.confirm(
-      this.l('AppointmentDeleteWarningMessage'),
+      this.l('AppointmentDeleteWarningMessage', appointment.id),
       undefined,
       (result: boolean) => {
         if (result) {
@@ -71,4 +73,5 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
       }
     );
   }
+
 }
