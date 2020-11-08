@@ -40,6 +40,7 @@ import { SidebarUserPanelComponent } from './layout/sidebar-user-panel.component
 import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { CreateAppointmentDialogComponent } from './appointments/create-appointment/create-appointment-dialog.component';
+import { EditAppointmentDialogComponent } from './appointments/edit-appointment/edit-appointment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { CreateAppointmentDialogComponent } from './appointments/create-appointm
     SidebarUserPanelComponent,
     SidebarMenuComponent,
     AppointmentsComponent,
-    CreateAppointmentDialogComponent
+    CreateAppointmentDialogComponent,
+    EditAppointmentDialogComponent
   ],
   imports: [
     CommonModule,

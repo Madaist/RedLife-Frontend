@@ -23,7 +23,7 @@ import { AppointmentsComponent } from './appointments/appointments.component';
                     { path: 'tenants', component: TenantsComponent, data: { permission: 'Pages.Tenants' }, canActivate: [AppRouteGuard] },
                     { path: 'about', component: AboutComponent },
                     { path: 'update-password', component: ChangePasswordComponent },
-                    { path: 'appointments', component: AppointmentsComponent, data: { permission: 'Pages.Appointment.Create' }, canActivate: [AppRouteGuard] },
+                    { path: 'appointments', component: AppointmentsComponent, data: { permission: 'Appointment.Create' }, canActivate: [AppRouteGuard] },
                 ]
             }
         ])

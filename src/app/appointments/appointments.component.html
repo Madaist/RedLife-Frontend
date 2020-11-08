@@ -3,12 +3,12 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-6">
-            <h1>Appointments</h1>
+            <h1>{{ "Appointments" | localize }}</h1>
           </div>
           <div class="col-6 text-right">
             <a href="javascript:;" class="btn bg-blue" (click)="createAppointment()">
               <i class="fa fa-plus-square"></i>
-              Create
+              {{ "Create" | localize }}
             </a>
           </div>
         </div>
@@ -42,10 +42,10 @@
             <table class="table table-hover text-nowrap" [busy]="isTableLoading">
               <thead class="bg-light">
                 <tr>
-                  <th>DonorId</th>
-                  <th>CenterId</th>
-                  <th>Date</th>
-                  <th style="width: 200px;">Actions</th>
+                  <th>{{ "DonorId" | localize }}</th>
+                  <th>{{ "CenterId" | localize }}</th>
+                  <th>{{ "Date" | localize }}</th>
+                  <th style="width: 200px;">{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -68,9 +68,10 @@
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
+                      (click)="editAppointment(appointment)"
                     >
                       <i class="fas fa-pencil-alt"></i>
-                      Edit
+                      {{ "Edit" | localize }}
                     </button>
                     <button
                       type="button"
@@ -78,7 +79,7 @@
                       (click)="delete(appointment)"
                     >
                       <i class="fas fa-trash"></i>
-                      Delete
+                      {{ "Delete" | localize }}
                     </button>
                   </td>
                 </tr>
@@ -94,7 +95,7 @@
               </div>
               <div class="col-sm-4 col-12 text-center">
                 <p class="mb-0 my-2">
-                    TotalRecordsCount
+                    {{ "TotalRecordsCount" | localize }}
                 </p>
               </div>
               <div class="col-sm-4 col-12">

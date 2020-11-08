@@ -66,7 +66,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         this.l('Appointments'),
         '/app/appointments',
         'fas fa-theater-masks',
-        'Pages.Appointment.Create'
+        'Appointment.Create'
       ),
       new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
       new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [

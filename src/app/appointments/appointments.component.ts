@@ -11,6 +11,7 @@ import {
   AppointmentDto
 } from '@shared/service-proxies/service-proxies';
 import { CreateAppointmentDialogComponent } from './create-appointment/create-appointment-dialog.component';
+import { EditAppointmentDialogComponent } from './edit-appointment/edit-appointment-dialog.component';
 
 class PagedAppointmentsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -84,17 +85,17 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
         }
       );
     } 
-    // else {
-    //   createOrEditAppointmentDialog = this._modalService.show(
-    //     EditAppointmentDialogComponent,
-    //     {
-    //       class: 'modal-lg',
-    //       initialState: {
-    //         id: id,
-    //       },
-    //     }
-    //   );
-    // }
+    else {
+      createOrEditAppointmentDialog = this._modalService.show(
+        EditAppointmentDialogComponent,
+        {
+          class: 'modal-lg',
+          initialState: {
+            id: id,
+          },
+        }
+      );
+    }
     
     createOrEditAppointmentDialog.content.onSave.subscribe(() => {
       this.refresh();
@@ -103,6 +104,9 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
 
   createAppointment(): void {
     this.showCreateOrEditAppointmentDialog();
-  }
+  } 
 
+  editAppointment(appointment: AppointmentDto): void {
+    this.showCreateOrEditAppointmentDialog(appointment.id);
+  }
 }
