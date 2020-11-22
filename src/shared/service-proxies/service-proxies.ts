@@ -275,62 +275,6 @@ export class AppointmentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    create(body: AppointmentDto | undefined): Observable<AppointmentDto> {
-        let url_ = this.baseUrl + "/api/services/app/Appointment/Create";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(body);
-
-        let options_ : any = {
-            body: content_,
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Content-Type": "application/json-patch+json",
-                "Accept": "text/plain"
-            })
-        };
-
-        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processCreate(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processCreate(<any>response_);
-                } catch (e) {
-                    return <Observable<AppointmentDto>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<AppointmentDto>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processCreate(response: HttpResponseBase): Observable<AppointmentDto> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = AppointmentDto.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<AppointmentDto>(<any>null);
-    }
-
-    /**
-     * @param body (optional) 
-     * @return Success
-     */
     update(body: AppointmentDto | undefined): Observable<AppointmentDto> {
         let url_ = this.baseUrl + "/api/services/app/Appointment/Update";
         url_ = url_.replace(/[?&]$/, "");
@@ -362,6 +306,62 @@ export class AppointmentServiceProxy {
     }
 
     protected processUpdate(response: HttpResponseBase): Observable<AppointmentDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AppointmentDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AppointmentDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: AppointmentDto | undefined): Observable<AppointmentDto> {
+        let url_ = this.baseUrl + "/api/services/app/Appointment/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<AppointmentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AppointmentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<AppointmentDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -3614,6 +3614,7 @@ export class CreateUserDto implements ICreateUserDto {
     name: string;
     surname: string;
     emailAddress: string;
+    socialSecurityNumber: number | undefined;
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
@@ -3633,6 +3634,7 @@ export class CreateUserDto implements ICreateUserDto {
             this.name = _data["name"];
             this.surname = _data["surname"];
             this.emailAddress = _data["emailAddress"];
+            this.socialSecurityNumber = _data["socialSecurityNumber"];
             this.isActive = _data["isActive"];
             if (Array.isArray(_data["roleNames"])) {
                 this.roleNames = [] as any;
@@ -3656,6 +3658,7 @@ export class CreateUserDto implements ICreateUserDto {
         data["name"] = this.name;
         data["surname"] = this.surname;
         data["emailAddress"] = this.emailAddress;
+        data["socialSecurityNumber"] = this.socialSecurityNumber;
         data["isActive"] = this.isActive;
         if (Array.isArray(this.roleNames)) {
             data["roleNames"] = [];
@@ -3679,6 +3682,7 @@ export interface ICreateUserDto {
     name: string;
     surname: string;
     emailAddress: string;
+    socialSecurityNumber: number | undefined;
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;

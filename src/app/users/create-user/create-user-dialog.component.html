@@ -10,6 +10,29 @@
   ></abp-modal-header>
   <div class="modal-body">
     <tabset>
+      
+      <tab [heading]="'UserRoles' | localize" class="pt-3 px-2">
+        <div class="form-group row mb-0">
+          <ng-container *ngFor="let role of roles; let i = index">
+            <div class="col-md-6">
+              <div class="custom-control custom-radio">
+                <input
+                  type="radio"
+                  required
+                  name="role"
+                  class="custom-control-input"
+                  [id]="'role_' + i"
+                  [checked]="isRoleChecked(role.normalizedName)"
+                  (change)="onRoleChange(role, $event)"
+                />
+                <label class="custom-control-label" [for]="'role_' + i">
+                  {{ role.name }}
+                </label>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </tab>
       <tab [heading]="'UserDetails' | localize" class="pt-3 px-2">
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
@@ -55,6 +78,30 @@
             ></abp-validation-summary>
           </div>
         </div>
+        <div *ngIf = "getCheckedRoles().indexOf('DONOR') !== -1">
+        <div class="form-group row required">
+          <label class="col-md-3 col-form-label" for="socialSecurityNumber">
+            {{ "SocialSecurityNumber" | localize }}
+          </label>
+          <div class="col-md-9">
+            <input
+              type="text"
+              class="form-control"
+              name="socialSecurityNumber"
+              id="socialSecurityNumber"
+              maxlength="32"
+              required=false,
+              [(ngModel)]="user.socialSecurityNumber"
+              #socialSecurityNumberModel="ngModel"
+              #socialSecurityNumberEl
+            />
+            <abp-validation-summary
+              [control]="socialSecurityNumberModel"
+              [controlEl]="socialSecurityNumberEl"
+            ></abp-validation-summary>
+          </div>
+        </div>
+      </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="userName">
             {{ "UserName" | localize }}
@@ -168,26 +215,6 @@
               <label class="custom-control-label mt-2" for="isActive"></label>
             </div>
           </div>
-        </div>
-      </tab>
-      <tab [heading]="'UserRoles' | localize" class="pt-3 px-2">
-        <div class="form-group row mb-0">
-          <ng-container *ngFor="let role of roles; let i = index">
-            <div class="col-md-6">
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  [id]="'role_' + i"
-                  [checked]="isRoleChecked(role.normalizedName)"
-                  (change)="onRoleChange(role, $event)"
-                />
-                <label class="custom-control-label" [for]="'role_' + i">
-                  {{ role.name }}
-                </label>
-              </div>
-            </div>
-          </ng-container>
         </div>
       </tab>
     </tabset>
