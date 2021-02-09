@@ -275,7 +275,7 @@ export class AppointmentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    update(body: AppointmentDto | undefined): Observable<AppointmentDto> {
+    update(body: UpdateAppointmentDto | undefined): Observable<AppointmentDto> {
         let url_ = this.baseUrl + "/api/services/app/Appointment/Update";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -331,7 +331,7 @@ export class AppointmentServiceProxy {
      * @param body (optional) 
      * @return Success
      */
-    create(body: AppointmentDto | undefined): Observable<AppointmentDto> {
+    create(body: CreateAppointmentDto | undefined): Observable<AppointmentDto> {
         let url_ = this.baseUrl + "/api/services/app/Appointment/Create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2215,9 +2215,11 @@ export interface IRegisterOutput {
 }
 
 export class AppointmentDto implements IAppointmentDto {
+    donorName: string | undefined;
+    centerName: string | undefined;
     donorId: number;
     centerId: number;
-    date: moment.Moment;
+    date: string | undefined;
     id: number;
 
     constructor(data?: IAppointmentDto) {
@@ -2231,9 +2233,11 @@ export class AppointmentDto implements IAppointmentDto {
 
     init(_data?: any) {
         if (_data) {
+            this.donorName = _data["donorName"];
+            this.centerName = _data["centerName"];
             this.donorId = _data["donorId"];
             this.centerId = _data["centerId"];
-            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+            this.date = _data["date"];
             this.id = _data["id"];
         }
     }
@@ -2247,9 +2251,11 @@ export class AppointmentDto implements IAppointmentDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["donorName"] = this.donorName;
+        data["centerName"] = this.centerName;
         data["donorId"] = this.donorId;
         data["centerId"] = this.centerId;
-        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["date"] = this.date;
         data["id"] = this.id;
         return data; 
     }
@@ -2263,9 +2269,11 @@ export class AppointmentDto implements IAppointmentDto {
 }
 
 export interface IAppointmentDto {
+    donorName: string | undefined;
+    centerName: string | undefined;
     donorId: number;
     centerId: number;
-    date: moment.Moment;
+    date: string | undefined;
     id: number;
 }
 
@@ -2322,6 +2330,112 @@ export class AppointmentDtoPagedResultDto implements IAppointmentDtoPagedResultD
 export interface IAppointmentDtoPagedResultDto {
     totalCount: number;
     items: AppointmentDto[] | undefined;
+}
+
+export class UpdateAppointmentDto implements IUpdateAppointmentDto {
+    donorId: number;
+    centerId: number;
+    date: moment.Moment;
+    id: number;
+
+    constructor(data?: IUpdateAppointmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.donorId = _data["donorId"];
+            this.centerId = _data["centerId"];
+            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UpdateAppointmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateAppointmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["donorId"] = this.donorId;
+        data["centerId"] = this.centerId;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): UpdateAppointmentDto {
+        const json = this.toJSON();
+        let result = new UpdateAppointmentDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUpdateAppointmentDto {
+    donorId: number;
+    centerId: number;
+    date: moment.Moment;
+    id: number;
+}
+
+export class CreateAppointmentDto implements ICreateAppointmentDto {
+    donorId: number;
+    centerId: number;
+    date: moment.Moment;
+
+    constructor(data?: ICreateAppointmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.donorId = _data["donorId"];
+            this.centerId = _data["centerId"];
+            this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateAppointmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAppointmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["donorId"] = this.donorId;
+        data["centerId"] = this.centerId;
+        data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        return data; 
+    }
+
+    clone(): CreateAppointmentDto {
+        const json = this.toJSON();
+        let result = new CreateAppointmentDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICreateAppointmentDto {
+    donorId: number;
+    centerId: number;
+    date: moment.Moment;
 }
 
 export class ChangeUiThemeInput implements IChangeUiThemeInput {
