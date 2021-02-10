@@ -11,6 +11,7 @@ import { finalize } from 'rxjs/operators';
 import {
   AppointmentServiceProxy,
   AppointmentDto,
+  CreateAppointmentDto,
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
@@ -21,7 +22,7 @@ import {
 export class CreateAppointmentDialogComponent extends AppComponentBase implements OnInit {
 
   saving = false;
-  appointment = new AppointmentDto();
+  appointment = new CreateAppointmentDto();
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -46,7 +47,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   save(): void {
     this.saving = true;
 
-    const appointment = new AppointmentDto();
+    const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
 
     this._appointmentService

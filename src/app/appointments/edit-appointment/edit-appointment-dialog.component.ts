@@ -12,6 +12,7 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   AppointmentServiceProxy,
   AppointmentDto,
+  UpdateAppointmentDto,
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -23,7 +24,8 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
 
   saving = false;
   id: number;
-  appointment = new AppointmentDto();
+  updateAppointment = new UpdateAppointmentDto();
+  getAppointment = new AppointmentDto();
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -38,7 +40,7 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
     this._appointmentService
       .get(this.id)
       .subscribe((result: AppointmentDto) => {
-        this.appointment = result;
+        this.getAppointment = result;
       });
   }
 
@@ -46,8 +48,8 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
   save(): void {
     this.saving = true;
 
-    const appointment = new AppointmentDto();
-    appointment.init(this.appointment);
+    const appointment = new UpdateAppointmentDto();
+    appointment.init(this.getAppointment);
     console.log(appointment);
 
     this._appointmentService

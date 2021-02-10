@@ -41,6 +41,7 @@ import { SidebarMenuComponent } from './layout/sidebar-menu.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { CreateAppointmentDialogComponent } from './appointments/create-appointment/create-appointment-dialog.component';
 import { EditAppointmentDialogComponent } from './appointments/edit-appointment/edit-appointment-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [

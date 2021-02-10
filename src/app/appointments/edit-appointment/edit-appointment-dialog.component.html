@@ -22,7 +22,7 @@
               required
               minlength="1"
               maxlength="32"
-              [(ngModel)]="appointment.donorId"
+              [(ngModel)]="getAppointment.donorId"
               #donorIdModel="ngModel"
               #donorIdEl
             />
@@ -45,7 +45,7 @@
               required
               minlength="1"
               maxlength="32"
-              [(ngModel)]="appointment.centerId"
+              [(ngModel)]="getAppointment.centerId"
               #centerIdModel="ngModel"
               #centerIdEl
             />
@@ -65,7 +65,7 @@
               class="form-control"
               name="date"
               id="date"
-              [(ngModel)]="appointment.date"
+              [(ngModel)]="getAppointment.date"
             />
           </div>
         </div>
