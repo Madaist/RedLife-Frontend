@@ -49,7 +49,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
-
+    appointment.donorId = abp.session.userId;
     this._appointmentService
       .create(appointment)
       .pipe(
