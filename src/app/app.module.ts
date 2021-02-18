@@ -42,6 +42,10 @@ import { AppointmentsComponent } from './appointments/appointments.component';
 import { CreateAppointmentDialogComponent } from './appointments/create-appointment/create-appointment-dialog.component';
 import { EditAppointmentDialogComponent } from './appointments/edit-appointment/edit-appointment-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -90,6 +94,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatTooltipModule,
   ],
   providers: [],
   entryComponents: [

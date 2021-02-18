@@ -37,22 +37,11 @@
             Center
           </label>
           <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="centerId"
-              id="centerId"
-              required
-              minlength="1"
-              maxlength="32"
-              [(ngModel)]="appointment.centerId"
-              #centerIdModel="ngModel"
-              #centerIdEl
-            />
-            <abp-validation-summary
-              [control]="centerIdModel"
-              [controlEl]="centerIdEl"
-            ></abp-validation-summary>
+              <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="selectedTransfusionCenterId" name="center">
+                <option *ngFor="let center of transfusionCenters" [value]="center.id">
+                  {{center.institutionName}}
+                </option>
+              </select>
           </div>
         </div>
         <div class="form-group row mb-0">

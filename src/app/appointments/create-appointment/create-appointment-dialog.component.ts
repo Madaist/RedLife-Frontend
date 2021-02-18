@@ -12,6 +12,8 @@ import {
   AppointmentServiceProxy,
   AppointmentDto,
   CreateAppointmentDto,
+  UserDto,
+  UserServiceProxy,
 } from '../../../shared/service-proxies/service-proxies';
 
 @Component({
@@ -23,12 +25,15 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   saving = false;
   appointment = new CreateAppointmentDto();
+  transfusionCenters: UserDto[] = [];
+  selectedTransfusionCenterId: number;
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
     private _appointmentService: AppointmentServiceProxy,
+    private _userService: UserServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
@@ -41,8 +46,13 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
     //     this.permissions = result.items;
     //     this.setInitialPermissionsStatus();
     //   });
+    this._userService
+      .getTransfusionCenters()
+      .subscribe((result) => {
+        this.transfusionCenters = result.items;
+        console.log(this.transfusionCenters);
+    });
   }
-
 
   save(): void {
     this.saving = true;
@@ -50,6 +60,8 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
     appointment.donorId = abp.session.userId;
+    appointment.centerId = this.selectedTransfusionCenterId;
+    console.log(this.selectedTransfusionCenterId);
     this._appointmentService
       .create(appointment)
       .pipe(
