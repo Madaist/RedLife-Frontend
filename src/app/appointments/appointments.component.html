@@ -5,7 +5,7 @@
           <div class="col-6">
             <h1>{{ "Appointments" | localize }}</h1>
           </div>
-          <div class="col-6 text-right">
+          <div class="col-6 text-right" *ngIf="isGranted('Appointments.Create')">
             <a href="javascript:;" class="btn bg-blue" (click)="createAppointment()">
               <i class="fa fa-plus-square"></i>
               {{ "Create" | localize }}
@@ -42,10 +42,10 @@
             <table class="table table-hover text-nowrap" [busy]="isTableLoading">
               <thead class="bg-light">
                 <tr>
-                  <th>{{ "Donor" | localize }}</th>
+                  <th *ngIf="isGranted('Appointments.SeeDonor')">{{ "Donor" | localize }}</th>
                   <th>{{ "Center" | localize }}</th>
                   <th>{{ "Date" | localize }}</th>
-                  <th style="width: 200px;">{{ "Actions" | localize }}</th>
+                  <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">{{ "Actions" | localize }}</th>
                 </tr>
               </thead>
               <tbody>
@@ -61,10 +61,10 @@
                           }
                   "
                 >
-                  <td>{{ appointment.donorName }}</td>
+                  <td *ngIf="isGranted('Appointments.SeeDonor')">{{ appointment.donorName }}</td>
                   <td>{{ appointment.centerName }}</td>
                   <td>{{ appointment.date }}</td>
-                  <td>
+                  <td *ngIf="isGranted('Appointments.Update')">
                     <button
                       type="button"
                       class="btn btn-sm bg-secondary"
