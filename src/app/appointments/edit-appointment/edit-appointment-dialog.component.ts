@@ -13,6 +13,8 @@ import {
   AppointmentServiceProxy,
   AppointmentDto,
   UpdateAppointmentDto,
+  UserServiceProxy,
+  UserDto,
 } from '@shared/service-proxies/service-proxies';
 
 @Component({
@@ -26,12 +28,15 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
   id: number;
   updateAppointment = new UpdateAppointmentDto();
   getAppointment = new AppointmentDto();
+  selectedTransfusionCenterId: number;
+  transfusionCenters: UserDto[] = [];
 
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
     injector: Injector,
     private _appointmentService: AppointmentServiceProxy,
+    private _userService: UserServiceProxy,
     public bsModalRef: BsModalRef
   ) {
     super(injector);
@@ -42,6 +47,13 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
       .subscribe((result: AppointmentDto) => {
         this.getAppointment = result;
       });
+
+      this._userService
+      .getTransfusionCenters()
+      .subscribe((result) => {
+        this.transfusionCenters = result.items;
+        console.log(this.transfusionCenters);
+    });
   }
 
 
@@ -50,6 +62,10 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
 
     const appointment = new UpdateAppointmentDto();
     appointment.init(this.getAppointment);
+    appointment.donorId = abp.session.userId;
+    appointment.centerId = this.selectedTransfusionCenterId;
+    
+    console.log(this.selectedTransfusionCenterId);
     console.log(appointment);
 
     this._appointmentService

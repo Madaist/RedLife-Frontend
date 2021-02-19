@@ -9,42 +9,20 @@
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
-        <!-- <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="donorId">
-           DonorId
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="donorId"
-              id="donorId"
-              required
-              minlength="1"
-              maxlength="32"
-              [(ngModel)]="appointment.donorId"
-              #donorIdModel="ngModel"
-              #donorIdEl
-            />
-            <abp-validation-summary
-              [control]="donorIdModel"
-              [controlEl]="donorIdEl"
-            ></abp-validation-summary>
-          </div>
-        </div> -->
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="centerId">
-            Center
+            Transfusion Center
           </label>
           <div class="col-md-9">
               <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="selectedTransfusionCenterId" name="center">
                 <option *ngFor="let center of transfusionCenters" [value]="center.id">
-                  {{center.institutionName}}
+                  {{center.institutionName}} - 
+                  {{center.street}} {{center.number}}, {{center.city}}, {{center.country}}
                 </option>
               </select>
           </div>
         </div>
-        <div class="form-group row mb-0">
+        <div class="form-group row mb-0 required">
           <label class="col-md-3 col-form-label" for="date">
             Date
           </label>

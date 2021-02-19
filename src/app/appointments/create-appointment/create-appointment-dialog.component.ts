@@ -10,7 +10,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import {
   AppointmentServiceProxy,
-  AppointmentDto,
   CreateAppointmentDto,
   UserDto,
   UserServiceProxy,
@@ -50,7 +49,6 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
       .getTransfusionCenters()
       .subscribe((result) => {
         this.transfusionCenters = result.items;
-        console.log(this.transfusionCenters);
     });
   }
 
@@ -61,7 +59,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
     appointment.init(this.appointment);
     appointment.donorId = abp.session.userId;
     appointment.centerId = this.selectedTransfusionCenterId;
-    console.log(this.selectedTransfusionCenterId);
+    
     this._appointmentService
       .create(appointment)
       .pipe(
