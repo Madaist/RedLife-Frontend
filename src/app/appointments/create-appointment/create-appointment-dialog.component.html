@@ -9,6 +9,19 @@
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
+    <div class="form-group row required" *ngIf="isGranted('Appointments.SeeDonor')">
+      <label class="col-md-3 col-form-label" for="donorId">
+        Blood Donor
+      </label>
+      <div class="col-md-9">
+          <select class="form-control" placeholder="Donors" [(ngModel)]="selectedDonorId" name="donor">
+            <option *ngFor="let donor of donors" [value]="donor.id">
+              {{donor.fullName}} - {{donor.id}} ({{donor.emailAddress}})
+            </option>
+          </select>
+      </div>
+    </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="centerId">
             Transfusion Center

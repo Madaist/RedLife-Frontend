@@ -24,8 +24,12 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   saving = false;
   appointment = new CreateAppointmentDto();
+
   transfusionCenters: UserDto[] = [];
   selectedTransfusionCenterId: number;
+
+  donors: UserDto[] = [];
+  selectedDonorId: number;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -39,17 +43,20 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   }
 
   ngOnInit(): void {
-    // this._appointmentService
-    //   .getAllPermissions()
-    //   .subscribe((result: PermissionDtoListResultDto) => {
-    //     this.permissions = result.items;
-    //     this.setInitialPermissionsStatus();
-    //   });
-    this._userService
-      .getTransfusionCenters()
-      .subscribe((result) => {
-        this.transfusionCenters = result.items;
-    });
+      this._userService
+        .getTransfusionCenters()
+        .subscribe((result) => {
+          this.transfusionCenters = result.items;
+      });
+
+    if(this.isGranted('Users.GetDonors')){
+      this._userService
+        .getDonors()
+        .subscribe((result) => {
+          this.donors = result.items;
+          console.log(this.donors);
+      });
+    };
   }
 
   save(): void {
@@ -57,7 +64,12 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
-    appointment.donorId = abp.session.userId;
+    if(this.isGranted('Appointments.SeeDonor')){
+      appointment.donorId = this.selectedDonorId;
+    }
+    else {
+      appointment.donorId = abp.session.userId;
+    }
     appointment.centerId = this.selectedTransfusionCenterId;
     
     this._appointmentService
