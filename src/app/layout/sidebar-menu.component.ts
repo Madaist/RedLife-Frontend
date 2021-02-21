@@ -68,6 +68,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'far fa-calendar-check',
         'Appointments.Get'
       ),
+      new MenuItem(
+        this.l('Donations'),
+        '/app/donations',
+        'far fa-calendar-check',
+        'Donations.Get'
+      ),
       new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
       new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [
         new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [

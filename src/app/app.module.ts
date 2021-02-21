@@ -14,6 +14,8 @@ import { ServiceProxyModule } from '@shared/service-proxies/service-proxy.module
 import { SharedModule } from '@shared/shared.module';
 import { HomeComponent } from '@app/home/home.component';
 import { AboutComponent } from '@app/about/about.component';
+import { QRCodeModule } from 'angularx-qrcode';
+
 // tenants
 import { TenantsComponent } from '@app/tenants/tenants.component';
 import { CreateTenantDialogComponent } from './tenants/create-tenant/create-tenant-dialog.component';
@@ -46,6 +48,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { DonationsComponent } from './donations/donations.component';
+import { EditDonationDialogComponent } from './donations/edit-donation-dialog/edit-donation-dialog.component';
+import { CreateDonationDialogComponent } from './donations/create-donation-dialog/create-donation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +83,12 @@ import { MatSelectModule } from '@angular/material/select';
     SidebarMenuComponent,
     AppointmentsComponent,
     CreateAppointmentDialogComponent,
-    EditAppointmentDialogComponent
+    EditAppointmentDialogComponent,
+    DonationsComponent,
+    CreateDonationDialogComponent,
+    EditDonationDialogComponent,
+    EditDonationDialogComponent,
+    CreateDonationDialogComponent
   ],
   imports: [
     CommonModule,
@@ -98,6 +108,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
+    QRCodeModule
   ],
   providers: [],
   entryComponents: [

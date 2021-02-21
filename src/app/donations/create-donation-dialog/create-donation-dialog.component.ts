@@ -1,29 +1,18 @@
-import {
-  Component,
-  Injector,
-  OnInit,
-  EventEmitter,
-  Output,
-} from '@angular/core';
-import { AppComponentBase } from '../../../shared/app-component-base';
+import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { AppComponentBase } from '@shared/app-component-base';
+import { CreateDonationDto, DonationServiceProxy, UserDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
-import {
-  AppointmentServiceProxy,
-  CreateAppointmentDto,
-  UserDto,
-  UserServiceProxy,
-} from '../../../shared/service-proxies/service-proxies';
 
 @Component({
-  selector: 'app-create-appointment-dialog',
-  templateUrl: './create-appointment-dialog.component.html', 
-  styleUrls: ['./create-appointment-dialog.component.css']
+  selector: 'app-create-donation-dialog',
+  templateUrl: './create-donation-dialog.component.html',
+  styleUrls: ['./create-donation-dialog.component.css']
 })
-export class CreateAppointmentDialogComponent extends AppComponentBase implements OnInit {
+export class CreateDonationDialogComponent extends AppComponentBase implements OnInit {
 
   saving = false;
-  appointment = new CreateAppointmentDto();
+  donation = new CreateDonationDto();
 
   transfusionCenters: UserDto[] = [];
   selectedTransfusionCenterId: number;
@@ -35,7 +24,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   constructor(
     injector: Injector,
-    private _appointmentService: AppointmentServiceProxy,
+    private _donationService: DonationServiceProxy,
     private _userService: UserServiceProxy,
     public bsModalRef: BsModalRef
   ) {
@@ -62,18 +51,18 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   save(): void {
     this.saving = true;
 
-    const appointment = new CreateAppointmentDto();
-    appointment.init(this.appointment);
+    const donation = new CreateDonationDto();
+    donation.init(this.donation);
     if(this.isGranted('Appointments.SeeDonor')){
-      appointment.donorId = this.selectedDonorId;
+      donation.donorId = this.selectedDonorId;
     }
     else {
-      appointment.donorId = abp.session.userId;
+      donation.donorId = abp.session.userId;
     }
-    appointment.centerId = this.selectedTransfusionCenterId;
+    donation.centerId = this.selectedTransfusionCenterId;
     
-    this._appointmentService
-      .create(appointment)
+    this._donationService
+      .create(donation)
       .pipe(
         finalize(() => {
           this.saving = false;
@@ -85,5 +74,5 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
         this.onSave.emit();
       });
   }
- 
+
 }
