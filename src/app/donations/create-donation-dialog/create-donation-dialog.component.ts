@@ -29,6 +29,7 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     public bsModalRef: BsModalRef
   ) {
     super(injector);
+    this.donation.quantity=0.4; //default value
   }
 
   ngOnInit(): void {
@@ -53,14 +54,13 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
 
     const donation = new CreateDonationDto();
     donation.init(this.donation);
-    if(this.isGranted('Appointments.SeeDonor')){
+    if(!this.isGranted('Donor')){
       donation.donorId = this.selectedDonorId;
     }
     else {
       donation.donorId = abp.session.userId;
     }
     donation.centerId = this.selectedTransfusionCenterId;
-    
     this._donationService
       .create(donation)
       .pipe(

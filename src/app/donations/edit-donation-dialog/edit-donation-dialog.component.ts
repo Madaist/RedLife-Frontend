@@ -62,7 +62,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     const donation = new UpdateDonationDto();
     donation.init(this.getDonation);
 
-    if(this.isGranted('Appointments.SeeDonor')){
+    if(!this.isGranted('Donor')){
       donation.donorId = this.selectedDonorId;
     }
     else {

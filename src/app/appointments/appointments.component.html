@@ -42,7 +42,7 @@
             <table class="table table-hover text-nowrap" [busy]="isTableLoading">
               <thead class="bg-light">
                 <tr>
-                  <th *ngIf="isGranted('Appointments.SeeDonor')">{{ "Donor" | localize }}</th>
+                  <th *ngIf="!isGranted('Donor')">{{ "Donor" | localize }}</th>
                   <th>{{ "Center" | localize }}</th>
                   <th>{{ "Date" | localize }}</th>
                   <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">{{ "Actions" | localize }}</th>
@@ -61,7 +61,7 @@
                           }
                   "
                 >
-                  <td *ngIf="isGranted('Appointments.SeeDonor')">{{ appointment.donorName }}</td>
+                  <td *ngIf="!isGranted('Donor')">{{ appointment.donorLastName }} {{ appointment.donorFirstName }}</td>
                   <td>{{ appointment.centerName }}</td>
                   <td>{{ appointment.date }}</td>
                   <td *ngIf="isGranted('Appointments.Update')">

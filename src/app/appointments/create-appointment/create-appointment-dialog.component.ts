@@ -64,7 +64,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
-    if(this.isGranted('Appointments.SeeDonor')){
+    if(!this.isGranted('Donor')){
       appointment.donorId = this.selectedDonorId;
     }
     else {

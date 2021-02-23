@@ -2609,7 +2609,8 @@ export interface IRegisterOutput {
 }
 
 export class AppointmentDto implements IAppointmentDto {
-    donorName: string | undefined;
+    donorLastName: string | undefined;
+    donorFirstName: string | undefined;
     centerName: string | undefined;
     donorId: number;
     centerId: number;
@@ -2627,7 +2628,8 @@ export class AppointmentDto implements IAppointmentDto {
 
     init(_data?: any) {
         if (_data) {
-            this.donorName = _data["donorName"];
+            this.donorLastName = _data["donorLastName"];
+            this.donorFirstName = _data["donorFirstName"];
             this.centerName = _data["centerName"];
             this.donorId = _data["donorId"];
             this.centerId = _data["centerId"];
@@ -2645,7 +2647,8 @@ export class AppointmentDto implements IAppointmentDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["donorName"] = this.donorName;
+        data["donorLastName"] = this.donorLastName;
+        data["donorFirstName"] = this.donorFirstName;
         data["centerName"] = this.centerName;
         data["donorId"] = this.donorId;
         data["centerId"] = this.centerId;
@@ -2663,7 +2666,8 @@ export class AppointmentDto implements IAppointmentDto {
 }
 
 export interface IAppointmentDto {
-    donorName: string | undefined;
+    donorLastName: string | undefined;
+    donorFirstName: string | undefined;
     centerName: string | undefined;
     donorId: number;
     centerId: number;
@@ -2876,7 +2880,8 @@ export interface IChangeUiThemeInput {
 }
 
 export class DonationDto implements IDonationDto {
-    donorName: string | undefined;
+    donorFirstName: string | undefined;
+    donorLastName: string | undefined;
     centerName: string | undefined;
     donorId: number;
     centerId: number;
@@ -2897,7 +2902,8 @@ export class DonationDto implements IDonationDto {
 
     init(_data?: any) {
         if (_data) {
-            this.donorName = _data["donorName"];
+            this.donorFirstName = _data["donorFirstName"];
+            this.donorLastName = _data["donorLastName"];
             this.centerName = _data["centerName"];
             this.donorId = _data["donorId"];
             this.centerId = _data["centerId"];
@@ -2918,7 +2924,8 @@ export class DonationDto implements IDonationDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
-        data["donorName"] = this.donorName;
+        data["donorFirstName"] = this.donorFirstName;
+        data["donorLastName"] = this.donorLastName;
         data["centerName"] = this.centerName;
         data["donorId"] = this.donorId;
         data["centerId"] = this.centerId;
@@ -2939,7 +2946,8 @@ export class DonationDto implements IDonationDto {
 }
 
 export interface IDonationDto {
-    donorName: string | undefined;
+    donorFirstName: string | undefined;
+    donorLastName: string | undefined;
     centerName: string | undefined;
     donorId: number;
     centerId: number;
@@ -3797,8 +3805,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
     surname: string | undefined;
     userName: string | undefined;
     emailAddress: string | undefined;
-    employerId: number;
-    roleNames: string[] | undefined;
     id: number;
 
     constructor(data?: IUserLoginInfoDto) {
@@ -3816,12 +3822,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
             this.surname = _data["surname"];
             this.userName = _data["userName"];
             this.emailAddress = _data["emailAddress"];
-            this.employerId = _data["employerId"];
-            if (Array.isArray(_data["roleNames"])) {
-                this.roleNames = [] as any;
-                for (let item of _data["roleNames"])
-                    this.roleNames.push(item);
-            }
             this.id = _data["id"];
         }
     }
@@ -3839,12 +3839,6 @@ export class UserLoginInfoDto implements IUserLoginInfoDto {
         data["surname"] = this.surname;
         data["userName"] = this.userName;
         data["emailAddress"] = this.emailAddress;
-        data["employerId"] = this.employerId;
-        if (Array.isArray(this.roleNames)) {
-            data["roleNames"] = [];
-            for (let item of this.roleNames)
-                data["roleNames"].push(item);
-        }
         data["id"] = this.id;
         return data; 
     }
@@ -3862,8 +3856,6 @@ export interface IUserLoginInfoDto {
     surname: string | undefined;
     userName: string | undefined;
     emailAddress: string | undefined;
-    employerId: number;
-    roleNames: string[] | undefined;
     id: number;
 }
 

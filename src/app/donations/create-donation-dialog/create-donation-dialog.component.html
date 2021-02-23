@@ -9,7 +9,7 @@
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
-    <div class="form-group row required" *ngIf="isGranted('Donations.SeeDonor')">
+    <div class="form-group row required" *ngIf="!isGranted('Donor')">
       <label class="col-md-3 col-form-label" for="donorId">
         Blood Donor
       </label>
@@ -47,6 +47,22 @@
               id="date"
               [(ngModel)]="donation.date"
               required
+            />
+          </div>
+        </div>
+        <br>
+        <div class="form-group row">
+          <label class="col-md-3 col-form-label" for="quantity">
+            Quantity
+          </label>
+          <div class="col-md-9">
+            <input
+              type="number"
+              class="form-control"
+              name="quantity"
+              id="quantity"
+              [(ngModel)]="donation.quantity"
+              value="2"
             />
           </div>
         </div>
