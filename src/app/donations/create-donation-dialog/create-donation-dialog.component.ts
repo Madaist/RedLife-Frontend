@@ -15,10 +15,12 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   donation = new CreateDonationDto();
 
   transfusionCenters: UserDto[] = [];
-  selectedTransfusionCenterId: number;
-
   donors: UserDto[] = [];
+
+  selectedTransfusionCenterId: number;
+  selectedQuantity: number = 0.4;
   selectedDonorId: number;
+  selectedIsBloodAccepted: boolean = false;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -29,24 +31,27 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     public bsModalRef: BsModalRef
   ) {
     super(injector);
-    this.donation.quantity=0.4; //default value
+
   }
 
   ngOnInit(): void {
+    if (this.isGranted('Admin')) {
       this._userService
         .getTransfusionCenters()
         .subscribe((result) => {
           this.transfusionCenters = result.items;
-      });
-
-    if(this.isGranted('Users.GetDonors')){
+        });
+    }
+    if (this.isGranted('Users.GetDonors')) {
       this._userService
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
           console.log(this.donors);
-      });
+        });
     };
+
+
   }
 
   save(): void {
@@ -54,13 +59,21 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
 
     const donation = new CreateDonationDto();
     donation.init(this.donation);
-    if(!this.isGranted('Donor')){
+    if (!this.isGranted('Donor')) {
       donation.donorId = this.selectedDonorId;
     }
     else {
       donation.donorId = abp.session.userId;
     }
-    donation.centerId = this.selectedTransfusionCenterId;
+    if (this.isGranted('CenterAdmin')) {
+      donation.centerId = this.appSession.userId;
+    }
+    else {
+      donation.centerId = this.selectedTransfusionCenterId;
+    }
+    donation.quantity = this.selectedQuantity;
+    donation.isBloodAccepted = this.selectedIsBloodAccepted;
+
     this._donationService
       .create(donation)
       .pipe(

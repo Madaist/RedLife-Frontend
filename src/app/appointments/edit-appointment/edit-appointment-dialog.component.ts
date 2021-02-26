@@ -46,14 +46,17 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
       .get(this.id)
       .subscribe((result: AppointmentDto) => {
         this.getAppointment = result;
+        this.selectedTransfusionCenterId = this.getAppointment.centerId;
       });
 
+    if (!this.isGranted('CenterAdmin')) {
       this._userService
-      .getTransfusionCenters()
-      .subscribe((result) => {
-        this.transfusionCenters = result.items;
-        console.log(this.transfusionCenters);
-    });
+        .getTransfusionCenters()
+        .subscribe((result) => {
+          this.transfusionCenters = result.items;
+          console.log(this.transfusionCenters);
+        });
+    }
   }
 
 
@@ -62,10 +65,9 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
 
     const appointment = new UpdateAppointmentDto();
     appointment.init(this.getAppointment);
-    appointment.donorId = abp.session.userId;
+    appointment.donorId = this.getAppointment.donorId;
     appointment.centerId = this.selectedTransfusionCenterId;
-    
-    console.log(this.selectedTransfusionCenterId);
+
     console.log(appointment);
 
     this._appointmentService

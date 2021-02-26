@@ -8,9 +8,9 @@ describe('EditDonationDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditDonationDialogComponent ]
+      declarations: [EditDonationDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

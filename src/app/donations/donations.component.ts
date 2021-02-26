@@ -63,11 +63,11 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
                 this.refresh();
               })
             )
-            .subscribe(() => {});
+            .subscribe(() => { });
         }
       }
     );
-  } 
+  }
 
   showCreateOrEditDonationDialog(id?: string): void {
     let createOrEditDonationDialog: BsModalRef;
@@ -78,7 +78,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
           class: 'modal-lg',
         }
       );
-    } 
+    }
     else {
       createOrEditDonationDialog = this._modalService.show(
         EditDonationDialogComponent,
@@ -90,7 +90,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
         }
       );
     }
-    
+
     createOrEditDonationDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
@@ -98,7 +98,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
 
   createDonation(): void {
     this.showCreateOrEditDonationDialog();
-  } 
+  }
 
   editDonation(donation: DonationDto): void {
     this.showCreateOrEditDonationDialog(donation.id);

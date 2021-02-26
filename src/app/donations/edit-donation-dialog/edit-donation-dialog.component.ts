@@ -37,22 +37,25 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
       .get(this.id)
       .subscribe((result: DonationDto) => {
         this.getDonation = result;
+        this.selectedTransfusionCenterId = this.getDonation.centerId;
+        this.selectedDonorId = this.getDonation.donorId;
       });
 
+    if (this.isGranted('Admin')) {
       this._userService
-      .getTransfusionCenters()
-      .subscribe((result) => {
-        this.transfusionCenters = result.items;
-        console.log(this.transfusionCenters);
-    });
+        .getTransfusionCenters()
+        .subscribe((result) => {
+          this.transfusionCenters = result.items;
+          console.log(this.transfusionCenters);
+        });
 
-    if(this.isGranted('Users.GetDonors')){
+
       this._userService
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
           console.log(this.donors);
-      });
+        });
     };
   }
 
@@ -62,23 +65,20 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     const donation = new UpdateDonationDto();
     donation.init(this.getDonation);
 
-    if(!this.isGranted('Donor')){
+    if (!this.isGranted('Donor')) {
       donation.donorId = this.selectedDonorId;
     }
     else {
       donation.donorId = abp.session.userId;
     }
     donation.centerId = this.selectedTransfusionCenterId;
-    
-    console.log(this.selectedTransfusionCenterId);
-    console.log(donation);
 
     this._donationService
       .update(donation)
       .pipe(
         finalize(() => {
           this.saving = false;
-        }) 
+        })
       )
       .subscribe(() => {
         this.notify.info(this.l('SavedSuccessfully'));

@@ -17,7 +17,7 @@ import {
 
 @Component({
   selector: 'app-create-appointment-dialog',
-  templateUrl: './create-appointment-dialog.component.html', 
+  templateUrl: './create-appointment-dialog.component.html',
   styleUrls: ['./create-appointment-dialog.component.css']
 })
 export class CreateAppointmentDialogComponent extends AppComponentBase implements OnInit {
@@ -43,19 +43,19 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   }
 
   ngOnInit(): void {
-      this._userService
-        .getTransfusionCenters()
-        .subscribe((result) => {
-          this.transfusionCenters = result.items;
+    this._userService
+      .getTransfusionCenters()
+      .subscribe((result) => {
+        this.transfusionCenters = result.items;
       });
 
-    if(this.isGranted('Users.GetDonors')){
+    if (this.isGranted('Users.GetDonors')) {
       this._userService
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
           console.log(this.donors);
-      });
+        });
     };
   }
 
@@ -64,14 +64,14 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
-    if(!this.isGranted('Donor')){
+    if (!this.isGranted('Donor')) {
       appointment.donorId = this.selectedDonorId;
     }
     else {
       appointment.donorId = abp.session.userId;
     }
     appointment.centerId = this.selectedTransfusionCenterId;
-    
+
     this._appointmentService
       .create(appointment)
       .pipe(
@@ -85,5 +85,5 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
         this.onSave.emit();
       });
   }
- 
+
 }

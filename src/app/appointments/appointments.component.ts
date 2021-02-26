@@ -69,11 +69,11 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
                 this.refresh();
               })
             )
-            .subscribe(() => {});
+            .subscribe(() => { });
         }
       }
     );
-  } 
+  }
 
   showCreateOrEditAppointmentDialog(id?: number): void {
     let createOrEditAppointmentDialog: BsModalRef;
@@ -84,7 +84,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
           class: 'modal-lg',
         }
       );
-    } 
+    }
     else {
       createOrEditAppointmentDialog = this._modalService.show(
         EditAppointmentDialogComponent,
@@ -96,7 +96,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
         }
       );
     }
-    
+
     createOrEditAppointmentDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
@@ -104,7 +104,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
 
   createAppointment(): void {
     this.showCreateOrEditAppointmentDialog();
-  } 
+  }
 
   editAppointment(appointment: AppointmentDto): void {
     this.showCreateOrEditAppointmentDialog(appointment.id);
