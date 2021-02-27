@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
+import { ChangePasswordComponent } from '@app/users/change-password/change-password.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateDonationDto, DonationServiceProxy, UserDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -16,6 +17,8 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
 
   transfusionCenters: UserDto[] = [];
   donors: UserDto[] = [];
+  loggedInUser: UserDto = new UserDto();
+  employer: UserDto = new UserDto();
 
   selectedTransfusionCenterId: number;
   selectedQuantity: number = 0.4;
@@ -51,6 +54,22 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
         });
     };
 
+    if (this.isGranted('CenterPersonnel') || this.isGranted('CenterAdmin')) {
+      this._userService
+        .get(this.appSession.userId)
+        .subscribe((result) => {
+          this.loggedInUser = result;
+
+          if (this.isGranted('CenterPersonnel')) {
+            this._userService
+              .get(this.loggedInUser.employerId)
+              .subscribe((result) => {
+                this.employer = result;
+              })
+          }
+        })
+    }
+
 
   }
 
@@ -59,18 +78,24 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
 
     const donation = new CreateDonationDto();
     donation.init(this.donation);
+
     if (!this.isGranted('Donor')) {
       donation.donorId = this.selectedDonorId;
     }
     else {
       donation.donorId = abp.session.userId;
     }
+
     if (this.isGranted('CenterAdmin')) {
-      donation.centerId = this.appSession.userId;
+      donation.centerId = this.loggedInUser.id;
+    }
+    else if(this.isGranted('CenterPersonnel')) {
+      donation.centerId = this.employer.id;
     }
     else {
       donation.centerId = this.selectedTransfusionCenterId;
     }
+    
     donation.quantity = this.selectedQuantity;
     donation.isBloodAccepted = this.selectedIsBloodAccepted;
 

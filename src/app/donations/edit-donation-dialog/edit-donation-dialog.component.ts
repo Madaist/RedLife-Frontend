@@ -17,11 +17,11 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   getDonation = new DonationDto();
 
   selectedTransfusionCenterId: number;
-  transfusionCenters: UserDto[] = [];
-
-  donors: UserDto[] = [];
   selectedDonorId: number;
 
+  transfusionCenters: UserDto[] = [];
+  donors: UserDto[] = [];
+  
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -32,6 +32,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   ) {
     super(injector);
   }
+
   ngOnInit(): void {
     this._donationService
       .get(this.id)
@@ -46,15 +47,12 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         .getTransfusionCenters()
         .subscribe((result) => {
           this.transfusionCenters = result.items;
-          console.log(this.transfusionCenters);
         });
-
 
       this._userService
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
-          console.log(this.donors);
         });
     };
   }
@@ -73,6 +71,8 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     }
     donation.centerId = this.selectedTransfusionCenterId;
 
+    console.log("Donation to update");
+    console.log(donation);
     this._donationService
       .update(donation)
       .pipe(

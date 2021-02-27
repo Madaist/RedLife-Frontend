@@ -14,6 +14,7 @@
         </select>
       </div>
     </div>
+
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="centerId">
         {{ "Transfusion Center" | localize }}
@@ -29,7 +30,7 @@
       </div>
     </div>
 
-    <div class="form-group row required" *ngIf="isGranted('CenterAdmin')">
+    <div class="form-group row required" *ngIf="isGranted('CenterAdmin') || isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="centerId">
         {{ "Transfusion Center" | localize }}
       </label>
@@ -40,7 +41,7 @@
     </div>
 
 
-    <div class="form-group row required" *ngIf="isGranted('CenterAdmin')">
+    <div class="form-group row required" *ngIf="isGranted('CenterAdmin') || isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="centerId">
         {{ "Blood Donor" | localize }}
       </label>
