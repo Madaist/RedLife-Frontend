@@ -14,6 +14,7 @@
       </div>
     </div>
   </section>
+
   <section class="content px-2">
     <div class="container-fluid">
       <div class="card">
@@ -28,6 +29,7 @@
               (keyup.enter)="getDataPage(1)" />
           </div>
         </div>
+
         <div class="card-body table-responsive p-0">
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
@@ -38,6 +40,7 @@
                 <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
+
             <tbody>
               <tr *ngFor="
                     let appointment of appointments
@@ -66,6 +69,7 @@
             </tbody>
           </table>
         </div>
+        
         <div class="card-footer bg-light border-top">
           <div class="row">
             <div class="col-sm-4 col-12 text-sm-left text-center">

@@ -18,9 +18,16 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
 
   selectedTransfusionCenterId: number;
   selectedDonorId: number;
+  selectedIsBloodAccepted: boolean;
+  selectedQuantity: number;
 
   transfusionCenters: UserDto[] = [];
   donors: UserDto[] = [];
+
+  isBloodAcceptedOptions = [
+    { id: 'Yes', value: true},
+    { id: 'No', value: false}
+  ]
   
   @Output() onSave = new EventEmitter<any>();
 
@@ -40,6 +47,8 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         this.getDonation = result;
         this.selectedTransfusionCenterId = this.getDonation.centerId;
         this.selectedDonorId = this.getDonation.donorId;
+        this.selectedIsBloodAccepted = this.getDonation.isBloodAccepted;
+        this.selectedQuantity = this.getDonation.quantity;
       });
 
     if (this.isGranted('Admin')) {
@@ -70,9 +79,9 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
       donation.donorId = abp.session.userId;
     }
     donation.centerId = this.selectedTransfusionCenterId;
-
-    console.log("Donation to update");
-    console.log(donation);
+    donation.quantity = this.selectedQuantity;
+    donation.isBloodAccepted = this.selectedIsBloodAccepted;
+   
     this._donationService
       .update(donation)
       .pipe(

@@ -14,9 +14,12 @@
       </div>
     </div>
   </section>
+
+
   <section class="content px-2">
     <div class="container-fluid">
       <div class="card">
+
         <div class="card-header">
           <div class="input-group">
             <div class="input-group-prepend">
@@ -28,20 +31,22 @@
               (keyup.enter)="getDataPage(1)" />
           </div>
         </div>
+
         <div class="card-body table-responsive p-0">
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
               <tr>
                 <th>{{ "Id" | localize}}</th>
                 <th *ngIf="!isGranted('Donor')">{{ "Donor" | localize }}</th>
-                <th *ngIf="!isGranted('Donor')">{{ "Donor Id" | localize }}</th>
+                <th *ngIf="!isGranted('Donor')">{{ "DonorId" | localize }}</th>
                 <th *ngIf="isGranted('Donor') || isGranted('Admin')">{{ "Center" | localize }}</th>
                 <th>{{ "Date" | localize }}</th>
-                <th>{{ "Is Blood Accepted" | localize }}</th>
-                <th>{{ "Quantity (l)" | localize }}</th>
+                <th>{{ "IsBloodAccepted" | localize }}</th>
+                <th>{{ "Quantity" | localize }}</th>
                 <th style="width: 200px;" *ngIf="isGranted('Donations.Update')">{{ "Actions" | localize }}</th>
               </tr>
             </thead>
+
             <tbody>
               <tr *ngFor="
                     let donation of donations
@@ -76,6 +81,7 @@
             </tbody>
           </table>
         </div>
+
         <div class="card-footer bg-light border-top">
           <div class="row">
             <div class="col-sm-4 col-12 text-sm-left text-center">

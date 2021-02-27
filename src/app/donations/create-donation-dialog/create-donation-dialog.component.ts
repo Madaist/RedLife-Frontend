@@ -25,6 +25,11 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   selectedDonorId: number;
   selectedIsBloodAccepted: boolean = false;
 
+  isBloodAcceptedOptions = [
+    { id: 'Yes', value: true},
+    { id: 'No', value: false}
+  ]
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
