@@ -28,8 +28,12 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
   id: number;
   updateAppointment = new UpdateAppointmentDto();
   getAppointment = new AppointmentDto();
-  selectedTransfusionCenterId: number;
+
   transfusionCenters: UserDto[] = [];
+  donors: UserDto[] = [];
+
+  selectedTransfusionCenterId: number;
+  selectedDonorId: number;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -47,6 +51,7 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
       .subscribe((result: AppointmentDto) => {
         this.getAppointment = result;
         this.selectedTransfusionCenterId = this.getAppointment.centerId;
+        this.selectedDonorId = this.getAppointment.donorId;
       });
 
     if (!this.isGranted('CenterAdmin')) {
@@ -54,8 +59,16 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
         .getTransfusionCenters()
         .subscribe((result) => {
           this.transfusionCenters = result.items;
-          console.log(this.transfusionCenters);
+          
         });
+    }
+
+    if(this.isGranted('Admin')){
+      this._userService
+        .getDonors()
+        .subscribe((result) => {
+          this.donors = result.items;
+        })
     }
   }
 
@@ -65,10 +78,13 @@ export class EditAppointmentDialogComponent extends AppComponentBase implements 
 
     const appointment = new UpdateAppointmentDto();
     appointment.init(this.getAppointment);
-    appointment.donorId = this.getAppointment.donorId;
+    if(this.isGranted('Admin')){ // the admin can change the donor
+      appointment.donorId = this.selectedDonorId;
+    }
+    else {
+      appointment.donorId = this.getAppointment.donorId;
+    }
     appointment.centerId = this.selectedTransfusionCenterId;
-
-    console.log(appointment);
 
     this._appointmentService
       .update(appointment)

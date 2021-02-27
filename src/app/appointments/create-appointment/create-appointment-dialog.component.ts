@@ -24,6 +24,8 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   saving = false;
   appointment = new CreateAppointmentDto();
+  loggedInUser = new UserDto();
+  employer = new UserDto();
 
   transfusionCenters: UserDto[] = [];
   selectedTransfusionCenterId: number;
@@ -43,20 +45,36 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   }
 
   ngOnInit(): void {
-    this._userService
-      .getTransfusionCenters()
-      .subscribe((result) => {
-        this.transfusionCenters = result.items;
-      });
+    if (this.isGranted('Users.GetCenters')) {
+      this._userService
+        .getTransfusionCenters()
+        .subscribe((result) => {
+          this.transfusionCenters = result.items;
+        });
+    }
 
     if (this.isGranted('Users.GetDonors')) {
       this._userService
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
-          console.log(this.donors);
         });
     };
+
+    //Get info about the center personnel in order to obtain the employer id and institution anme
+    if (this.isGranted('CenterPersonnel')) {
+      this._userService
+        .get(this.appSession.userId)
+        .subscribe((result) => {
+          this.loggedInUser = result;
+
+          this._userService
+            .get(this.loggedInUser.employerId)
+            .subscribe((result) => {
+              this.employer = result;
+            })
+        })
+    }
   }
 
   save(): void {
@@ -64,13 +82,18 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
     const appointment = new CreateAppointmentDto();
     appointment.init(this.appointment);
-    if (!this.isGranted('Donor')) {
-      appointment.donorId = this.selectedDonorId;
-    }
-    else {
+    if (this.isGranted('Donor')) {
       appointment.donorId = abp.session.userId;
     }
-    appointment.centerId = this.selectedTransfusionCenterId;
+    else {
+      appointment.donorId = this.selectedDonorId;
+    }
+    if (this.isGranted('CenterPersonnel')) {
+      appointment.centerId = this.loggedInUser.employerId;
+    }
+    else {
+      appointment.centerId = this.selectedTransfusionCenterId;
+    }
 
     this._appointmentService
       .create(appointment)
