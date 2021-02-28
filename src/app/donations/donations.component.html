@@ -58,7 +58,7 @@
                             totalItems: totalItems
                           }
                   ">
-                <td>
+                <td (click)="showDonationQRCode(donation.id)">
                   <qrcode [qrdata]="donation.id" [width]="100" [errorCorrectionLevel]="'M'"></qrcode>
                 </td>
                 <td *ngIf="!isGranted('Donor')">{{ donation.donorLastName }} {{ donation.donorFirstName }}</td>

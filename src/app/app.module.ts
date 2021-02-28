@@ -51,6 +51,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { DonationsComponent } from './donations/donations.component';
 import { EditDonationDialogComponent } from './donations/edit-donation-dialog/edit-donation-dialog.component';
 import { CreateDonationDialogComponent } from './donations/create-donation-dialog/create-donation-dialog.component';
+import { ShowDonationQRCodeDialogComponent } from './donations/show-donation-qrcode-dialog/show-donation-qrcode-dialog.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { CreateDonationDialogComponent } from './donations/create-donation-dialo
     CreateDonationDialogComponent,
     EditDonationDialogComponent,
     EditDonationDialogComponent,
-    CreateDonationDialogComponent
+    CreateDonationDialogComponent,
+    ShowDonationQRCodeDialogComponent
   ],
   imports: [
     CommonModule,

@@ -5,6 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CreateDonationDialogComponent } from './create-donation-dialog/create-donation-dialog.component';
 import { EditDonationDialogComponent } from './edit-donation-dialog/edit-donation-dialog.component';
+import { ShowDonationQRCodeDialogComponent } from './show-donation-qrcode-dialog/show-donation-qrcode-dialog.component';
 
 class PagedDonationsRequestDto extends PagedRequestDto {
   keyword: string;
@@ -96,6 +97,25 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
     });
   }
 
+  
+  showDonationQRCode(id?: string): void {
+    let showDonationQRCodeDialog: BsModalRef;
+      showDonationQRCodeDialog = this._modalService.show(
+        ShowDonationQRCodeDialogComponent,
+        {
+          class: 'modal-lg',
+          initialState: {
+            id: id,
+          },
+        }
+      );
+
+    showDonationQRCodeDialog.content.onDownload.subscribe(() => {
+      this.refresh();
+    });
+  }
+  
+
   createDonation(): void {
     this.showCreateOrEditDonationDialog();
   }
@@ -103,5 +123,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
   editDonation(donation: DonationDto): void {
     this.showCreateOrEditDonationDialog(donation.id);
   }
+
+
 
 }
