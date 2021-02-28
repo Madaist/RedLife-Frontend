@@ -71,8 +71,14 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       new MenuItem(
         this.l('Donations'),
         '/app/donations',
-        'far fa-calendar-check',
+        'fas fa-clinic-medical',
         'Donations.Get'
+      ),
+      new MenuItem(
+        this.l('Transfusions'),
+        '/app/transfusions',
+        'fas fa-hospital-user',
+        'Transfusions.Get'
       ),
       new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
       new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [

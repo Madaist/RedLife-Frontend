@@ -52,6 +52,9 @@ import { DonationsComponent } from './donations/donations.component';
 import { EditDonationDialogComponent } from './donations/edit-donation-dialog/edit-donation-dialog.component';
 import { CreateDonationDialogComponent } from './donations/create-donation-dialog/create-donation-dialog.component';
 import { ShowDonationQRCodeDialogComponent } from './donations/show-donation-qrcode-dialog/show-donation-qrcode-dialog.component';
+import { CreateTransfusionDialogComponent } from './transfusions/create-transfusion-dialog/create-transfusion-dialog.component';
+import { EditTransfusionDialogComponent } from './transfusions/edit-transfusion-dialog/edit-transfusion-dialog.component';
+import { TransfusionsComponent } from './transfusions/transfusions.component';
 
 @NgModule({
   declarations: [
@@ -90,7 +93,10 @@ import { ShowDonationQRCodeDialogComponent } from './donations/show-donation-qrc
     EditDonationDialogComponent,
     EditDonationDialogComponent,
     CreateDonationDialogComponent,
-    ShowDonationQRCodeDialogComponent
+    ShowDonationQRCodeDialogComponent,
+    TransfusionsComponent,
+    CreateTransfusionDialogComponent,
+    EditTransfusionDialogComponent
   ],
   imports: [
     CommonModule,
@@ -101,8 +107,8 @@ import { ShowDonationQRCodeDialogComponent } from './donations/show-donation-qrc
     ModalModule.forChild(),
     BsDropdownModule,
     CollapseModule,
-    TabsModule,
     AppRoutingModule,
+    TabsModule,
     ServiceProxyModule,
     SharedModule,
     NgxPaginationModule,

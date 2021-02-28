@@ -10,6 +10,7 @@ import { RolesComponent } from 'app/roles/roles.component';
 import { ChangePasswordComponent } from './users/change-password/change-password.component';
 import { AppointmentsComponent } from './appointments/appointments.component';
 import { DonationsComponent } from './donations/donations.component';
+import { TransfusionsComponent} from './transfusions/transfusions.component';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { DonationsComponent } from './donations/donations.component';
                     { path: 'update-password', component: ChangePasswordComponent },
                     { path: 'appointments', component: AppointmentsComponent, data: { permission: 'Appointments.Get' }, canActivate: [AppRouteGuard] },
                     { path: 'donations', component: DonationsComponent, data: { permission: 'Donations.Get' }, canActivate: [AppRouteGuard] },
+                    { path: 'transfusions', component: TransfusionsComponent, data: { permission: 'Transfusions.Get' }, canActivate: [AppRouteGuard] },
                 ]
             }
         ])
