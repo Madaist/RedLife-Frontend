@@ -1,1 +1,21 @@
-<p>edit-transfusion-dialog works!</p>
+<form class="form-horizontal" autocomplete="off" #editTransfusionForm="ngForm" (ngSubmit)="save()">
+    <abp-modal-header title="Edit transfusion" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+    <div class="modal-body">
+  
+        <qrcode [qrdata]="getTransfusion.donationId" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+
+      <div class="form-group row mb-0 required">
+        <label class="col-md-3 col-form-label" for="date">
+          {{ "Date" | localize }}
+        </label>
+        <div class="col-md-9">
+          <input type="date" class="form-control" name="date" id="date" [(ngModel)]="getTransfusion.date" />
+        </div>
+      </div>
+      <br>
+  
+  
+    </div>
+    <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!editTransfusionForm.form.valid || saving"
+      (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+  </form>
