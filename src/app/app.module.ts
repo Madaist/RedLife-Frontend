@@ -55,6 +55,8 @@ import { ShowDonationQRCodeDialogComponent } from './donations/show-donation-qrc
 import { CreateTransfusionDialogComponent } from './transfusions/create-transfusion-dialog/create-transfusion-dialog.component';
 import { EditTransfusionDialogComponent } from './transfusions/edit-transfusion-dialog/edit-transfusion-dialog.component';
 import { TransfusionsComponent } from './transfusions/transfusions.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 
 @NgModule({
   declarations: [
@@ -96,7 +98,8 @@ import { TransfusionsComponent } from './transfusions/transfusions.component';
     ShowDonationQRCodeDialogComponent,
     TransfusionsComponent,
     CreateTransfusionDialogComponent,
-    EditTransfusionDialogComponent
+    EditTransfusionDialogComponent,
+    QrScannerComponent
   ],
   imports: [
     CommonModule,
@@ -116,7 +119,8 @@ import { TransfusionsComponent } from './transfusions/transfusions.component';
     MatInputModule,
     MatSelectModule,
     MatTooltipModule,
-    QRCodeModule
+    QRCodeModule,
+    ZXingScannerModule
   ],
   providers: [],
   entryComponents: [

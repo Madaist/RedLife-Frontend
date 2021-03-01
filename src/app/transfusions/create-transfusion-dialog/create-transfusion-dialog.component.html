@@ -1,1 +1,11 @@
-<p>create-transfusion-dialog works!</p>
+<form class="form-horizontal" autocomplete="off" (ngSubmit)="save()">
+    <abp-modal-header title="Create new transfusion" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+  
+    <div class="modal-body">
+        <app-qr-scanner></app-qr-scanner>
+    </div>
+  
+  
+    <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="saving"
+      (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
+  </form>
