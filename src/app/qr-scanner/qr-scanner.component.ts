@@ -1,32 +1,38 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 @Component({
-  selector: 'app-qr-scanner',
-  templateUrl: './qr-scanner.component.html',
-  styleUrls: ['./qr-scanner.component.css']
+  selector: 'app-qr-scanner',
+  templateUrl: './qr-scanner.component.html',
+  styleUrls: ['./qr-scanner.component.css']
 })
-export class QrScannerComponent implements OnInit {
-
-  public scannerEnabled: boolean = true;
-  public information: string = "No QR code detected. Zoom in a code in order to scan it.";
-
-  constructor(private cd: ChangeDetectorRef) {
-  }
-
-  ngOnInit() {
-  }
-
-  public scanSuccessHandler($event: any) {
-    this.scannerEnabled = false;
-    this.information = "Extracting the information... ";
-    console.log($event);
-    this.cd.markForCheck();
-
-  }
-
-  public enableScanner() {
-    this.scannerEnabled = !this.scannerEnabled;
-    this.information = "No QR code detected. Zoom in a code in order to scan it.";
-  }
-
+export class QrScannerComponent implements OnInit {
+  public scannerEnabled: boolean = true;
+  public scanningStatus: string = "No QR code detected. Zoom in a code in order to scan it.";
+  public scanningTitle: string = "Zoom in the QR code";
+  
+  public static qrCode: string;
+  constructor(private cd: ChangeDetectorRef) {
+  }
+  ngOnInit() {
+  }
+  public scanSuccessHandler($event: any) {
+    this.scannerEnabled = false;
+    this.scanningTitle = "";
+    this.scanningStatus = "QR Code successfully scanned.";
+    console.log($event);
+    QrScannerComponent.qrCode = $event;
+    console.log("@@@@@@@@@@@@@@@@@@@@");
+    console.log(QrScannerComponent.qrCode);
+    this.cd.markForCheck();
+ 
+  }
+  public getQRCode() : string{
+    console.log("*************************************")
+    console.log(QrScannerComponent.qrCode);
+    return QrScannerComponent.qrCode;
+  }
+  public enableScanner() {
+    this.scannerEnabled = !this.scannerEnabled;
+    this.scanningTitle = "Zoom in the QR code";
+    this.scanningStatus = "No QR code detected. Zoom in a code in order to scan it.";
+  }
 }

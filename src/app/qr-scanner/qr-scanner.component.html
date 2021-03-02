@@ -1,47 +1,13 @@
-<div class="row main-content">
-    <div class="col-12 col-lg-6">
-        <div class="kt-portlet kt-portlet--tab">
-            <div class="kt-portlet__head">
-                <div class="kt-portlet__head-label">
-                    <span class="kt-portlet__head-icon kt-hide">
-                        <i class="la la-gear"></i>
-                    </span>
-                    <h5 class="kt-portlet__head-title">
-                        Zoom in the QR code
-                    </h5>
-                    <h6 class="kt-portlet__head-title">
-                        {{information}}
-                    </h6>
-                </div>
-            </div>
-            <div class="kt-portlet__body">
-                <zxing-scanner *ngIf="scannerEnabled" #scanner (scanSuccess)="scanSuccessHandler($event)">
-                </zxing-scanner>
-                <button (click)="enableScanner()" *ngIf="!scannerEnabled" type="button" class="btn btn-primary">
-                    Scan another QR code
-                </button>
-            </div>
-        </div>
+<div class="row main-content">
+
+    <div class="kt-portlet__body col-12 col-lg-6">
+        <zxing-scanner *ngIf="scannerEnabled" #scanner (scanSuccess)="scanSuccessHandler($event)"></zxing-scanner>
+        <button (click)="enableScanner()" *ngIf="!scannerEnabled" type="button" class="btn btn-primary"> Scan another QR code </button>
+                    
     </div>
-
-    <!-- <div class="col-12 col-lg-6">
-        <div class="kt-portlet kt-callout kt-callout--info kt-callout--diagonal-bg scannedInfo">
-            <div class="kt-portlet__body">
-                <div class="kt-callout__body">
-                    <div class="kt-callout__content">
-                        <h5 class="kt-callout__desc">
-                            {{information}}
-                        </h5>
-
-                        <div class="alert alert-primary fade show" role="alert"
-                            *ngFor="let item of transports; let i = index">
-                            <div class="alert-icon"><i class="flaticon-truck"></i></div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-
+    <div class="col-12 col-lg-6">
+        <h5 class="kt-portlet__head-title"> {{scanningTitle}} </h5>
+        <h6 class="kt-portlet__head-title"> {{scanningStatus}}</h6>
+    </div>
+            
 </div>

@@ -2631,6 +2631,57 @@ export class UserServiceProxy {
     }
 
     /**
+     * @return Success
+     */
+    getHospitals(): Observable<UserDtoListResultDto> {
+        let url_ = this.baseUrl + "/api/services/app/User/GetHospitals";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetHospitals(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetHospitals(<any>response_);
+                } catch (e) {
+                    return <Observable<UserDtoListResultDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserDtoListResultDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetHospitals(response: HttpResponseBase): Observable<UserDtoListResultDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UserDtoListResultDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserDtoListResultDto>(<any>null);
+    }
+
+    /**
      * @param keyword (optional) 
      * @param isActive (optional) 
      * @param skipCount (optional) 
@@ -4684,6 +4735,8 @@ export interface IExternalAuthenticateResultModel {
 export class TransfusionDto implements ITransfusionDto {
     donationId: string | undefined;
     date: string | undefined;
+    hospitalId: number;
+    hospitalName: string | undefined;
     id: string | undefined;
 
     constructor(data?: ITransfusionDto) {
@@ -4699,6 +4752,8 @@ export class TransfusionDto implements ITransfusionDto {
         if (_data) {
             this.donationId = _data["donationId"];
             this.date = _data["date"];
+            this.hospitalId = _data["hospitalId"];
+            this.hospitalName = _data["hospitalName"];
             this.id = _data["id"];
         }
     }
@@ -4714,6 +4769,8 @@ export class TransfusionDto implements ITransfusionDto {
         data = typeof data === 'object' ? data : {};
         data["donationId"] = this.donationId;
         data["date"] = this.date;
+        data["hospitalId"] = this.hospitalId;
+        data["hospitalName"] = this.hospitalName;
         data["id"] = this.id;
         return data; 
     }
@@ -4729,6 +4786,8 @@ export class TransfusionDto implements ITransfusionDto {
 export interface ITransfusionDto {
     donationId: string | undefined;
     date: string | undefined;
+    hospitalId: number;
+    hospitalName: string | undefined;
     id: string | undefined;
 }
 
@@ -4790,6 +4849,7 @@ export interface ITransfusionDtoPagedResultDto {
 export class UpdateTransfusionDto implements IUpdateTransfusionDto {
     donationId: string;
     date: moment.Moment;
+    hospitalId: number;
     id: string | undefined;
 
     constructor(data?: IUpdateTransfusionDto) {
@@ -4805,6 +4865,7 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
         if (_data) {
             this.donationId = _data["donationId"];
             this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+            this.hospitalId = _data["hospitalId"];
             this.id = _data["id"];
         }
     }
@@ -4820,6 +4881,7 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
         data = typeof data === 'object' ? data : {};
         data["donationId"] = this.donationId;
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["hospitalId"] = this.hospitalId;
         data["id"] = this.id;
         return data; 
     }
@@ -4835,12 +4897,14 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
 export interface IUpdateTransfusionDto {
     donationId: string;
     date: moment.Moment;
+    hospitalId: number;
     id: string | undefined;
 }
 
 export class CreateTransfusionDto implements ICreateTransfusionDto {
     donationId: string;
     date: moment.Moment;
+    hospitalId: number;
     id: string | undefined;
 
     constructor(data?: ICreateTransfusionDto) {
@@ -4856,6 +4920,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
         if (_data) {
             this.donationId = _data["donationId"];
             this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
+            this.hospitalId = _data["hospitalId"];
             this.id = _data["id"];
         }
     }
@@ -4871,6 +4936,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
         data = typeof data === 'object' ? data : {};
         data["donationId"] = this.donationId;
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
+        data["hospitalId"] = this.hospitalId;
         data["id"] = this.id;
         return data; 
     }
@@ -4886,6 +4952,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
 export interface ICreateTransfusionDto {
     donationId: string;
     date: moment.Moment;
+    hospitalId: number;
     id: string | undefined;
 }
 

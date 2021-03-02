@@ -122,7 +122,7 @@ import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
     QRCodeModule,
     ZXingScannerModule
   ],
-  providers: [],
+  providers: [QrScannerComponent],
   entryComponents: [
     // tenants
     CreateTenantDialogComponent,
