@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
-import { ChangePasswordComponent } from '@app/users/change-password/change-password.component';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateDonationDto, DonationServiceProxy, UserDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -24,10 +23,29 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   selectedQuantity: number = 0.4;
   selectedDonorId: number;
   selectedIsBloodAccepted: boolean = false;
+  selectedBloodType: string;
+  selectedDonationType: string = "ORDINARY_DONATION";
 
   isBloodAcceptedOptions = [
     { id: 'Yes', value: true},
     { id: 'No', value: false}
+  ]
+
+  bloodTypes = [
+    {value: "A+"},
+    {value: "B+"},
+    {value: "C+"},
+    {value: "AB+"},
+    {value: "A-"},
+    {value: "B-"},
+    {value: "C-"},
+    {value: "AB-"},
+  ]
+
+  donationTypes = [
+    {normalizedName: "ORDINARY_DONATION", value: "Ordinary donation"},
+    {normalizedName: "SPECIAL_DONATION", value: "Special donation"},
+    {normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
   ]
 
   @Output() onSave = new EventEmitter<any>();
@@ -103,6 +121,8 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     
     donation.quantity = this.selectedQuantity;
     donation.isBloodAccepted = this.selectedIsBloodAccepted;
+    donation.bloodType = this.selectedBloodType;
+    donation.type = this.selectedDonationType;
 
     this._donationService
       .create(donation)

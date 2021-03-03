@@ -90,31 +90,31 @@ export class TransfusionsComponent extends PagedListingComponentBase<Transfusion
           },
         }
       );
-    } 
+    }
 
     createOrEditTransfusionDialog.content.onSave.subscribe(() => {
       this.refresh();
     });
   }
 
-  
+
   showDonationQRCode(id?: string): void {
     let showDonationQRCodeDialog: BsModalRef;
-      showDonationQRCodeDialog = this._modalService.show(
-        ShowDonationQRCodeDialogComponent,
-        {
-          class: 'modal-lg',
-          initialState: {
-            id: id,
-          },
-        }
-      );
+    showDonationQRCodeDialog = this._modalService.show(
+      ShowDonationQRCodeDialogComponent,
+      {
+        class: 'modal-lg',
+        initialState: {
+          id: id,
+        },
+      }
+    );
 
     showDonationQRCodeDialog.content.onDownload.subscribe(() => {
       this.refresh();
     });
   }
-  
+
 
   createTransfusion(): void {
     this.showCreateOrEditTransfusionDialog();

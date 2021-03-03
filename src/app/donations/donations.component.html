@@ -42,6 +42,8 @@
                 <th *ngIf="isGranted('Donor') || isGranted('Admin')">{{ "Center" | localize }}</th>
                 <th>{{ "Date" | localize }}</th>
                 <th>{{ "IsBloodAccepted" | localize }}</th>
+                <th>{{ "DonationType" | localize }}</th>
+                <th>{{ "BloodType" | localize }}</th>
                 <th>{{ "Quantity" | localize }}</th>
                 <th style="width: 200px;" *ngIf="isGranted('Donations.Update')">{{ "Actions" | localize }}</th>
               </tr>
@@ -66,6 +68,8 @@
                 <td *ngIf="isGranted('Donor') || isGranted('Admin')">{{ donation.centerName }}</td>
                 <td>{{ donation.date }}</td>
                 <td>{{donation.isBloodAccepted ? 'Yes' : 'No'}}</td>
+                <td>{{donation.type}}</td>
+                <td>{{donation.bloodType}}</td>
                 <td>{{ donation.quantity }}</td>
                 <td *ngIf="isGranted('Donations.Update')">
                   <button type="button" class="btn btn-sm bg-secondary" (click)="editDonation(donation)">

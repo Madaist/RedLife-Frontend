@@ -3232,6 +3232,7 @@ export class DonationDto implements IDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 
     constructor(data?: IDonationDto) {
@@ -3254,6 +3255,7 @@ export class DonationDto implements IDonationDto {
             this.isBloodAccepted = _data["isBloodAccepted"];
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
+            this.type = _data["type"];
             this.id = _data["id"];
         }
     }
@@ -3276,6 +3278,7 @@ export class DonationDto implements IDonationDto {
         data["isBloodAccepted"] = this.isBloodAccepted;
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -3298,6 +3301,7 @@ export interface IDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 }
 
@@ -3363,6 +3367,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 
     constructor(data?: IUpdateDonationDto) {
@@ -3382,6 +3387,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
             this.isBloodAccepted = _data["isBloodAccepted"];
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
+            this.type = _data["type"];
             this.id = _data["id"];
         }
     }
@@ -3401,6 +3407,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
         data["isBloodAccepted"] = this.isBloodAccepted;
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -3420,6 +3427,7 @@ export interface IUpdateDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 }
 
@@ -3430,6 +3438,7 @@ export class CreateDonationDto implements ICreateDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 
     constructor(data?: ICreateDonationDto) {
@@ -3449,6 +3458,7 @@ export class CreateDonationDto implements ICreateDonationDto {
             this.isBloodAccepted = _data["isBloodAccepted"];
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
+            this.type = _data["type"];
             this.id = _data["id"];
         }
     }
@@ -3468,6 +3478,7 @@ export class CreateDonationDto implements ICreateDonationDto {
         data["isBloodAccepted"] = this.isBloodAccepted;
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
+        data["type"] = this.type;
         data["id"] = this.id;
         return data; 
     }
@@ -3487,6 +3498,7 @@ export interface ICreateDonationDto {
     isBloodAccepted: boolean;
     quantity: number;
     bloodType: string | undefined;
+    type: string | undefined;
     id: string | undefined;
 }
 

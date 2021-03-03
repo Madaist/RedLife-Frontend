@@ -20,6 +20,9 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   selectedDonorId: number;
   selectedIsBloodAccepted: boolean;
   selectedQuantity: number;
+  selectedBloodType: string;
+  selectedDonationType: string;
+
 
   transfusionCenters: UserDto[] = [];
   donors: UserDto[] = [];
@@ -28,6 +31,24 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     { id: 'Yes', value: true},
     { id: 'No', value: false}
   ]
+
+  bloodTypes = [
+    {value: "A+"},
+    {value: "B+"},
+    {value: "C+"},
+    {value: "AB+"},
+    {value: "A-"},
+    {value: "B-"},
+    {value: "C-"},
+    {value: "AB-"},
+  ]
+
+  donationTypes = [
+    {normalizedName: "ORDINARY_DONATION", value: "Ordinary donation"},
+    {normalizedName: "SPECIAL_DONATION", value: "Special donation"},
+    {normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
+  ]
+
   
   @Output() onSave = new EventEmitter<any>();
 
@@ -49,6 +70,11 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         this.selectedDonorId = this.getDonation.donorId;
         this.selectedIsBloodAccepted = this.getDonation.isBloodAccepted;
         this.selectedQuantity = this.getDonation.quantity;
+        this.selectedBloodType = this.getDonation.bloodType;
+        this.selectedDonationType = this.getDonation.type;
+
+        console.log(this.selectedBloodType);
+        console.log(this.selectedDonationType);
       });
 
     if (this.isGranted('Admin')) {
@@ -81,6 +107,8 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     donation.centerId = this.selectedTransfusionCenterId;
     donation.quantity = this.selectedQuantity;
     donation.isBloodAccepted = this.selectedIsBloodAccepted;
+    donation.bloodType = this.selectedBloodType;
+    donation.type = this.selectedDonationType.toUpperCase().replace(" ", "_");
    
     this._donationService
       .update(donation)

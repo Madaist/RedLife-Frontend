@@ -4,11 +4,13 @@ import { AppComponentBase } from '@shared/app-component-base';
 import { CreateTransfusionDto, TransfusionServiceProxy, UserDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
+
 @Component({
   selector: 'app-create-transfusion-dialog',
   templateUrl: './create-transfusion-dialog.component.html',
   styleUrls: ['./create-transfusion-dialog.component.css']
 })
+
 export class CreateTransfusionDialogComponent extends AppComponentBase implements OnInit {
   saving = false;
   transfusion = new CreateTransfusionDto();
@@ -16,7 +18,9 @@ export class CreateTransfusionDialogComponent extends AppComponentBase impl
   employer: UserDto = new UserDto();
   hospitals: UserDto[] = [];
   selectedHospitalId: number;
+
   @Output() onSave = new EventEmitter<any>();
+
   constructor(
     injector: Injector,
     private _transfusionService: TransfusionServiceProxy,
@@ -26,19 +30,19 @@ export class CreateTransfusionDialogComponent extends AppComponentBase impl
   ) {
     super(injector);
   }
+
   ngOnInit(): void {
     if (this.isGranted('HospitalPersonnel') || this.isGranted('HospitalAdmin')) {
       this._userService
         .get(this.appSession.userId)
         .subscribe((result) => {
           this.loggedInUser = result;
-          console.log(this.loggedInUser);
+         
           if (this.isGranted('HospitalPersonnel')) {
             this._userService
               .get(this.loggedInUser.employerId)
               .subscribe((result) => {
                 this.employer = result;
-                console.log(this.employer);
               })
           }
         })
@@ -51,13 +55,13 @@ export class CreateTransfusionDialogComponent extends AppComponentBase impl
         })
     }
   }
+
   save(): void {
     this.saving = true;
     const transfusion = new CreateTransfusionDto();
     transfusion.init(this.transfusion);
     transfusion.donationId = this.qrScannerComponenet.getQRCode();
-    console.log("qr code");
-    console.log(transfusion.donationId);
+
     if (this.isGranted('HospitalAdmin')) {
       transfusion.hospitalId = this.appSession.userId;
     }
@@ -66,6 +70,7 @@ export class CreateTransfusionDialogComponent extends AppComponentBase impl
     } else if (this.isGranted('Admin')) {
       transfusion.hospitalId = this.selectedHospitalId;
     }
+
     this._transfusionService
       .create(transfusion)
       .pipe(

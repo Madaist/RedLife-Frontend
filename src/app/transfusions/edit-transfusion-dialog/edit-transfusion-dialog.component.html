@@ -13,6 +13,45 @@
         </div>
       </div>
       <br>
+
+       <!-- The admin can change the hospital -->
+    <div class="form-group row required" *ngIf="isGranted('Admin')">
+      <label class="col-md-3 col-form-label" for="hospitalId">
+        {{ "Hospital" | localize }}
+      </label>
+      <div class="col-md-9">
+        <select class="form-control" placeholder="Hospitals" [(ngModel)]="selectedHospitalId" name="hospital">
+          <option *ngFor="let hospital of hospitals" [value]="hospital.id">
+            {{hospital.institutionName}} -
+            {{hospital.street}} {{hospital.number}}, {{hospital.city}}, {{hospital.country}}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <!-- The hospital is readonly for a hospital admin, with the default value of-->
+    <!-- the istitution the hospital admin represents -->
+    <div class="form-group row required" *ngIf="isGranted('HospitalAdmin')">
+      <label class="col-md-3 col-form-label" for="hospitalId">
+        {{ "Hospital" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input class="form-control" placeholder="Hospitals" name="hospital" [value]="loggedInUser.institutionName"
+          readonly />
+      </div>
+    </div>
+
+    <!-- The hospital is readonly for a hospital personnel, with the default value of-->
+    <!-- its employer instution -->
+    <div class="form-group row required" *ngIf="isGranted('HospitalPersonnel')">
+      <label class="col-md-3 col-form-label" for="hospitalId">
+        {{ "Hospital" | localize }}
+      </label>
+      <div class="col-md-9">
+        <input class="form-control" placeholder="Hospitals" name="hospital" [value]="employer.institutionName"
+          readonly />
+      </div>
+    </div>
   
   
     </div>
