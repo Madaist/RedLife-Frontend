@@ -19,33 +19,26 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   loggedInUser: UserDto = new UserDto();
   employer: UserDto = new UserDto();
 
-  selectedTransfusionCenterId: number;
-  selectedQuantity: number = 0.4;
-  selectedDonorId: number;
-  selectedIsBloodAccepted: boolean = false;
-  selectedBloodType: string;
-  selectedDonationType: string = "ORDINARY_DONATION";
-
   isBloodAcceptedOptions = [
-    { id: 'Yes', value: true},
-    { id: 'No', value: false}
+    { id: 'Yes', value: true },
+    { id: 'No', value: false }
   ]
 
   bloodTypes = [
-    {value: "A+"},
-    {value: "B+"},
-    {value: "C+"},
-    {value: "AB+"},
-    {value: "A-"},
-    {value: "B-"},
-    {value: "C-"},
-    {value: "AB-"},
+    { value: "A+" },
+    { value: "B+" },
+    { value: "C+" },
+    { value: "AB+" },
+    { value: "A-" },
+    { value: "B-" },
+    { value: "C-" },
+    { value: "AB-" },
   ]
 
   donationTypes = [
-    {normalizedName: "ORDINARY_DONATION", value: "Ordinary donation"},
-    {normalizedName: "SPECIAL_DONATION", value: "Special donation"},
-    {normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
+    { normalizedName: "ORDINARY_DONATION", value: "Ordinary donation" },
+    { normalizedName: "SPECIAL_DONATION", value: "Special donation" },
+    { normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation" },
   ]
 
   @Output() onSave = new EventEmitter<any>();
@@ -57,10 +50,12 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     public bsModalRef: BsModalRef
   ) {
     super(injector);
-
   }
 
   ngOnInit(): void {
+    this.donation.quantity = 0.4;
+    this.donation.type = "ORDINARY_DONATION";
+
     if (this.isGranted('Admin')) {
       this._userService
         .getTransfusionCenters()
@@ -73,7 +68,6 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
         .getDonors()
         .subscribe((result) => {
           this.donors = result.items;
-          console.log(this.donors);
         });
     };
 
@@ -93,39 +87,24 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
         })
     }
 
-
   }
 
   save(): void {
     this.saving = true;
 
-    const donation = new CreateDonationDto();
-    donation.init(this.donation);
-
-    if (!this.isGranted('Donor')) {
-      donation.donorId = this.selectedDonorId;
-    }
-    else {
-      donation.donorId = abp.session.userId;
+    if (this.isGranted('Donor')) {
+      this.donation.donorId = abp.session.userId;
     }
 
     if (this.isGranted('CenterAdmin')) {
-      donation.centerId = this.loggedInUser.id;
+      this.donation.centerId = this.loggedInUser.id;
     }
-    else if(this.isGranted('CenterPersonnel')) {
-      donation.centerId = this.employer.id;
+    else if (this.isGranted('CenterPersonnel')) {
+      this.donation.centerId = this.employer.id;
     }
-    else {
-      donation.centerId = this.selectedTransfusionCenterId;
-    }
-    
-    donation.quantity = this.selectedQuantity;
-    donation.isBloodAccepted = this.selectedIsBloodAccepted;
-    donation.bloodType = this.selectedBloodType;
-    donation.type = this.selectedDonationType;
 
     this._donationService
-      .create(donation)
+      .create(this.donation)
       .pipe(
         finalize(() => {
           this.saving = false;

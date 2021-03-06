@@ -1,12 +1,14 @@
 <form class="form-horizontal" autocomplete="off" #createAppointmentForm="ngForm" (ngSubmit)="save()">
   <abp-modal-header title="Create new appointment" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
+ 
   <div class="modal-body">
+    
     <div class="form-group row required" *ngIf="!isGranted('Donor')">
       <label class="col-md-3 col-form-label" for="donorId">
         {{ "BloodDonor" | localize }}
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Donors" [(ngModel)]="selectedDonorId" name="donor">
+        <select class="form-control" placeholder="Donors" [(ngModel)]="appointment.donorId" name="donor">
           <option *ngFor="let donor of donors" [value]="donor.id">
             {{donor.fullName}} - {{donor.id}} ({{donor.emailAddress}})
           </option>
@@ -19,7 +21,7 @@
         {{ "TransfusionCenter" | localize }}
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="selectedTransfusionCenterId"
+        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="appointment.centerId"
           name="center">
           <option *ngFor="let center of transfusionCenters" [value]="center.id">
             {{center.institutionName}} -

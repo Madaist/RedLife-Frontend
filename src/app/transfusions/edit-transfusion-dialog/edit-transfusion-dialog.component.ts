@@ -13,11 +13,11 @@ export class EditTransfusionDialogComponent extends AppComponentBase implements 
 
   saving = false;
   id: string;
+
   getTransfusion = new TransfusionDto();
   loggedInUser: UserDto = new UserDto();
   employer: UserDto = new UserDto();
   hospitals: UserDto[] = [];
-  selectedHospitalId: number;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -72,8 +72,6 @@ export class EditTransfusionDialogComponent extends AppComponentBase implements 
     }
     else if (this.isGranted('HospitalPersonnel')) {
       transfusion.hospitalId = this.employer.id;
-    } else if (this.isGranted('Admin')) {
-      transfusion.hospitalId = this.selectedHospitalId;
     }
 
     this._transfusionService

@@ -28,10 +28,7 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
   employer = new UserDto();
 
   transfusionCenters: UserDto[] = [];
-  selectedTransfusionCenterId: number;
-
   donors: UserDto[] = [];
-  selectedDonorId: number;
 
   @Output() onSave = new EventEmitter<any>();
 
@@ -79,27 +76,22 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   save(): void {
     this.saving = true;
+    this.appointment.init(this.appointment);
 
-    const appointment = new CreateAppointmentDto();
-    appointment.init(this.appointment);
     if (this.isGranted('Donor')) {
-      appointment.donorId = abp.session.userId;
+      this.appointment.donorId = abp.session.userId;
     }
-    else {
-      appointment.donorId = this.selectedDonorId;
-    }
+
     if (this.isGranted('CenterPersonnel')) {
-      appointment.centerId = this.loggedInUser.employerId;
-    }
-    else {
-      appointment.centerId = this.selectedTransfusionCenterId;
+      this.appointment.centerId = this.loggedInUser.employerId;
     }
 
     this._appointmentService
-      .create(appointment)
+      .create(this.appointment)
       .pipe(
         finalize(() => {
           this.saving = false;
+          console.log("finalize");
         })
       )
       .subscribe(() => {

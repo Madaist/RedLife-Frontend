@@ -16,14 +16,6 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   updateDonation = new UpdateDonationDto();
   getDonation = new DonationDto();
 
-  selectedTransfusionCenterId: number;
-  selectedDonorId: number;
-  selectedIsBloodAccepted: boolean;
-  selectedQuantity: number;
-  selectedBloodType: string;
-  selectedDonationType: string;
-
-
   transfusionCenters: UserDto[] = [];
   donors: UserDto[] = [];
 
@@ -46,9 +38,9 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   donationTypes = [
     {normalizedName: "ORDINARY_DONATION", value: "Ordinary donation"},
     {normalizedName: "SPECIAL_DONATION", value: "Special donation"},
-    {normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
+    {normalizedName: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
   ]
-
+ 
   
   @Output() onSave = new EventEmitter<any>();
 
@@ -66,15 +58,6 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
       .get(this.id)
       .subscribe((result: DonationDto) => {
         this.getDonation = result;
-        this.selectedTransfusionCenterId = this.getDonation.centerId;
-        this.selectedDonorId = this.getDonation.donorId;
-        this.selectedIsBloodAccepted = this.getDonation.isBloodAccepted;
-        this.selectedQuantity = this.getDonation.quantity;
-        this.selectedBloodType = this.getDonation.bloodType;
-        this.selectedDonationType = this.getDonation.type;
-
-        console.log(this.selectedBloodType);
-        console.log(this.selectedDonationType);
       });
 
     if (this.isGranted('Admin')) {
@@ -98,18 +81,10 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     const donation = new UpdateDonationDto();
     donation.init(this.getDonation);
 
-    if (!this.isGranted('Donor')) {
-      donation.donorId = this.selectedDonorId;
-    }
-    else {
+    if (this.isGranted('Donor')) {
       donation.donorId = abp.session.userId;
     }
-    donation.centerId = this.selectedTransfusionCenterId;
-    donation.quantity = this.selectedQuantity;
-    donation.isBloodAccepted = this.selectedIsBloodAccepted;
-    donation.bloodType = this.selectedBloodType;
-    donation.type = this.selectedDonationType.toUpperCase().replace(" ", "_");
-   
+ 
     this._donationService
       .update(donation)
       .pipe(
@@ -123,6 +98,5 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         this.onSave.emit();
       });
   }
-
 
 }

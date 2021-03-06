@@ -19,7 +19,7 @@
         {{ "BloodDonor" | localize }}
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Donors" [(ngModel)]="selectedDonorId" name="donor"
+        <select class="form-control" placeholder="Donors" [(ngModel)]="getAppointment.donorId" name="donor"
           [value]="getAppointment.donorId">
           <option *ngFor="let donor of donors" [value]="donor.id">
             {{donor.fullName}} - {{donor.id}} ({{donor.emailAddress}})
@@ -34,7 +34,7 @@
         {{ "TransfusionCenter" | localize }}
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="selectedTransfusionCenterId"
+        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="getAppointment.centerId"
           name="center" [value]="getAppointment.centerId">
           <option *ngFor="let center of transfusionCenters" [value]="center.id">
             {{center.institutionName}} -

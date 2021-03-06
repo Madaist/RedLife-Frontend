@@ -20,7 +20,7 @@
         {{ "Hospital" | localize }}
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Hospitals" [(ngModel)]="selectedHospitalId" name="hospital">
+        <select class="form-control" placeholder="Hospitals" [(ngModel)]="getTransfusion.hospitalId" name="hospital">
           <option *ngFor="let hospital of hospitals" [value]="hospital.id">
             {{hospital.institutionName}} -
             {{hospital.street}} {{hospital.number}}, {{hospital.city}}, {{hospital.country}}
