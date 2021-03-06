@@ -111,7 +111,7 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
         })
       )
       .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notify.info('Saved successfully');
         this.bsModalRef.hide();
         this.onSave.emit();
       });

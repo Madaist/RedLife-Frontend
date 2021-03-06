@@ -26,7 +26,7 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
         private _transfusionService: TransfusionServiceProxy,
         private _userService: UserServiceProxy,
         public bsModalRef: BsModalRef,
-        private qrScannerComponenet: QrScannerComponent
+        private qrScannerComponent: QrScannerComponent
     ) {
         super(injector);
     }
@@ -60,7 +60,7 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
         this.saving = true;
         const transfusion = new CreateTransfusionDto();
         transfusion.init(this.transfusion);
-        transfusion.donationId = this.qrScannerComponenet.getQRCode();
+        transfusion.donationId = this.qrScannerComponent.getQRCode();
 
         if (this.isGranted('HospitalAdmin')) {
             transfusion.hospitalId = this.appSession.userId;
@@ -77,7 +77,7 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
                 })
             )
             .subscribe(() => {
-                this.notify.info(this.l('SavedSuccessfully'));
+                this.notify.info('Saved successfully');
                 this.bsModalRef.hide();
                 this.onSave.emit();
             });

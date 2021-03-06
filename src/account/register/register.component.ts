@@ -38,12 +38,12 @@ export class RegisterComponent extends AppComponentBase {
       )
       .subscribe((result: RegisterOutput) => {
         if (!result.canLogin) {
-          this.notify.success(this.l('SuccessfullyRegistered'));
+          this.notify.success('Successfully registered');
           this._router.navigate(['/login']);
           return;
         }
 
-        // Autheticate
+        // Authenticate
         this.saving = true;
         this.authService.authenticateModel.userNameOrEmailAddress = this.model.userName;
         this.authService.authenticateModel.password = this.model.password;

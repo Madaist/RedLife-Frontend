@@ -6,7 +6,7 @@
 
     <div class="form-group row mb-0 required">
       <label class="col-md-3 col-form-label" for="date">
-        {{ "Date" | localize }}
+       Date
       </label>
       <div class="col-md-9">
         <input type="date" class="form-control" name="date" id="date" [(ngModel)]="transfusion.date" required />
@@ -17,7 +17,7 @@
     <!-- The admin can change the hospital -->
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="hospitalId">
-        {{ "Hospital" | localize }}
+        Hospital
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Hospitals" [(ngModel)]="transfusion.hospitalId" name="hospital">
@@ -33,7 +33,7 @@
     <!-- the istitution the hospital admin represents -->
     <div class="form-group row required" *ngIf="isGranted('HospitalAdmin')">
       <label class="col-md-3 col-form-label" for="hospitalId">
-        {{ "Hospital" | localize }}
+        Hospital
       </label>
       <div class="col-md-9">
         <input class="form-control" placeholder="Hospitals" name="hospital" [value]="loggedInUser.institutionName"
@@ -45,7 +45,7 @@
     <!-- its employer instution -->
     <div class="form-group row required" *ngIf="isGranted('HospitalPersonnel')">
       <label class="col-md-3 col-form-label" for="hospitalId">
-        {{ "Hospital" | localize }}
+       Hospital
       </label>
       <div class="col-md-9">
         <input class="form-control" placeholder="Hospitals" name="hospital" [value]="employer.institutionName"

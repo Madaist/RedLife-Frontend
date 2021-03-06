@@ -5,15 +5,15 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'EditUser' | localize"
+    title="Edit user"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <tabset>
-      <tab [heading]="'UserDetails' | localize" class="pt-3 px-2">
+      <tab heading="User details" class="pt-3 px-2">
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
-            {{ "Name" | localize }}
+           Name
           </label>
           <div class="col-md-9">
             <input
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="surname">
-            {{ "Surname" | localize }}
+           Surname
           </label>
           <div class="col-md-9">
             <input
@@ -57,7 +57,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="userName">
-            {{ "UserName" | localize }}
+            Username
           </label>
           <div class="col-md-9">
             <input
@@ -80,7 +80,7 @@
         </div>
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="emailAddress">
-            {{ "EmailAddress" | localize }}
+            Email address
           </label>
           <div class="col-md-9">
             <input
@@ -103,7 +103,7 @@
         </div>
         <div class="form-group row mb-0">
           <label class="col-md-3 col-form-label">
-            {{ "IsActive" | localize }}
+            Is active
           </label>
           <div class="col-md-9">
             <div class="custom-control custom-checkbox">
@@ -119,7 +119,7 @@
           </div>
         </div>
       </tab>
-      <tab [heading]="'UserRoles' | localize" class="pt-3 px-2">
+      <tab heading="User roles" class="pt-3 px-2">
         <div class="form-group row mb-0">
           <ng-container *ngFor="let role of roles; let i = index">
             <div class="col-md-6">

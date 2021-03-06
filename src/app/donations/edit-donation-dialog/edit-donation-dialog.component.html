@@ -5,7 +5,7 @@
 
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="donorId">
-        {{ "BloodDonor" | localize }}
+        Blood donor
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Donors" [(ngModel)]="getDonation.donorId" name="donor"
@@ -19,7 +19,7 @@
 
     <div class="form-group row required" *ngIf="isGranted('CenterAdmin') || isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="donorId">
-        {{ "BloodDonor" | localize }}
+        Blood donor
       </label>
       <div class="col-md-9">
         <input class="form-control" placeholder="Blood Donor" name="donorId" [value]="getDonation.donorFirstName + ' ' + getDonation.donorLastName"
@@ -29,7 +29,7 @@
 
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "TransfusionCenter" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="getDonation.centerId" name="center"
@@ -44,7 +44,7 @@
 
     <div class="form-group row required" *ngIf="isGranted('CenterAdmin') || isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "TransfusionCenter" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <input class="form-control" placeholder="Transfusion Centers" name="center" [value]="getDonation.centerName"
@@ -54,7 +54,7 @@
 
     <div class="form-group row mb-0 required">
       <label class="col-md-3 col-form-label" for="date">
-        {{ "Date" | localize }}
+        Date
       </label>
       <div class="col-md-9">
         <input type="date" class="form-control" name="date" id="date" [(ngModel)]="getDonation.date" />
@@ -64,7 +64,7 @@
 
     <div class="form-group row mb-0">
       <label class="col-md-3 col-form-label" for="selectedQuantity">
-        {{ "Quantity" | localize }}
+        Quantity
       </label>
       <div class="col-md-9">
         <input type="number" class="form-control" name="selectedQuantity" id="selectedQuantity"
@@ -74,7 +74,7 @@
 
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="getDonation.isBloodAccepted">
-        {{ "IsBloodAccepted" | localize }}
+        Is blood accepted
       </label>
       <div *ngFor="let option of isBloodAcceptedOptions; let i=index">
         <div class="radio col-md-9">
@@ -87,7 +87,7 @@
 
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="bloodType">
-        {{ "BloodType" | localize }}
+       Blood type
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Blood type" [(ngModel)]="getDonation.bloodType" name="bloodType" 
@@ -101,7 +101,7 @@
 
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="type">
-        {{ "DonationType" | localize }}
+       Donation type
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Donation type" [(ngModel)]="getDonation.type" name="type" 

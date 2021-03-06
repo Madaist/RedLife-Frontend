@@ -43,45 +43,45 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
 
   getMenuItems(): MenuItem[] {
     return [
-      new MenuItem(this.l('HomePage'), '/app/home', 'fas fa-home'),
+      new MenuItem('Home page', '/app/home', 'fas fa-home'),
       new MenuItem(
-        this.l('Tenants'),
+        'Tenants',
         '/app/tenants',
         'fas fa-building',
         'Pages.Tenants'
       ),
       new MenuItem(
-        this.l('Users'),
+        'Users',
         '/app/users',
         'fas fa-users',
         'Pages.Users'
       ),
       new MenuItem(
-        this.l('Roles'),
+        'Roles',
         '/app/roles',
         'fas fa-theater-masks',
         'Pages.Roles'
       ),
       new MenuItem(
-        this.l('Appointments'),
+        'Appointments',
         '/app/appointments',
         'far fa-calendar-check',
         'Appointments.Get'
       ),
       new MenuItem(
-        this.l('Donations'),
+        'Donations',
         '/app/donations',
         'fas fa-clinic-medical',
         'Donations.Get'
       ),
       new MenuItem(
-        this.l('Transfusions'),
+        'Transfusions',
         '/app/transfusions',
         'fas fa-hospital-user',
         'Transfusions.Get'
       ),
-      new MenuItem(this.l('About'), '/app/about', 'fas fa-info-circle'),
-      new MenuItem(this.l('MultiLevelMenu'), '', 'fas fa-circle', '', [
+      new MenuItem('About', '/app/about', 'fas fa-info-circle'),
+      new MenuItem('MultiLevelMenu', '', 'fas fa-circle', '', [
         new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [
           new MenuItem(
             'Home',

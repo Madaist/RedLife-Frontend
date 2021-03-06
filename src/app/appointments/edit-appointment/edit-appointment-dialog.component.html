@@ -5,7 +5,7 @@
     <!-- The donor is readonly for everyone apart from the admin -->
     <div class="form-group row" *ngIf="!isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="donorId">
-        {{ "BloodDonor" | localize }}
+        Blood donor
       </label>
       <div class="col-md-9">
         <input class="form-control" type=text readonly
@@ -16,7 +16,7 @@
     <!-- The admin can modify the blood donor -->
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="donorId">
-        {{ "BloodDonor" | localize }}
+        Blood donor
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Donors" [(ngModel)]="getAppointment.donorId" name="donor"
@@ -31,7 +31,7 @@
     <!-- The transfusion center can not be changed by the center admin, only by the donor or admin -->
     <div class="form-group row required" *ngIf="!isGranted('CenterAdmin')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "TransfusionCenter" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="getAppointment.centerId"
@@ -47,7 +47,7 @@
     <!-- The transfusion center is readonly for the center admin -->
     <div class="form-group row" *ngIf="isGranted('CenterAdmin')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "TransfusionCenter" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <input class="form-control" type=text readonly [value]="getAppointment.centerName" />
@@ -57,7 +57,7 @@
     <!-- Date can be updated by anyone -->
     <div class="form-group row mb-0">
       <label class="col-md-3 col-form-label" for="date">
-        {{ "Date" | localize }}
+       Date
       </label>
       <div class="col-md-9">
         <input type="date" class="form-control" name="date" id="date" [(ngModel)]="getAppointment.date" />

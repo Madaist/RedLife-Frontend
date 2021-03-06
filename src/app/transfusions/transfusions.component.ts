@@ -45,14 +45,13 @@ export class TransfusionsComponent extends PagedListingComponentBase<Transfusion
       )
       .subscribe((result: TransfusionDtoPagedResultDto) => {
         this.transfusions = result.items;
-        console.log(this.transfusions);
         this.showPaging(result, pageNumber);
       });
   }
 
   delete(transfusion: TransfusionDto): void {
     abp.message.confirm(
-      this.l('DonationDeleteWarningMessage', transfusion.id),
+      'Transfusion ' +  transfusion.id + ' will be deleted',
       undefined,
       (result: boolean) => {
         if (result) {
@@ -60,7 +59,7 @@ export class TransfusionsComponent extends PagedListingComponentBase<Transfusion
             .delete(transfusion.id)
             .pipe(
               finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
+                abp.notify.success('Successfully deleted');
                 this.refresh();
               })
             )

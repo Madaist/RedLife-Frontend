@@ -56,7 +56,7 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
 
   delete(role: RoleDto): void {
     abp.message.confirm(
-      this.l('RoleDeleteWarningMessage', role.displayName),
+      'Role ' + role.displayName + ' will be deleted',
       undefined,
       (result: boolean) => {
         if (result) {
@@ -64,7 +64,7 @@ export class RolesComponent extends PagedListingComponentBase<RoleDto> {
             .delete(role.id)
             .pipe(
               finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
+                abp.notify.success('Successfully deleted');
                 this.refresh();
               })
             )

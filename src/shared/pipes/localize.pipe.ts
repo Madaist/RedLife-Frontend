@@ -11,6 +11,7 @@ export class LocalizePipe extends AppComponentBase implements PipeTransform {
     }
 
     transform(key: string, ...args: any[]): string {
-        return this.l(key, args);
+        return abp.localization.localize(key, 'RedLife')
+        // return this.l(key, args);
     }
 }

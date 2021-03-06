@@ -16,7 +16,7 @@ var abp = abp || {};
     options = options || {};
     options.title = title;
     options.icon = type;
-    options.confirmButtonText = options.confirmButtonText || abp.localization.abpWeb("Ok");
+    options.confirmButtonText = options.confirmButtonText || "Ok";
 
     if (isHtml) {
       options.html = message;
@@ -53,10 +53,10 @@ var abp = abp || {};
     }
 
     options = options || {};
-    options.title = title ? title : abp.localization.abpWeb("AreYouSure");
+    options.title = title ? title : "Are you sure?";
     options.icon = "warning";
-    options.confirmButtonText = options.confirmButtonText || abp.localization.abpWeb("Yes");
-    options.cancelButtonText = options.cancelButtonText || abp.localization.abpWeb("Cancel");
+    options.confirmButtonText = options.confirmButtonText || "Yes";
+    options.cancelButtonText = options.cancelButtonText || "Cancel";
     options.showCancelButton = true;
 
     if (isHtml) {

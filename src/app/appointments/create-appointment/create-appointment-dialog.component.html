@@ -5,7 +5,7 @@
     
     <div class="form-group row required" *ngIf="!isGranted('Donor')">
       <label class="col-md-3 col-form-label" for="donorId">
-        {{ "BloodDonor" | localize }}
+        Blood donor
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Donors" [(ngModel)]="appointment.donorId" name="donor">
@@ -18,7 +18,7 @@
 
     <div class="form-group row required" *ngIf="!isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "TransfusionCenter" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="appointment.centerId"
@@ -35,7 +35,7 @@
     <!-- and set default to be the employer center -->
     <div class="form-group row" *ngIf="isGranted('CenterPersonnel')">
       <label class="col-md-3 col-form-label" for="centerId">
-        {{ "Transfusion Center" | localize }}
+        Transfusion center
       </label>
       <div class="col-md-9">
         <input class="form-control" type=text readonly [value]="employer.institutionName" />
@@ -44,7 +44,7 @@
 
     <div class="form-group row mb-0 required">
       <label class="col-md-3 col-form-label" for="date">
-        {{ "Date" | localize }}
+        Date
       </label>
       <div class="col-md-9">
         <input type="date" class="form-control" name="date" id="date" [(ngModel)]="appointment.date" required />

@@ -93,7 +93,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         })
       )
       .subscribe(() => {
-        this.notify.info(this.l('SavedSuccessfully'));
+        this.notify.info('SavedSuccessfully');
         this.bsModalRef.hide();
         this.onSave.emit();
       });

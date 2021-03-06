@@ -5,13 +5,13 @@
   (ngSubmit)="save()"
 >
   <abp-modal-header
-    [title]="'ChangeTenant' | localize"
+    title="Change tenant"
     (onCloseClick)="bsModalRef.hide()"
   ></abp-modal-header>
   <div class="modal-body">
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="tenancyName">
-        {{ "TenancyName" | localize }}
+       Tenancy name
       </label>
       <div class="col-md-9">
         <input
@@ -26,7 +26,7 @@
     </div>
     <span>
       <i class="fa fa-info-circle"></i>
-      {{ "LeaveEmptyToSwitchToHost" | localize }}
+      Leave empty to switch to host" 
     </span>
   </div>
   <abp-modal-footer

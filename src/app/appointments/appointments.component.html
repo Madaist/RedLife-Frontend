@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Appointments" | localize }}</h1>
+          <h1>Appointments</h1>
         </div>
         <div class="col-6 text-right" *ngIf="isGranted('Appointments.Create')">
           <a href="javascript:;" class="btn bg-blue" (click)="createAppointment()">
             <i class="fa fa-plus-square"></i>
-            {{ "Create" | localize }}
+            Create
           </a>
         </div>
       </div>
@@ -34,10 +34,10 @@
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
               <tr>
-                <th *ngIf="!isGranted('Donor')">{{ "Donor" | localize }}</th>
-                <th *ngIf="isGranted('Donor') || isGranted('Admin')">{{ "Center" | localize }}</th>
-                <th>{{ "Date" | localize }}</th>
-                <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">{{ "Actions" | localize }}</th>
+                <th *ngIf="!isGranted('Donor')">Blood donor</th>
+                <th *ngIf="isGranted('Donor') || isGranted('Admin')">Transfusion center</th>
+                <th>Date</th>
+                <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">Actions</th>
               </tr>
             </thead>
 
@@ -58,11 +58,11 @@
                 <td *ngIf="isGranted('Appointments.Update')">
                   <button type="button" class="btn btn-sm bg-secondary" (click)="editAppointment(appointment)">
                     <i class="fas fa-pencil-alt"></i>
-                    {{ "Edit" | localize }}
+                    Edit
                   </button>
                   <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(appointment)">
                     <i class="fas fa-trash"></i>
-                    {{ "Delete" | localize }}
+                   Delete
                   </button>
                 </td>
               </tr>
@@ -79,7 +79,7 @@
             </div>
             <div class="col-sm-4 col-12 text-center">
               <p class="mb-0 my-2">
-                {{ "TotalRecordsCount" | localize }}
+              Total: {{appointments.length}}
               </p>
             </div>
             <div class="col-sm-4 col-12">

@@ -45,14 +45,13 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
       )
       .subscribe((result: DonationDtoPagedResultDto) => {
         this.donations = result.items;
-        console.log(this.donations);
         this.showPaging(result, pageNumber);
       });
   }
 
   delete(donation: DonationDto): void {
     abp.message.confirm(
-      this.l('DonationDeleteWarningMessage', donation.id),
+      'Donation ' + donation.id + ' will be deleted',
       undefined,
       (result: boolean) => {
         if (result) {
@@ -60,7 +59,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
             .delete(donation.id)
             .pipe(
               finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
+                abp.notify.success('Successfully deleted');
                 this.refresh();
               })
             )

@@ -50,12 +50,10 @@ export class TenantChangeDialogComponent extends AppComponentBase {
             location.reload();
             return;
           case AppTenantAvailabilityState.InActive:
-            this.message.warn(this.l('TenantIsNotActive', this.tenancyName));
+            this.message.warn('Tenant is not active', this.tenancyName);
             break;
           case AppTenantAvailabilityState.NotFound:
-            this.message.warn(
-              this.l('ThereIsNoTenantDefinedWithName{0}', this.tenancyName)
-            );
+            this.message.warn('There Is No Tenant Defined With Name{0}', this.tenancyName);
             break;
         }
       });

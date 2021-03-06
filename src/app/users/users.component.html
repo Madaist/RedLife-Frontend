@@ -3,12 +3,12 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-6">
-          <h1>{{ "Users" | localize }}</h1>
+          <h1>Users</h1>
         </div>
         <div class="col-6 text-right">
           <a href="javascript:;" class="btn bg-blue" (click)="createUser()">
             <i class="fa fa-plus-square"></i>
-            {{ "Create" | localize }}
+           Create
           </a>
         </div>
       </div>
@@ -32,7 +32,7 @@
               type="text"
               class="form-control"
               name="keyword"
-              [placeholder]="'SearchWithThreeDot' | localize"
+              placeholder="Search..."
               [(ngModel)]="keyword"
               (keyup.enter)="getDataPage(1)"
             />
@@ -57,7 +57,7 @@
                   <div class="col-md-6">
                     <div class="form-group row mb-0">
                       <label class="col-md-3 col-form-label">
-                        {{ "IsActive" | localize }}
+                        Is active
                       </label>
                       <div class="col-md-9 pt-2">
                         <div class="custom-control custom-radio d-inline">
@@ -71,7 +71,7 @@
                             checked
                           />
                           <label class="custom-control-label" for="isActiveAll">
-                            {{ "All" | localize }}
+                            All
                           </label>
                         </div>
                         <div class="custom-control custom-radio d-inline mx-3">
@@ -87,7 +87,7 @@
                             class="custom-control-label"
                             for="isActiveActive"
                           >
-                            {{ "Yes" | localize }}
+                            Yes
                           </label>
                         </div>
                         <div class="custom-control custom-radio d-inline">
@@ -103,7 +103,7 @@
                             class="custom-control-label"
                             for="isActivePassive"
                           >
-                            {{ "No" | localize }}
+                            No
                           </label>
                         </div>
                       </div>
@@ -118,14 +118,14 @@
                 class="btn bg-blue"
                 (click)="getDataPage(1)"
               >
-                {{ "Search" | localize }}
+               Search
               </button>
               <button
                 type="button"
                 class="btn btn-default float-right"
                 (click)="clearFilters()"
               >
-                {{ "Clear" | localize }}
+                Clear
               </button>
             </div>
           </div>
@@ -134,11 +134,11 @@
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
               <tr>
-                <th>{{ "UserName" | localize }}</th>
-                <th>{{ "FullName" | localize }}</th>
-                <th>{{ "EmailAddress" | localize }}</th>
-                <th>{{ "IsActive" | localize }}</th>
-                <th style="width: 310px;">{{ "Actions" | localize }}</th>
+                <th>Username</th>
+                <th>Full name</th>
+                <th>Email address</th>
+                <th>Is active</th>
+                <th style="width: 310px;">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -175,7 +175,7 @@
                     (click)="editUser(user)"
                   >
                     <i class="fas fa-pencil-alt"></i>
-                    {{ "Edit" | localize }}
+                    Edit
                   </button>
                   <button
                     type="button"
@@ -183,7 +183,7 @@
                     (click)="delete(user)"
                   >
                     <i class="fas fa-trash"></i>
-                    {{ "Delete" | localize }}
+                   Delete
                   </button>
                   <button
                     type="button"
@@ -191,7 +191,7 @@
                     (click)="resetPassword(user)"
                   >
                     <i class="fas fa-lock"></i>
-                    {{ "ResetPassword" | localize }}
+                    Reset password
                   </button>
                 </td>
               </tr>
@@ -207,7 +207,7 @@
             </div>
             <div class="col-sm-4 col-12 text-center">
               <p class="mb-0 my-2">
-                {{ "TotalRecordsCount" | localize: totalItems }}
+                Total: {{users.length}}
               </p>
             </div>
             <div class="col-sm-4 col-12">
