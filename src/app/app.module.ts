@@ -57,6 +57,7 @@ import { EditTransfusionDialogComponent } from './transfusions/edit-transfusion-
 import { TransfusionsComponent } from './transfusions/transfusions.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
+import {ChartModule} from 'primeng/chart';
 
 @NgModule({
   declarations: [
@@ -120,7 +121,8 @@ import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
     MatSelectModule,
     MatTooltipModule,
     QRCodeModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    ChartModule
   ],
   providers: [QrScannerComponent],
   entryComponents: [
