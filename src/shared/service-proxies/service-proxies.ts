@@ -1313,6 +1313,69 @@ export class SessionServiceProxy {
 }
 
 @Injectable()
+export class StatisticsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getDonorStatistics(): Observable<DonorStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Statistics/GetDonorStatistics";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetDonorStatistics(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetDonorStatistics(<any>response_);
+                } catch (e) {
+                    return <Observable<DonorStatisticsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<DonorStatisticsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetDonorStatistics(response: HttpResponseBase): Observable<DonorStatisticsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = DonorStatisticsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<DonorStatisticsDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class TenantServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -4316,6 +4379,105 @@ export interface IGetCurrentLoginInformationsOutput {
     tenant: TenantLoginInfoDto;
 }
 
+export class DonorStatisticsDto implements IDonorStatisticsDto {
+    numberOfDonations: number;
+    litersDonated: number;
+    numberOfTransfusions: number;
+    litersUsedInTransfusions: number;
+    typesOfDonations: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
+    numberOfAppTransfusions: number;
+    numberOfHospitals: number;
+    numberOfTransfusionCenters: number;
+    numberOfDonors: number;
+    id: string | undefined;
+
+    constructor(data?: IDonorStatisticsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.numberOfDonations = _data["numberOfDonations"];
+            this.litersDonated = _data["litersDonated"];
+            this.numberOfTransfusions = _data["numberOfTransfusions"];
+            this.litersUsedInTransfusions = _data["litersUsedInTransfusions"];
+            if (Array.isArray(_data["typesOfDonations"])) {
+                this.typesOfDonations = [] as any;
+                for (let item of _data["typesOfDonations"])
+                    this.typesOfDonations.push(item);
+            }
+            if (Array.isArray(_data["transfusionsPerMonth"])) {
+                this.transfusionsPerMonth = [] as any;
+                for (let item of _data["transfusionsPerMonth"])
+                    this.transfusionsPerMonth.push(item);
+            }
+            this.numberOfAppTransfusions = _data["numberOfAppTransfusions"];
+            this.numberOfHospitals = _data["numberOfHospitals"];
+            this.numberOfTransfusionCenters = _data["numberOfTransfusionCenters"];
+            this.numberOfDonors = _data["numberOfDonors"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): DonorStatisticsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new DonorStatisticsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["numberOfDonations"] = this.numberOfDonations;
+        data["litersDonated"] = this.litersDonated;
+        data["numberOfTransfusions"] = this.numberOfTransfusions;
+        data["litersUsedInTransfusions"] = this.litersUsedInTransfusions;
+        if (Array.isArray(this.typesOfDonations)) {
+            data["typesOfDonations"] = [];
+            for (let item of this.typesOfDonations)
+                data["typesOfDonations"].push(item);
+        }
+        if (Array.isArray(this.transfusionsPerMonth)) {
+            data["transfusionsPerMonth"] = [];
+            for (let item of this.transfusionsPerMonth)
+                data["transfusionsPerMonth"].push(item);
+        }
+        data["numberOfAppTransfusions"] = this.numberOfAppTransfusions;
+        data["numberOfHospitals"] = this.numberOfHospitals;
+        data["numberOfTransfusionCenters"] = this.numberOfTransfusionCenters;
+        data["numberOfDonors"] = this.numberOfDonors;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): DonorStatisticsDto {
+        const json = this.toJSON();
+        let result = new DonorStatisticsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IDonorStatisticsDto {
+    numberOfDonations: number;
+    litersDonated: number;
+    numberOfTransfusions: number;
+    litersUsedInTransfusions: number;
+    typesOfDonations: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
+    numberOfAppTransfusions: number;
+    numberOfHospitals: number;
+    numberOfTransfusionCenters: number;
+    numberOfDonors: number;
+    id: string | undefined;
+}
+
 export class CreateTenantDto implements ICreateTenantDto {
     tenancyName: string;
     name: string;
@@ -4749,6 +4911,7 @@ export class TransfusionDto implements ITransfusionDto {
     date: string | undefined;
     hospitalId: number;
     hospitalName: string | undefined;
+    quantity: number;
     id: string | undefined;
 
     constructor(data?: ITransfusionDto) {
@@ -4766,6 +4929,7 @@ export class TransfusionDto implements ITransfusionDto {
             this.date = _data["date"];
             this.hospitalId = _data["hospitalId"];
             this.hospitalName = _data["hospitalName"];
+            this.quantity = _data["quantity"];
             this.id = _data["id"];
         }
     }
@@ -4783,6 +4947,7 @@ export class TransfusionDto implements ITransfusionDto {
         data["date"] = this.date;
         data["hospitalId"] = this.hospitalId;
         data["hospitalName"] = this.hospitalName;
+        data["quantity"] = this.quantity;
         data["id"] = this.id;
         return data; 
     }
@@ -4800,6 +4965,7 @@ export interface ITransfusionDto {
     date: string | undefined;
     hospitalId: number;
     hospitalName: string | undefined;
+    quantity: number;
     id: string | undefined;
 }
 
@@ -4862,6 +5028,7 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
     donationId: string;
     date: moment.Moment;
     hospitalId: number;
+    quantity: number;
     id: string | undefined;
 
     constructor(data?: IUpdateTransfusionDto) {
@@ -4878,6 +5045,7 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
             this.donationId = _data["donationId"];
             this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
             this.hospitalId = _data["hospitalId"];
+            this.quantity = _data["quantity"];
             this.id = _data["id"];
         }
     }
@@ -4894,6 +5062,7 @@ export class UpdateTransfusionDto implements IUpdateTransfusionDto {
         data["donationId"] = this.donationId;
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
         data["hospitalId"] = this.hospitalId;
+        data["quantity"] = this.quantity;
         data["id"] = this.id;
         return data; 
     }
@@ -4910,6 +5079,7 @@ export interface IUpdateTransfusionDto {
     donationId: string;
     date: moment.Moment;
     hospitalId: number;
+    quantity: number;
     id: string | undefined;
 }
 
@@ -4917,6 +5087,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
     donationId: string;
     date: moment.Moment;
     hospitalId: number;
+    quantity: number;
     id: string | undefined;
 
     constructor(data?: ICreateTransfusionDto) {
@@ -4933,6 +5104,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
             this.donationId = _data["donationId"];
             this.date = _data["date"] ? moment(_data["date"].toString()) : <any>undefined;
             this.hospitalId = _data["hospitalId"];
+            this.quantity = _data["quantity"];
             this.id = _data["id"];
         }
     }
@@ -4949,6 +5121,7 @@ export class CreateTransfusionDto implements ICreateTransfusionDto {
         data["donationId"] = this.donationId;
         data["date"] = this.date ? this.date.toISOString() : <any>undefined;
         data["hospitalId"] = this.hospitalId;
+        data["quantity"] = this.quantity;
         data["id"] = this.id;
         return data; 
     }
@@ -4965,6 +5138,7 @@ export interface ICreateTransfusionDto {
     donationId: string;
     date: moment.Moment;
     hospitalId: number;
+    quantity: number;
     id: string | undefined;
 }
 
