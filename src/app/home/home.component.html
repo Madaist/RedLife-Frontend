@@ -9,7 +9,10 @@
     </div>
   </section>
 
-  <section class="content px-2">
+  <!--
+    ********************* DONOR STATISTICS PAGE *********************
+  -->
+  <section class="content px-2" *ngIf="isGranted('Donor')">
     <div class="container-fluid">
       <p>Your statistics</p>
       <div class="row">
@@ -79,13 +82,13 @@
       <div class="row">
         <div class="col-lg-6 col-6">
           <div class="card">
-            <p-chart type="pie" [data]="donationChartData" [options]="donationChartOptions"></p-chart>
+            <p-chart type="pie" [data]="donorChartDonationsData" [options]="donorChartDonationsOptions"></p-chart>
           </div>
         </div>
 
         <div class="col-lg-6 col-6">
           <div class="card">
-            <p-chart type="bar" [data]="transfusionChartData" [options]="transfusionChartOptions"></p-chart>
+            <p-chart type="bar" [data]="donorChartTransfusionsData" [options]="donorChartTrnafusionsOptions"></p-chart>
           </div>
         </div>
       </div>
@@ -149,9 +152,156 @@
         </div>
       </div>
 
+    </div>
+  </section>
 
+  <!--
+    ********************* ADMIN STATISTICS PAGE *********************
+  -->
 
+  <section class="content px-2" *ngIf="isGranted('Admin')">
+    <div class="container-fluid">
 
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>10</h3>
+              <p>Donors</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <a href="/app/donations" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>5</h3>
+              <p>Centers</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <a href="/app/donations" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>6</h3>
+              <p>Transfusion Centers</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <a href="/app/transfusions" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <h3>1</h3>
+              <p>Administrators</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-stethoscope"></i>
+            </div>
+            <a href="/app/transfusions" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <p-chart type="bar" [data]="adminChartUsersData" [options]="adminChartUsersOptions"></p-chart>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6 col-6">
+          <div class="card">
+            <p-chart type="line" [data]="adminChartEvolutionData" [options]="adminChartEvolutionOptions"></p-chart>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-6">
+          <div class="card">
+            <p-chart type="doughnut" [data]="adminChartDonationTypesData" [options]="adminChartDonationTypesOptions">
+            </p-chart>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1">
+              <i class="fas fa-user-injured"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Transfusions</span>
+              <span class="info-box-number">
+                10
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1">
+              <i class="fas fa-hospital"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Donations</span>
+              <span class="info-box-number">
+                5
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix hidden-md-up"></div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1">
+              <i class="fas fa-clinic-medical"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Appointments</span>
+              <span class="info-box-number">
+                20
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-primary elevation-1">
+              <i class="fas fa-hospital-user"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Users</span>
+              <span class="info-box-number">
+                30
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
   </section>
