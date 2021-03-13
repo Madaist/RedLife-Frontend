@@ -1,7 +1,8 @@
 import { Component, Injector, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { DonorStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AdminStatisticsDto, DonorStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   templateUrl: './home.component.html',
@@ -10,6 +11,7 @@ import { DonorStatisticsDto, StatisticsServiceProxy } from '@shared/service-prox
 })
 export class HomeComponent extends AppComponentBase implements OnInit {
   donorStatistics: DonorStatisticsDto;
+  adminStatistics: AdminStatisticsDto;
 
   donorChartDonationsData: any;
   donorChartDonationsOptions: any;
@@ -40,9 +42,23 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     }
 
     if (this.isGranted("Admin")) {
-      this.initializeAdminChartDonationTypes();
-      this.initializeAdminChartUsers();
-      this.initializeAdminChartOperations();
+      this._statisticsService
+        .getAdminStatistics()
+        .subscribe((result: AdminStatisticsDto) => {
+
+          this.adminStatistics = result;
+          console.log(this.adminStatistics);
+          this.initializeAdminChartDonationTypes(this.adminStatistics.donationTypes);
+
+          this.initializeAdminChartUsers(this.adminStatistics.registeredDonorsPerMonth,
+            this.adminStatistics.registeredHospitalsPerMonth,
+            this.adminStatistics.registeredCentersPerMonth);
+
+          this.initializeAdminChartOperations(this.adminStatistics.transfusionsPerMonth,
+            this.adminStatistics.donationsPerMonth);
+        })
+
+
     }
   }
 
@@ -110,13 +126,13 @@ export class HomeComponent extends AppComponentBase implements OnInit {
   /*
   Charts used for admin statistics
   */
-  public initializeAdminChartDonationTypes() {
+  public initializeAdminChartDonationTypes(donationTypes: number[]) {
     this.adminChartDonationTypesData = {
       labels: ['Ordinary donations', 'Special Donations', 'Covid plasma donations'],
       datasets: [
         {
           label: 'Donations dataset',
-          data: [1, 2, 3],
+          data: donationTypes,
           backgroundColor: ["#28a745", "#ffc107", "#007bff"],
           hoverBackgroundColor: new Array(3).fill('#dc3545')
         }
@@ -135,25 +151,25 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     };
   }
 
-  public initializeAdminChartUsers() {
+  public initializeAdminChartUsers(donorsPerMonth: number[], hospitalsPerMonth: number[], centersPerMonth: number[]) {
     this.adminChartUsersData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
       datasets: [
         {
           label: 'Donors',
-          data: [1, 0, 1, 4, 0, 2, 1, 2, 4, 5, 6, 2],
+          data: donorsPerMonth,
           backgroundColor: new Array(12).fill("#28a745"),
           hoverBackgroundColor: new Array(12).fill('#dc3545')
         },
         {
           label: 'Hospitals',
-          data: [4, 5, 1, 3, 0, 5, 7, 8, 3, 5, 2, 1],
+          data: hospitalsPerMonth,
           backgroundColor: new Array(12).fill("#ffc107"),
           hoverBackgroundColor: new Array(12).fill('#dc3545')
         },
         {
           label: 'Centers',
-          data: [6, 4, 2, 3, 5, 6, 7, 4, 2, 4, 5, 1],
+          data: centersPerMonth,
           backgroundColor: new Array(12).fill("#007bff"),
           hoverBackgroundColor: new Array(12).fill('#dc3545')
         }
@@ -164,7 +180,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     this.adminChartUsersOptions = {
       title: {
         display: true,
-        text: 'Registered users in the last year',
+        text: 'Registered users in ' + new Date().getFullYear(),
         fontSize: 16
       },
       legend: {
@@ -173,19 +189,19 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     };
   }
 
-  public initializeAdminChartOperations() {
+  public initializeAdminChartOperations(transfusionsPerMonth: number[], donationsPerMonth: number[]) {
     this.adminChartEvolutionData = {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
       datasets: [
         {
           label: 'Transfusions',
-          data: [1, 0, 1, 4, 0, 2, 1, 2, 4, 5, 6, 2],
+          data: transfusionsPerMonth,
           fill: false,
           borderColor: "#28a745"
         },
         {
           label: 'Donations',
-          data: [4, 5, 1, 3, 0, 5, 7, 8, 3, 5, 2, 1],
+          data: donationsPerMonth,
           fill: false,
           borderColor: "#ffc107"
         },
@@ -196,7 +212,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     this.adminChartEvolutionOptions = {
       title: {
         display: true,
-        text: 'Donations and transfusions evolution in the last year',
+        text: 'Donations and transfusions evolution in ' + new Date().getFullYear(),
         fontSize: 16
       },
       legend: {

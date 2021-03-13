@@ -1373,6 +1373,115 @@ export class StatisticsServiceProxy {
         }
         return _observableOf<DonorStatisticsDto>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getAdminStatistics(): Observable<AdminStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Statistics/GetAdminStatistics";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAdminStatistics(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAdminStatistics(<any>response_);
+                } catch (e) {
+                    return <Observable<AdminStatisticsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AdminStatisticsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAdminStatistics(response: HttpResponseBase): Observable<AdminStatisticsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AdminStatisticsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AdminStatisticsDto>(<any>null);
+    }
+
+    /**
+     * @param role (optional) 
+     * @return Success
+     */
+    getRegisteredUsersPerMonth(role: string | null | undefined): Observable<number[]> {
+        let url_ = this.baseUrl + "/api/services/app/Statistics/GetRegisteredUsersPerMonth?";
+        if (role !== undefined && role !== null)
+            url_ += "role=" + encodeURIComponent("" + role) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetRegisteredUsersPerMonth(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetRegisteredUsersPerMonth(<any>response_);
+                } catch (e) {
+                    return <Observable<number[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<number[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetRegisteredUsersPerMonth(response: HttpResponseBase): Observable<number[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(item);
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<number[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4475,6 +4584,153 @@ export interface IDonorStatisticsDto {
     numberOfHospitals: number;
     numberOfTransfusionCenters: number;
     numberOfDonors: number;
+    id: string | undefined;
+}
+
+export class AdminStatisticsDto implements IAdminStatisticsDto {
+    numberOfDonors: number;
+    numberOfHospitals: number;
+    numberOfCenters: number;
+    numberOfAdmins: number;
+    numberOfUsers: number;
+    numberOfDonations: number;
+    numberOfTransfusions: number;
+    numberOfAppointments: number;
+    donationTypes: number[] | undefined;
+    donationsPerMonth: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
+    registeredDonorsPerMonth: number[] | undefined;
+    registeredCentersPerMonth: number[] | undefined;
+    registeredHospitalsPerMonth: number[] | undefined;
+    id: string | undefined;
+
+    constructor(data?: IAdminStatisticsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.numberOfDonors = _data["numberOfDonors"];
+            this.numberOfHospitals = _data["numberOfHospitals"];
+            this.numberOfCenters = _data["numberOfCenters"];
+            this.numberOfAdmins = _data["numberOfAdmins"];
+            this.numberOfUsers = _data["numberOfUsers"];
+            this.numberOfDonations = _data["numberOfDonations"];
+            this.numberOfTransfusions = _data["numberOfTransfusions"];
+            this.numberOfAppointments = _data["numberOfAppointments"];
+            if (Array.isArray(_data["donationTypes"])) {
+                this.donationTypes = [] as any;
+                for (let item of _data["donationTypes"])
+                    this.donationTypes.push(item);
+            }
+            if (Array.isArray(_data["donationsPerMonth"])) {
+                this.donationsPerMonth = [] as any;
+                for (let item of _data["donationsPerMonth"])
+                    this.donationsPerMonth.push(item);
+            }
+            if (Array.isArray(_data["transfusionsPerMonth"])) {
+                this.transfusionsPerMonth = [] as any;
+                for (let item of _data["transfusionsPerMonth"])
+                    this.transfusionsPerMonth.push(item);
+            }
+            if (Array.isArray(_data["registeredDonorsPerMonth"])) {
+                this.registeredDonorsPerMonth = [] as any;
+                for (let item of _data["registeredDonorsPerMonth"])
+                    this.registeredDonorsPerMonth.push(item);
+            }
+            if (Array.isArray(_data["registeredCentersPerMonth"])) {
+                this.registeredCentersPerMonth = [] as any;
+                for (let item of _data["registeredCentersPerMonth"])
+                    this.registeredCentersPerMonth.push(item);
+            }
+            if (Array.isArray(_data["registeredHospitalsPerMonth"])) {
+                this.registeredHospitalsPerMonth = [] as any;
+                for (let item of _data["registeredHospitalsPerMonth"])
+                    this.registeredHospitalsPerMonth.push(item);
+            }
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): AdminStatisticsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdminStatisticsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["numberOfDonors"] = this.numberOfDonors;
+        data["numberOfHospitals"] = this.numberOfHospitals;
+        data["numberOfCenters"] = this.numberOfCenters;
+        data["numberOfAdmins"] = this.numberOfAdmins;
+        data["numberOfUsers"] = this.numberOfUsers;
+        data["numberOfDonations"] = this.numberOfDonations;
+        data["numberOfTransfusions"] = this.numberOfTransfusions;
+        data["numberOfAppointments"] = this.numberOfAppointments;
+        if (Array.isArray(this.donationTypes)) {
+            data["donationTypes"] = [];
+            for (let item of this.donationTypes)
+                data["donationTypes"].push(item);
+        }
+        if (Array.isArray(this.donationsPerMonth)) {
+            data["donationsPerMonth"] = [];
+            for (let item of this.donationsPerMonth)
+                data["donationsPerMonth"].push(item);
+        }
+        if (Array.isArray(this.transfusionsPerMonth)) {
+            data["transfusionsPerMonth"] = [];
+            for (let item of this.transfusionsPerMonth)
+                data["transfusionsPerMonth"].push(item);
+        }
+        if (Array.isArray(this.registeredDonorsPerMonth)) {
+            data["registeredDonorsPerMonth"] = [];
+            for (let item of this.registeredDonorsPerMonth)
+                data["registeredDonorsPerMonth"].push(item);
+        }
+        if (Array.isArray(this.registeredCentersPerMonth)) {
+            data["registeredCentersPerMonth"] = [];
+            for (let item of this.registeredCentersPerMonth)
+                data["registeredCentersPerMonth"].push(item);
+        }
+        if (Array.isArray(this.registeredHospitalsPerMonth)) {
+            data["registeredHospitalsPerMonth"] = [];
+            for (let item of this.registeredHospitalsPerMonth)
+                data["registeredHospitalsPerMonth"].push(item);
+        }
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): AdminStatisticsDto {
+        const json = this.toJSON();
+        let result = new AdminStatisticsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAdminStatisticsDto {
+    numberOfDonors: number;
+    numberOfHospitals: number;
+    numberOfCenters: number;
+    numberOfAdmins: number;
+    numberOfUsers: number;
+    numberOfDonations: number;
+    numberOfTransfusions: number;
+    numberOfAppointments: number;
+    donationTypes: number[] | undefined;
+    donationsPerMonth: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
+    registeredDonorsPerMonth: number[] | undefined;
+    registeredCentersPerMonth: number[] | undefined;
+    registeredHospitalsPerMonth: number[] | undefined;
     id: string | undefined;
 }
 

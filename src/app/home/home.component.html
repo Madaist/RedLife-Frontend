@@ -166,13 +166,13 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-success">
             <div class="inner">
-              <h3>10</h3>
+              <h3>{{ adminStatistics.numberOfDonors }}</h3>
               <p>Donors</p>
             </div>
             <div class="icon">
               <i class="fas fa-heartbeat"></i>
             </div>
-            <a href="/app/donations" class="small-box-footer" target="_blank">
+            <a href="/app/users" class="small-box-footer" target="_blank">
               More info
               <i class="fas fa-arrow-circle-right"></i>
             </a>
@@ -181,13 +181,13 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-info">
             <div class="inner">
-              <h3>5</h3>
-              <p>Centers</p>
+              <h3>{{ adminStatistics.numberOfCenters }}</h3>
+              <p>Transfusion Centers</p>
             </div>
             <div class="icon">
               <i class="fas fa-user-md"></i>
             </div>
-            <a href="/app/donations" class="small-box-footer" target="_blank">
+            <a href="/app/users" class="small-box-footer" target="_blank">
               More info
               <i class="fas fa-arrow-circle-right"></i>
             </a>
@@ -196,13 +196,13 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-warning">
             <div class="inner">
-              <h3>6</h3>
-              <p>Transfusion Centers</p>
+              <h3>{{ adminStatistics.numberOfHospitals }}</h3>
+              <p>Hospitals</p>
             </div>
             <div class="icon">
               <i class="fas fa-hand-holding-heart"></i>
             </div>
-            <a href="/app/transfusions" class="small-box-footer" target="_blank">
+            <a href="/app/users" class="small-box-footer" target="_blank">
               More info
               <i class="fas fa-arrow-circle-right"></i>
             </a>
@@ -211,13 +211,13 @@
         <div class="col-lg-3 col-6">
           <div class="small-box bg-primary">
             <div class="inner">
-              <h3>1</h3>
+              <h3>{{ adminStatistics.numberOfAdmins }}</h3>
               <p>Administrators</p>
             </div>
             <div class="icon">
               <i class="fas fa-stethoscope"></i>
             </div>
-            <a href="/app/transfusions" class="small-box-footer" target="_blank">
+            <a href="/app/users" class="small-box-footer" target="_blank">
               More info
               <i class="fas fa-arrow-circle-right"></i>
             </a>
@@ -256,7 +256,7 @@
             <div class="info-box-content">
               <span class="info-box-text">Transfusions</span>
               <span class="info-box-number">
-                10
+                {{ adminStatistics.numberOfTransfusions }}
               </span>
             </div>
           </div>
@@ -269,7 +269,7 @@
             <div class="info-box-content">
               <span class="info-box-text">Donations</span>
               <span class="info-box-number">
-                5
+                {{ adminStatistics.numberOfDonations }}
               </span>
             </div>
           </div>
@@ -283,7 +283,7 @@
             <div class="info-box-content">
               <span class="info-box-text">Appointments</span>
               <span class="info-box-number">
-                20
+                {{ adminStatistics.numberOfAppointments }}
               </span>
             </div>
           </div>
@@ -296,7 +296,7 @@
             <div class="info-box-content">
               <span class="info-box-text">Users</span>
               <span class="info-box-number">
-                30
+                {{ adminStatistics.numberOfUsers }}
               </span>
             </div>
           </div>
