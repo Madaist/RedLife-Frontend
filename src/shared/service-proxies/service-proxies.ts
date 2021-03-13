@@ -1426,13 +1426,10 @@ export class StatisticsServiceProxy {
     }
 
     /**
-     * @param role (optional) 
      * @return Success
      */
-    getRegisteredUsersPerMonth(role: string | null | undefined): Observable<number[]> {
-        let url_ = this.baseUrl + "/api/services/app/Statistics/GetRegisteredUsersPerMonth?";
-        if (role !== undefined && role !== null)
-            url_ += "role=" + encodeURIComponent("" + role) + "&";
+    getHospitalStatistics(): Observable<HospitalStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Statistics/GetHospitalStatistics";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1444,20 +1441,20 @@ export class StatisticsServiceProxy {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetRegisteredUsersPerMonth(response_);
+            return this.processGetHospitalStatistics(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetRegisteredUsersPerMonth(<any>response_);
+                    return this.processGetHospitalStatistics(<any>response_);
                 } catch (e) {
-                    return <Observable<number[]>><any>_observableThrow(e);
+                    return <Observable<HospitalStatisticsDto>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<number[]>><any>_observableThrow(response_);
+                return <Observable<HospitalStatisticsDto>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetRegisteredUsersPerMonth(response: HttpResponseBase): Observable<number[]> {
+    protected processGetHospitalStatistics(response: HttpResponseBase): Observable<HospitalStatisticsDto> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1468,11 +1465,7 @@ export class StatisticsServiceProxy {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200.push(item);
-            }
+            result200 = HospitalStatisticsDto.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1480,7 +1473,7 @@ export class StatisticsServiceProxy {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<number[]>(<any>null);
+        return _observableOf<HospitalStatisticsDto>(<any>null);
     }
 }
 
@@ -4731,6 +4724,105 @@ export interface IAdminStatisticsDto {
     registeredDonorsPerMonth: number[] | undefined;
     registeredCentersPerMonth: number[] | undefined;
     registeredHospitalsPerMonth: number[] | undefined;
+    id: string | undefined;
+}
+
+export class HospitalStatisticsDto implements IHospitalStatisticsDto {
+    transfusionCount: number;
+    transfusionTotalQuantity: number;
+    employeesCount: number;
+    covidTransfusionCount: number;
+    donorCount: number;
+    hospitalCount: number;
+    centerCount: number;
+    totalTransfusionCount: number;
+    bloodTypesUsedCount: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
+    id: string | undefined;
+
+    constructor(data?: IHospitalStatisticsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.transfusionCount = _data["transfusionCount"];
+            this.transfusionTotalQuantity = _data["transfusionTotalQuantity"];
+            this.employeesCount = _data["employeesCount"];
+            this.covidTransfusionCount = _data["covidTransfusionCount"];
+            this.donorCount = _data["donorCount"];
+            this.hospitalCount = _data["hospitalCount"];
+            this.centerCount = _data["centerCount"];
+            this.totalTransfusionCount = _data["totalTransfusionCount"];
+            if (Array.isArray(_data["bloodTypesUsedCount"])) {
+                this.bloodTypesUsedCount = [] as any;
+                for (let item of _data["bloodTypesUsedCount"])
+                    this.bloodTypesUsedCount.push(item);
+            }
+            if (Array.isArray(_data["transfusionsPerMonth"])) {
+                this.transfusionsPerMonth = [] as any;
+                for (let item of _data["transfusionsPerMonth"])
+                    this.transfusionsPerMonth.push(item);
+            }
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): HospitalStatisticsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new HospitalStatisticsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["transfusionCount"] = this.transfusionCount;
+        data["transfusionTotalQuantity"] = this.transfusionTotalQuantity;
+        data["employeesCount"] = this.employeesCount;
+        data["covidTransfusionCount"] = this.covidTransfusionCount;
+        data["donorCount"] = this.donorCount;
+        data["hospitalCount"] = this.hospitalCount;
+        data["centerCount"] = this.centerCount;
+        data["totalTransfusionCount"] = this.totalTransfusionCount;
+        if (Array.isArray(this.bloodTypesUsedCount)) {
+            data["bloodTypesUsedCount"] = [];
+            for (let item of this.bloodTypesUsedCount)
+                data["bloodTypesUsedCount"].push(item);
+        }
+        if (Array.isArray(this.transfusionsPerMonth)) {
+            data["transfusionsPerMonth"] = [];
+            for (let item of this.transfusionsPerMonth)
+                data["transfusionsPerMonth"].push(item);
+        }
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): HospitalStatisticsDto {
+        const json = this.toJSON();
+        let result = new HospitalStatisticsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IHospitalStatisticsDto {
+    transfusionCount: number;
+    transfusionTotalQuantity: number;
+    employeesCount: number;
+    covidTransfusionCount: number;
+    donorCount: number;
+    hospitalCount: number;
+    centerCount: number;
+    totalTransfusionCount: number;
+    bloodTypesUsedCount: number[] | undefined;
+    transfusionsPerMonth: number[] | undefined;
     id: string | undefined;
 }
 

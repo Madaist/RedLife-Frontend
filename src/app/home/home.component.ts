@@ -1,8 +1,7 @@
 import { Component, Injector, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { AdminStatisticsDto, DonorStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { AdminStatisticsDto, DonorStatisticsDto, HospitalStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @Component({
   templateUrl: './home.component.html',
@@ -12,6 +11,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class HomeComponent extends AppComponentBase implements OnInit {
   donorStatistics: DonorStatisticsDto;
   adminStatistics: AdminStatisticsDto;
+  hospitalStatistics: HospitalStatisticsDto;
 
   donorChartDonationsData: any;
   donorChartDonationsOptions: any;
@@ -28,6 +28,16 @@ export class HomeComponent extends AppComponentBase implements OnInit {
   adminChartEvolutionData: any;
   adminChartEvolutionOptions: any;
 
+  hospitalChartBloodTypesData: any;
+  hospitalChartBloodTypesOptions: any;
+
+  hospitalChartTransfusionsData: any;
+  hospitalChartTransfusionsOptions: any;
+
+  constructor(injector: Injector,
+    private _statisticsService: StatisticsServiceProxy) {
+    super(injector);
+  }
 
   ngOnInit(): void {
     if (this.isGranted("Donor")) {
@@ -57,15 +67,18 @@ export class HomeComponent extends AppComponentBase implements OnInit {
           this.initializeAdminChartOperations(this.adminStatistics.transfusionsPerMonth,
             this.adminStatistics.donationsPerMonth);
         })
-
-
     }
-  }
 
-
-  constructor(injector: Injector,
-    private _statisticsService: StatisticsServiceProxy) {
-    super(injector);
+    if (this.isGranted("HospitalAdmin") || this.isGranted("HospitalPersonnel")) {
+      this._statisticsService
+        .getHospitalStatistics()
+        .subscribe((result: HospitalStatisticsDto) => {
+          this.hospitalStatistics = result;
+          console.log(this.hospitalStatistics);
+          this.initializeHospitalChartBloodTypes(this.hospitalStatistics.bloodTypesUsedCount);
+          this.initializeHospitalChartTransfusions(this.hospitalStatistics.transfusionsPerMonth);
+        })
+    }
   }
 
   /*
@@ -113,7 +126,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     this.donorChartTrnafusionsOptions = {
       title: {
         display: true,
-        text: 'Transfusions using your donated blood',
+        text: 'Transfusions using your donated blood in ' + new Date().getFullYear(),
         fontSize: 16
       },
       legend: {
@@ -213,6 +226,59 @@ export class HomeComponent extends AppComponentBase implements OnInit {
       title: {
         display: true,
         text: 'Donations and transfusions evolution in ' + new Date().getFullYear(),
+        fontSize: 16
+      },
+      legend: {
+        position: 'bottom'
+      }
+    };
+  }
+
+  /*
+Charts used for hospital admin statistics
+*/
+  public initializeHospitalChartBloodTypes(bloodTypes: number[]) {
+    this.hospitalChartBloodTypesData = {
+      labels: ['A+', 'B+', 'C+', 'AB+', 'A-', 'B-', 'C-', 'AB-'],
+      datasets: [
+        {
+          label: 'Blood types dataset',
+          data: bloodTypes,
+          backgroundColor: ["#28a745", "#ffc107", "#007bff", "#dc3545", "#28a745", "#fd7e14", "#6f42c1", "#6c757d"],
+          //green, warning, primary, danger, success, orange, purple, gray
+          hoverBackgroundColor: new Array(8).fill('#dc3545')
+        }
+      ]
+    },
+      this.hospitalChartBloodTypesOptions = {
+        title: {
+          display: true,
+          text: 'Blood types needed in transfusions in ' + new Date().getFullYear(),
+          fontSize: 16
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+  }
+
+  public initializeHospitalChartTransfusions(transfusionsPerMonth: number[]) {
+    this.hospitalChartTransfusionsData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
+      datasets: [
+        {
+          label: 'Transfusions',
+          data: transfusionsPerMonth,
+          fill: false,
+          borderColor: "#28a745"
+        },
+      ],
+    }
+
+    this.hospitalChartTransfusionsOptions = {
+      title: {
+        display: true,
+        text: 'Transfusions evolution in ' + new Date().getFullYear(),
         fontSize: 16
       },
       legend: {
