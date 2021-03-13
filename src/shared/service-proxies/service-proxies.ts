@@ -1475,6 +1475,57 @@ export class StatisticsServiceProxy {
         }
         return _observableOf<HospitalStatisticsDto>(<any>null);
     }
+
+    /**
+     * @return Success
+     */
+    getCenterStatistics(): Observable<CenterStatisticsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Statistics/GetCenterStatistics";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCenterStatistics(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCenterStatistics(<any>response_);
+                } catch (e) {
+                    return <Observable<CenterStatisticsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CenterStatisticsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCenterStatistics(response: HttpResponseBase): Observable<CenterStatisticsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CenterStatisticsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CenterStatisticsDto>(<any>null);
+    }
 }
 
 @Injectable()
@@ -4824,6 +4875,101 @@ export interface IHospitalStatisticsDto {
     bloodTypesUsedCount: number[] | undefined;
     transfusionsPerMonth: number[] | undefined;
     id: string | undefined;
+}
+
+export class CenterStatisticsDto implements ICenterStatisticsDto {
+    donationCount: number;
+    donationTotalQuantity: number;
+    employeesCount: number;
+    appointmentCount: number;
+    donorCount: number;
+    hospitalCount: number;
+    centerCount: number;
+    totalDonationCount: number;
+    bloodTypesUsedCount: number[] | undefined;
+    donationsPerMonth: number[] | undefined;
+
+    constructor(data?: ICenterStatisticsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.donationCount = _data["donationCount"];
+            this.donationTotalQuantity = _data["donationTotalQuantity"];
+            this.employeesCount = _data["employeesCount"];
+            this.appointmentCount = _data["appointmentCount"];
+            this.donorCount = _data["donorCount"];
+            this.hospitalCount = _data["hospitalCount"];
+            this.centerCount = _data["centerCount"];
+            this.totalDonationCount = _data["totalDonationCount"];
+            if (Array.isArray(_data["bloodTypesUsedCount"])) {
+                this.bloodTypesUsedCount = [] as any;
+                for (let item of _data["bloodTypesUsedCount"])
+                    this.bloodTypesUsedCount.push(item);
+            }
+            if (Array.isArray(_data["donationsPerMonth"])) {
+                this.donationsPerMonth = [] as any;
+                for (let item of _data["donationsPerMonth"])
+                    this.donationsPerMonth.push(item);
+            }
+        }
+    }
+
+    static fromJS(data: any): CenterStatisticsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CenterStatisticsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["donationCount"] = this.donationCount;
+        data["donationTotalQuantity"] = this.donationTotalQuantity;
+        data["employeesCount"] = this.employeesCount;
+        data["appointmentCount"] = this.appointmentCount;
+        data["donorCount"] = this.donorCount;
+        data["hospitalCount"] = this.hospitalCount;
+        data["centerCount"] = this.centerCount;
+        data["totalDonationCount"] = this.totalDonationCount;
+        if (Array.isArray(this.bloodTypesUsedCount)) {
+            data["bloodTypesUsedCount"] = [];
+            for (let item of this.bloodTypesUsedCount)
+                data["bloodTypesUsedCount"].push(item);
+        }
+        if (Array.isArray(this.donationsPerMonth)) {
+            data["donationsPerMonth"] = [];
+            for (let item of this.donationsPerMonth)
+                data["donationsPerMonth"].push(item);
+        }
+        return data; 
+    }
+
+    clone(): CenterStatisticsDto {
+        const json = this.toJSON();
+        let result = new CenterStatisticsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ICenterStatisticsDto {
+    donationCount: number;
+    donationTotalQuantity: number;
+    employeesCount: number;
+    appointmentCount: number;
+    donorCount: number;
+    hospitalCount: number;
+    centerCount: number;
+    totalDonationCount: number;
+    bloodTypesUsedCount: number[] | undefined;
+    donationsPerMonth: number[] | undefined;
 }
 
 export class CreateTenantDto implements ICreateTenantDto {

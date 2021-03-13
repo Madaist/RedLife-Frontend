@@ -453,4 +453,152 @@
 
     </div>
   </section>
+
+  <!--
+    ********************* CENTER STATISTICS PAGE *********************
+  -->
+  <section class="content px-2" *ngIf="isGranted('CenterAdmin') || isGranted('CenterPersonnel')">
+    <div class="container-fluid">
+      <p>Your statistics</p>
+      <div class="row">
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-success">
+            <div class="inner">
+              <h3>{{ centerStatistics.donationCount }}</h3>
+              <p>Donations</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <a href="/app/donations" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-info">
+            <div class="inner">
+              <h3>{{ centerStatistics.donationTotalQuantity }} L</h3>
+              <p>Donated blood</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-burn"></i>
+            </div>
+            <a href="/app/donations" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <h3>{{ centerStatistics.employeesCount }}</h3>
+              <p>Registered employees</p>
+            </div>
+            <div class="icon">
+              <i class="fas fa-user-nurse"></i>
+            </div>
+            <a href="/app/users" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-lg-3 col-6">
+          <div class="small-box bg-primary">
+            <div class="inner">
+              <h3>{{ centerStatistics.appointmentCount }}</h3>
+              <p>Appointments</p>
+            </div>
+            <div class="icon">
+              <i class="far fa-calendar-check"></i>
+            </div>
+            <a href="/app/appointments" class="small-box-footer" target="_blank">
+              More info
+              <i class="fas fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-6 col-6">
+          <div class="card">
+            <p-chart type="pie" [data]="centerChartBloodTypesData" [options]="centerChartBloodTypesOptions">
+            </p-chart>
+          </div>
+        </div>
+
+        <div class="col-lg-6 col-6">
+          <div class="card">
+            <p-chart type="line" [data]="centerChartDonationsData" [options]="centerChartDonationsOptions">
+            </p-chart>
+          </div>
+        </div>
+      </div>
+
+
+      <p> General app statistics</p>
+      <div class="row">
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon bg-success elevation-1">
+              <i class="fas fa-child"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Donors</span>
+              <span class="info-box-number">
+                {{ centerStatistics.donorCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-info elevation-1">
+              <i class="fas fa-hospital"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Hospitals</span>
+              <span class="info-box-number">
+                {{ centerStatistics.hospitalCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix hidden-md-up"></div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-warning elevation-1">
+              <i class="fas fa-clinic-medical"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Transfusion centers</span>
+              <span class="info-box-number">
+                {{ centerStatistics.centerCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box mb-3">
+            <span class="info-box-icon bg-primary elevation-1">
+              <i class="fas fa-vials"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">Donations</span>
+              <span class="info-box-number">
+                {{ centerStatistics.totalDonationCount }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
 </div>

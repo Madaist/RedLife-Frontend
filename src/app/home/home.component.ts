@@ -1,7 +1,7 @@
 import { Component, Injector, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { appModuleAnimation } from '@shared/animations/routerTransition';
-import { AdminStatisticsDto, DonorStatisticsDto, HospitalStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AdminStatisticsDto, CenterStatisticsDto, DonorStatisticsDto, HospitalStatisticsDto, StatisticsServiceProxy } from '@shared/service-proxies/service-proxies';
 
 @Component({
   templateUrl: './home.component.html',
@@ -12,6 +12,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
   donorStatistics: DonorStatisticsDto;
   adminStatistics: AdminStatisticsDto;
   hospitalStatistics: HospitalStatisticsDto;
+  centerStatistics: CenterStatisticsDto;
 
   donorChartDonationsData: any;
   donorChartDonationsOptions: any;
@@ -33,6 +34,12 @@ export class HomeComponent extends AppComponentBase implements OnInit {
 
   hospitalChartTransfusionsData: any;
   hospitalChartTransfusionsOptions: any;
+
+  centerChartBloodTypesData: any;
+  centerChartBloodTypesOptions: any;
+
+  centerChartDonationsData: any;
+  centerChartDonationsOptions: any;
 
   constructor(injector: Injector,
     private _statisticsService: StatisticsServiceProxy) {
@@ -74,10 +81,23 @@ export class HomeComponent extends AppComponentBase implements OnInit {
         .getHospitalStatistics()
         .subscribe((result: HospitalStatisticsDto) => {
           this.hospitalStatistics = result;
-          console.log(this.hospitalStatistics);
+
           this.initializeHospitalChartBloodTypes(this.hospitalStatistics.bloodTypesUsedCount);
           this.initializeHospitalChartTransfusions(this.hospitalStatistics.transfusionsPerMonth);
         })
+    }
+
+    if (this.isGranted("CenterAdmin") || this.isGranted("CenterPersonnel")) {
+      this._statisticsService
+        .getCenterStatistics()
+        .subscribe((result: CenterStatisticsDto) => {
+          this.centerStatistics = result;
+          console.log(this.centerStatistics);
+
+          this.initializeCenterChartBloodTypes(this.centerStatistics.bloodTypesUsedCount);
+          this.initializeCenterChartDonations(this.centerStatistics.donationsPerMonth);
+        })
+     
     }
   }
 
@@ -235,7 +255,7 @@ export class HomeComponent extends AppComponentBase implements OnInit {
   }
 
   /*
-Charts used for hospital admin statistics
+Charts used for hospital statistics
 */
   public initializeHospitalChartBloodTypes(bloodTypes: number[]) {
     this.hospitalChartBloodTypesData = {
@@ -279,6 +299,59 @@ Charts used for hospital admin statistics
       title: {
         display: true,
         text: 'Transfusions evolution in ' + new Date().getFullYear(),
+        fontSize: 16
+      },
+      legend: {
+        position: 'bottom'
+      }
+    };
+  }
+
+  /*
+Charts used for center statistics
+*/
+  public initializeCenterChartBloodTypes(bloodTypes: number[]) {
+    this.centerChartBloodTypesData = {
+      labels: ['A+', 'B+', 'C+', 'AB+', 'A-', 'B-', 'C-', 'AB-'],
+      datasets: [
+        {
+          label: 'Blood types dataset',
+          data: bloodTypes,
+          backgroundColor: ["#28a745", "#ffc107", "#007bff", "#dc3545", "#28a745", "#fd7e14", "#6f42c1", "#6c757d"],
+          //green, warning, primary, danger, success, orange, purple, gray
+          hoverBackgroundColor: new Array(8).fill('#dc3545')
+        }
+      ]
+    },
+      this.centerChartBloodTypesOptions = {
+        title: {
+          display: true,
+          text: 'Blood types donated in' + new Date().getFullYear(),
+          fontSize: 16
+        },
+        legend: {
+          position: 'bottom'
+        }
+      };
+  }
+
+  public initializeCenterChartDonations(donationsPerMonth: number[]) {
+    this.centerChartDonationsData = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'November', 'December'],
+      datasets: [
+        {
+          label: 'Donations',
+          data: donationsPerMonth,
+          fill: false,
+          borderColor: "#28a745"
+        },
+      ],
+    }
+
+    this.centerChartDonationsOptions = {
+      title: {
+        display: true,
+        text: 'Donations evolution in ' + new Date().getFullYear(),
         fontSize: 16
       },
       legend: {
