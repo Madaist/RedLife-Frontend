@@ -12,7 +12,8 @@ import { AppComponentBase } from '@shared/app-component-base';
 import {
   UserServiceProxy,
   CreateUserDto,
-  RoleDto
+  RoleDto,
+  UserDto
 } from '@shared/service-proxies/service-proxies';
 import { AbpValidationError } from '@shared/components/validation/abp-validation.api';
 
@@ -21,11 +22,16 @@ import { AbpValidationError } from '@shared/components/validation/abp-validation
 })
 export class CreateUserDialogComponent extends AppComponentBase
   implements OnInit {
+
   saving = false;
   user = new CreateUserDto();
   roles: RoleDto[] = [];
   checkedRolesMap: { [key: string]: boolean } = {};
   defaultRoleCheckedStatus = false;
+  
+  transfusionCenters: UserDto[] = [];
+  hospitals: UserDto[] = [];
+
   passwordValidationErrors: Partial<AbpValidationError>[] = [
     {
       name: 'pattern',
@@ -33,6 +39,7 @@ export class CreateUserDialogComponent extends AppComponentBase
         'PasswordsMustBeAtLeast8CharactersContainLowercaseUppercaseNumber',
     },
   ];
+
   confirmPasswordValidationErrors: Partial<AbpValidationError>[] = [
     {
       name: 'validateEqual',
@@ -57,6 +64,20 @@ export class CreateUserDialogComponent extends AppComponentBase
       this.roles = result.items;
       this.setInitialRolesStatus();
     });
+
+    if (this.isGranted('Admin')) {
+      this._userService
+        .getTransfusionCenters()
+        .subscribe((result) => {
+          this.transfusionCenters = result.items;
+        });
+
+      this._userService
+        .getHospitals()
+        .subscribe((result) => {
+          this.hospitals = result.items;
+        });
+    }
   }
 
   setInitialRolesStatus(): void {
@@ -74,23 +95,25 @@ export class CreateUserDialogComponent extends AppComponentBase
   }
 
   onRoleChange(role: RoleDto, $event) {
+    this.checkedRolesMap = {}; // reinitialize role map in order to only get the last checked one
     this.checkedRolesMap[role.normalizedName] = $event.target.checked;
   }
 
-  getCheckedRoles(): string[] {
+  getCheckedRoles(): string {
     const roles: string[] = [];
     _forEach(this.checkedRolesMap, function (value, key) {
       if (value) {
         roles.push(key);
       }
     });
-    return roles;
+    console.log(roles);
+    return roles[0]; //last checked role
   }
 
   save(): void {
     this.saving = true;
 
-    this.user.roleNames = this.getCheckedRoles();
+    this.user.roleNames = new Array<string>(this.getCheckedRoles());
 
     this._userService
       .create(this.user)

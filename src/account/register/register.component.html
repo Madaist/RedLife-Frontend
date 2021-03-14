@@ -6,6 +6,21 @@
         <input
           type="text"
           class="form-control"
+          name="donor"
+          placeholder="Donor"
+          readonly         
+        />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-user-tag"></span>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
           name="name"
           placeholder="Name"
           required
@@ -16,7 +31,7 @@
         />
         <div class="input-group-append">
           <div class="input-group-text">
-            <span class="fas fa-arrow-left"></span>
+            <span class="far fa-address-card"></span>
           </div>
         </div>
       </div>
@@ -40,7 +55,31 @@
         />
         <div class="input-group-append">
           <div class="input-group-text">
-            <span class="fas fa-arrow-left"></span>
+            <span class="fas fa-id-card"></span>
+          </div>
+        </div>
+      </div>
+      <abp-validation-summary
+        [control]="surnameModel"
+        [controlEl]="surnameEl"
+      ></abp-validation-summary>
+    </div>
+    <div class="form-group">
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          name="socialSecurityNumber"
+          placeholder="Social Security Number"
+          required
+          maxlength="13"
+          [(ngModel)]="model.socialSecurityNumber"
+          #socialSecurityNumberModel="ngModel"
+          #socialSecurityNumberEl
+        />
+        <div class="input-group-append">
+          <div class="input-group-text">
+            <span class="fas fa-fingerprint"></span>
           </div>
         </div>
       </div>

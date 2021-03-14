@@ -1,30 +1,15 @@
-<form
-  class="form-horizontal"
-  autocomplete="off"
-  #createUserModal="ngForm"
-  (ngSubmit)="save()"
->
-  <abp-modal-header
-    title="Create new user"
-    (onCloseClick)="bsModalRef.hide()"
-  ></abp-modal-header>
+<form class="form-horizontal" autocomplete="off" #createUserModal="ngForm" (ngSubmit)="save()">
+  <abp-modal-header title="Create new user" (onCloseClick)="bsModalRef.hide()"></abp-modal-header>
   <div class="modal-body">
     <tabset>
-      
+
       <tab heading="User roles" class="pt-3 px-2">
         <div class="form-group row mb-0">
           <ng-container *ngFor="let role of roles; let i = index">
             <div class="col-md-6">
               <div class="custom-control custom-radio">
-                <input
-                  type="radio"
-                  required="required"
-                  name="role"
-                  class="custom-control-input"
-                  [id]="'role_' + i"
-                  [checked]="isRoleChecked(role.normalizedName)"
-                  (change)="onRoleChange(role, $event)"
-                />
+                <input type="radio" required="required" name="role" class="custom-control-input" [id]="'role_' + i"
+                  [checked]="isRoleChecked(role.normalizedName)" (change)="onRoleChange(role, $event)" />
                 <label class="custom-control-label" [for]="'role_' + i">
                   {{ role.name }}
                 </label>
@@ -34,194 +19,225 @@
         </div>
       </tab>
       <tab heading="User details" class="pt-3 px-2">
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
             Name
           </label>
           <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="name"
-              id="name"
-              required
-              maxlength="32"
-              [(ngModel)]="user.name"
-              #nameModel="ngModel"
-              #nameEl
-            />
-            <abp-validation-summary
-              [control]="nameModel"
-              [controlEl]="nameEl"
-            ></abp-validation-summary>
+            <input type="text" class="form-control" name="name" id="name" required maxlength="32"
+              [(ngModel)]="user.name" #nameModel="ngModel" #nameEl />
+            <abp-validation-summary [control]="nameModel" [controlEl]="nameEl"></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="surname">
             Surname
           </label>
           <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="surname"
-              id="surname"
-              required
-              maxlength="32"
-              [(ngModel)]="user.surname"
-              #surnameModel="ngModel"
-              #surnameEl
-            />
-            <abp-validation-summary
-              [control]="surnameModel"
-              [controlEl]="surnameEl"
-            ></abp-validation-summary>
+            <input type="text" class="form-control" name="surname" id="surname" required maxlength="32"
+              [(ngModel)]="user.surname" #surnameModel="ngModel" #surnameEl />
+            <abp-validation-summary [control]="surnameModel" [controlEl]="surnameEl"></abp-validation-summary>
           </div>
         </div>
-        <div *ngIf = "getCheckedRoles().indexOf('DONOR') !== -1">
-        <div class="form-group row required">
-          <label class="col-md-3 col-form-label" for="socialSecurityNumber">
-            Social security number
-          </label>
-          <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="socialSecurityNumber"
-              id="socialSecurityNumber"
-              maxlength="32"
-              required=false,
-              [(ngModel)]="user.socialSecurityNumber"
-              #socialSecurityNumberModel="ngModel"
-              #socialSecurityNumberEl
-            />
-            <abp-validation-summary
-              [control]="socialSecurityNumberModel"
-              [controlEl]="socialSecurityNumberEl"
-            ></abp-validation-summary>
+
+        <div *ngIf="getCheckedRoles() == 'DONOR'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="socialSecurityNumber">
+              Social security number
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="socialSecurityNumber" id="socialSecurityNumber"
+                maxlength="32" required=false, [(ngModel)]="user.socialSecurityNumber"
+                #socialSecurityNumberModel="ngModel" #socialSecurityNumberEl />
+              <abp-validation-summary [control]="socialSecurityNumberModel" [controlEl]="socialSecurityNumberEl">
+              </abp-validation-summary>
+            </div>
           </div>
         </div>
-      </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="institutionName">
+              Institution Name
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="institutionName" id="institutionName" maxlength="32"
+                required=true, [(ngModel)]="user.institutionName" #institutionNameModel="ngModel" #institutionNameEl />
+              <abp-validation-summary [control]="institutionNameModel" [controlEl]="institutionNameEl">
+              </abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="city">
+              City
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="city" id="city" maxlength="32" required=true,
+                [(ngModel)]="user.city" #cityModel="ngModel" #cityNameEl />
+              <abp-validation-summary [control]="cityModel" [controlEl]="cityEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="country">
+              Country
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="country" id="city" maxlength="32" required=true,
+                [(ngModel)]="user.country" #countryModel="ngModel" #countryNameEl />
+              <abp-validation-summary [control]="countryModel" [controlEl]="countryEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="county">
+              County
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="county" id="county" maxlength="32" required=true,
+                [(ngModel)]="user.county" #countyModel="ngModel" #countyNameEl />
+              <abp-validation-summary [control]="countyModel" [controlEl]="countyEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="street">
+              Street
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="street" id="street" maxlength="32" required=true,
+                [(ngModel)]="user.street" #streetModel="ngModel" #streetEl />
+              <abp-validation-summary [control]="streetModel" [controlEl]="streetEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERADMIN' || getCheckedRoles() == 'HOSPITALADMIN'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="number">
+              Number
+            </label>
+            <div class="col-md-9">
+              <input type="text" class="form-control" name="number" id="number" maxlength="32" required=true,
+                [(ngModel)]="user.number" #numberModel="ngModel" #numberEl />
+              <abp-validation-summary [control]="numberModel" [controlEl]="numberEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'CENTERPERSONNEL'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="employerId">
+              Employer Transfusion Center
+            </label>
+            <div class="col-md-9">
+              <select class="form-control" name="employerId" id="employerId" [(ngModel)]="user.employerId" required=true,
+                #employerIdModel="ngModel" #employerIdEl >
+                <option *ngFor="let center of transfusionCenters" [value]="center.id">
+                  {{center.institutionName}}  -
+                  {{center.street}} {{center.number}}, {{center.city}}, {{center.country}}
+                </option>
+                </select>
+              <abp-validation-summary [control]="employerIdModel" [controlEl]="employerIdEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="getCheckedRoles() == 'HOSPITALPERSONNEL'">
+          <div class="form-group row required">
+            <label class="col-md-3 col-form-label" for="employerId">
+              Employer Hospital
+            </label>
+            <div class="col-md-9">
+              <select class="form-control" name="employerId" id="employerId" [(ngModel)]="user.employerId" required=true,
+                #employerIdModel="ngModel" #employerIdEl >
+                <option *ngFor="let hospital of hospitals" [value]="hospital.id">
+                  {{hospital.institutionName}}  -
+                  {{hospital.street}} {{hospital.number}}, {{hospital.city}}, {{hospital.country}}
+                </option>
+                </select>
+              <abp-validation-summary [control]="employerIdModel" [controlEl]="employerIdEl"></abp-validation-summary>
+            </div>
+          </div>
+        </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="userName">
-           Username
+            Username
           </label>
           <div class="col-md-9">
-            <input
-              type="text"
-              class="form-control"
-              name="userName"
-              id="userName"
-              required
-              minlength="2"
-              maxlength="32"
-              [(ngModel)]="user.userName"
-              #userNameModel="ngModel"
-              #userNameEl
-            />
-            <abp-validation-summary
-              [control]="userNameModel"
-              [controlEl]="userNameEl"
-            ></abp-validation-summary>
+            <input type="text" class="form-control" name="userName" id="userName" required minlength="2" maxlength="32"
+              [(ngModel)]="user.userName" #userNameModel="ngModel" #userNameEl />
+            <abp-validation-summary [control]="userNameModel" [controlEl]="userNameEl"></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="password">
             Password
           </label>
           <div class="col-md-9">
-            <input
-              type="password"
-              class="form-control"
-              name="password"
-              id="password"
-              required
-              maxlength="32"
-              validateEqual="confirmPassword"
-              reverse="true"
+            <input type="password" class="form-control" name="password" id="password" required maxlength="32"
+              validateEqual="confirmPassword" reverse="true"
               pattern="(?=^.{8,}$)(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)[0-9a-zA-Z!@#$%^&*()]*$"
-              [(ngModel)]="user.password"
-              #passwordModel="ngModel"
-              #passwordEl
-            />
-            <abp-validation-summary
-              [control]="passwordModel"
-              [controlEl]="passwordEl"
-              [customValidationErrors]="passwordValidationErrors"
-            ></abp-validation-summary>
+              [(ngModel)]="user.password" #passwordModel="ngModel" #passwordEl />
+            <abp-validation-summary [control]="passwordModel" [controlEl]="passwordEl"
+              [customValidationErrors]="passwordValidationErrors"></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="confirmPassword">
-           Confirm password
+            Confirm password
           </label>
           <div class="col-md-9">
-            <input
-              type="password"
-              class="form-control"
-              name="confirmPassword"
-              id="confirmPassword"
-              required
-              maxlength="32"
-              validateEqual="password"
-              reverse="false"
-              ngModel
-              #confirmPasswordModel="ngModel"
-              #confirmPasswordEl
-            />
-            <abp-validation-summary
-              [control]="confirmPasswordModel"
-              [controlEl]="confirmPasswordEl"
-              [customValidationErrors]="confirmPasswordValidationErrors"
-            ></abp-validation-summary>
+            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" required
+              maxlength="32" validateEqual="password" reverse="false" ngModel #confirmPasswordModel="ngModel"
+              #confirmPasswordEl />
+            <abp-validation-summary [control]="confirmPasswordModel" [controlEl]="confirmPasswordEl"
+              [customValidationErrors]="confirmPasswordValidationErrors"></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="emailAddress">
-           Email address
+            Email address
           </label>
           <div class="col-md-9">
-            <input
-              type="email"
-              class="form-control"
-              name="emailAddress"
-              id="emailAddress"
-              required
-              maxlength="256"
-              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$"
-              [(ngModel)]="user.emailAddress"
-              #emailAddressModel="ngModel"
-              #emailAddressEl
-            />
-            <abp-validation-summary
-              [control]="emailAddressModel"
-              [controlEl]="emailAddressEl"
-            ></abp-validation-summary>
+            <input type="email" class="form-control" name="emailAddress" id="emailAddress" required maxlength="256"
+              pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{1,})+$" [(ngModel)]="user.emailAddress"
+              #emailAddressModel="ngModel" #emailAddressEl />
+            <abp-validation-summary [control]="emailAddressModel" [controlEl]="emailAddressEl"></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row mb-0">
           <label class="col-md-3 col-form-label">
             Is active
           </label>
           <div class="col-md-9">
             <div class="custom-control custom-checkbox">
-              <input
-                type="checkbox"
-                class="custom-control-input"
-                name="isActive"
-                id="isActive"
-                [(ngModel)]="user.isActive"
-              />
+              <input type="checkbox" class="custom-control-input" name="isActive" id="isActive"
+                [(ngModel)]="user.isActive" />
               <label class="custom-control-label mt-2" for="isActive"></label>
             </div>
           </div>
         </div>
+
       </tab>
     </tabset>
   </div>
-  <abp-modal-footer
-    [cancelDisabled]="saving"
-    [saveDisabled]="!createUserModal.form.valid || saving"
-    (onCancelClick)="bsModalRef.hide()"
-  ></abp-modal-footer>
+  <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createUserModal.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
 </form>

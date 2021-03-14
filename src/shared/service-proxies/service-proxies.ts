@@ -3065,6 +3065,7 @@ export class RegisterInput implements IRegisterInput {
     name: string;
     surname: string;
     userName: string;
+    socialSecurityNumber: number;
     emailAddress: string;
     password: string;
     captchaResponse: string | undefined;
@@ -3083,6 +3084,7 @@ export class RegisterInput implements IRegisterInput {
             this.name = _data["name"];
             this.surname = _data["surname"];
             this.userName = _data["userName"];
+            this.socialSecurityNumber = _data["socialSecurityNumber"];
             this.emailAddress = _data["emailAddress"];
             this.password = _data["password"];
             this.captchaResponse = _data["captchaResponse"];
@@ -3101,6 +3103,7 @@ export class RegisterInput implements IRegisterInput {
         data["name"] = this.name;
         data["surname"] = this.surname;
         data["userName"] = this.userName;
+        data["socialSecurityNumber"] = this.socialSecurityNumber;
         data["emailAddress"] = this.emailAddress;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
@@ -3119,6 +3122,7 @@ export interface IRegisterInput {
     name: string;
     surname: string;
     userName: string;
+    socialSecurityNumber: number;
     emailAddress: string;
     password: string;
     captchaResponse: string | undefined;
@@ -5641,10 +5645,17 @@ export class CreateUserDto implements ICreateUserDto {
     name: string;
     surname: string;
     emailAddress: string;
-    socialSecurityNumber: number | undefined;
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+    socialSecurityNumber: number | undefined;
+    institutionName: string | undefined;
+    city: string | undefined;
+    country: string | undefined;
+    county: string | undefined;
+    number: string | undefined;
+    street: string | undefined;
+    employerId: number | undefined;
 
     constructor(data?: ICreateUserDto) {
         if (data) {
@@ -5661,7 +5672,6 @@ export class CreateUserDto implements ICreateUserDto {
             this.name = _data["name"];
             this.surname = _data["surname"];
             this.emailAddress = _data["emailAddress"];
-            this.socialSecurityNumber = _data["socialSecurityNumber"];
             this.isActive = _data["isActive"];
             if (Array.isArray(_data["roleNames"])) {
                 this.roleNames = [] as any;
@@ -5669,6 +5679,14 @@ export class CreateUserDto implements ICreateUserDto {
                     this.roleNames.push(item);
             }
             this.password = _data["password"];
+            this.socialSecurityNumber = _data["socialSecurityNumber"];
+            this.institutionName = _data["institutionName"];
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.county = _data["county"];
+            this.number = _data["number"];
+            this.street = _data["street"];
+            this.employerId = _data["employerId"];
         }
     }
 
@@ -5685,7 +5703,6 @@ export class CreateUserDto implements ICreateUserDto {
         data["name"] = this.name;
         data["surname"] = this.surname;
         data["emailAddress"] = this.emailAddress;
-        data["socialSecurityNumber"] = this.socialSecurityNumber;
         data["isActive"] = this.isActive;
         if (Array.isArray(this.roleNames)) {
             data["roleNames"] = [];
@@ -5693,6 +5710,14 @@ export class CreateUserDto implements ICreateUserDto {
                 data["roleNames"].push(item);
         }
         data["password"] = this.password;
+        data["socialSecurityNumber"] = this.socialSecurityNumber;
+        data["institutionName"] = this.institutionName;
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["county"] = this.county;
+        data["number"] = this.number;
+        data["street"] = this.street;
+        data["employerId"] = this.employerId;
         return data; 
     }
 
@@ -5709,10 +5734,17 @@ export interface ICreateUserDto {
     name: string;
     surname: string;
     emailAddress: string;
-    socialSecurityNumber: number | undefined;
     isActive: boolean;
     roleNames: string[] | undefined;
     password: string;
+    socialSecurityNumber: number | undefined;
+    institutionName: string | undefined;
+    city: string | undefined;
+    country: string | undefined;
+    county: string | undefined;
+    number: string | undefined;
+    street: string | undefined;
+    employerId: number | undefined;
 }
 
 export class UserDto implements IUserDto {
@@ -5730,7 +5762,6 @@ export class UserDto implements IUserDto {
     city: string | undefined;
     street: string | undefined;
     number: string | undefined;
-    birthDate: moment.Moment;
     institutionName: string | undefined;
     employerId: number;
     id: number;
@@ -5764,7 +5795,6 @@ export class UserDto implements IUserDto {
             this.city = _data["city"];
             this.street = _data["street"];
             this.number = _data["number"];
-            this.birthDate = _data["birthDate"] ? moment(_data["birthDate"].toString()) : <any>undefined;
             this.institutionName = _data["institutionName"];
             this.employerId = _data["employerId"];
             this.id = _data["id"];
@@ -5798,7 +5828,6 @@ export class UserDto implements IUserDto {
         data["city"] = this.city;
         data["street"] = this.street;
         data["number"] = this.number;
-        data["birthDate"] = this.birthDate ? this.birthDate.toISOString() : <any>undefined;
         data["institutionName"] = this.institutionName;
         data["employerId"] = this.employerId;
         data["id"] = this.id;
@@ -5828,7 +5857,6 @@ export interface IUserDto {
     city: string | undefined;
     street: string | undefined;
     number: string | undefined;
-    birthDate: moment.Moment;
     institutionName: string | undefined;
     employerId: number;
     id: number;
