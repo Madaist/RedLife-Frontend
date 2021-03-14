@@ -33,6 +33,7 @@
             ></abp-validation-summary>
           </div>
         </div>
+        
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="surname">
            Surname
@@ -55,6 +56,7 @@
             ></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="userName">
             Username
@@ -78,6 +80,7 @@
             ></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="emailAddress">
             Email address
@@ -101,6 +104,7 @@
             ></abp-validation-summary>
           </div>
         </div>
+
         <div class="form-group row mb-0">
           <label class="col-md-3 col-form-label">
             Is active
@@ -118,8 +122,9 @@
             </div>
           </div>
         </div>
+        
       </tab>
-      <tab heading="User roles" class="pt-3 px-2">
+      <tab heading="User roles" class="pt-3 px-2" *ngIf="isGranted('Admin')">
         <div class="form-group row mb-0">
           <ng-container *ngFor="let role of roles; let i = index">
             <div class="col-md-6">

@@ -20,6 +20,7 @@ import {
 })
 export class EditUserDialogComponent extends AppComponentBase
   implements OnInit {
+    
   saving = false;
   user = new UserDto();
   roles: RoleDto[] = [];

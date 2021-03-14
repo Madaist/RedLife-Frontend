@@ -28,7 +28,7 @@ export class CreateUserDialogComponent extends AppComponentBase
   roles: RoleDto[] = [];
   checkedRolesMap: { [key: string]: boolean } = {};
   defaultRoleCheckedStatus = false;
-  
+
   transfusionCenters: UserDto[] = [];
   hospitals: UserDto[] = [];
 
@@ -106,14 +106,24 @@ export class CreateUserDialogComponent extends AppComponentBase
         roles.push(key);
       }
     });
-    console.log(roles);
+
     return roles[0]; //last checked role
   }
 
   save(): void {
     this.saving = true;
 
-    this.user.roleNames = new Array<string>(this.getCheckedRoles());
+    if (this.isGranted("Admin")) {
+      this.user.roleNames = new Array<string>(this.getCheckedRoles());
+    }
+    else if (this.isGranted("CenterAdmin")) {
+      this.user.roleNames = new Array<string>("CenterPersonnel");
+      this.user.employerId = this.appSession.userId;
+    }
+    else if (this.isGranted("HospitalAdmin")) {
+      this.user.roleNames = new Array<string>("HospitalPersonnel");
+      this.user.employerId = this.appSession.userId;
+    }
 
     this._userService
       .create(this.user)

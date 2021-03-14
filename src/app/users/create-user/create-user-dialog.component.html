@@ -3,7 +3,7 @@
   <div class="modal-body">
     <tabset>
 
-      <tab heading="User roles" class="pt-3 px-2">
+      <tab heading="User roles" class="pt-3 px-2" *ngIf="isGranted('Admin')">
         <div class="form-group row mb-0">
           <ng-container *ngFor="let role of roles; let i = index">
             <div class="col-md-6">
@@ -18,7 +18,7 @@
           </ng-container>
         </div>
       </tab>
-      <tab heading="User details" class="pt-3 px-2">
+      <tab heading="User details" class="pt-3 px-2" *ngIf=true> <!-- condition is put only so the first tabset will not load first -->
 
         <div class="form-group row required">
           <label class="col-md-3 col-form-label" for="name">
