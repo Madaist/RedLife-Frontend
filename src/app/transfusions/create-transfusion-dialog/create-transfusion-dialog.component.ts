@@ -32,6 +32,8 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
     }
 
     ngOnInit(): void {
+        this.transfusion.quantity = 0.4;
+
         if (this.isGranted('HospitalPersonnel') || this.isGranted('HospitalAdmin')) {
             this._userService
                 .get(this.appSession.userId)

@@ -9,7 +9,7 @@
         <div class="col-6 text-right" *ngIf="isGranted('Transfusions.Create')">
           <a href="javascript:;" class="btn bg-blue" (click)="createTransfusion()">
             <i class="fa fa-plus-square"></i>
-           Create
+            Create
           </a>
         </div>
       </div>
@@ -37,10 +37,11 @@
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
               <tr>
-                <th>{{ "DonationId" | localize}}</th>
-                <th *ngIf="isGranted('Admin') || isGranted('Donor')"> {{ "Hospital" | localize }}</th>
-                <th>{{ "Date" | localize }}</th>
-                <th style="width: 200px;" *ngIf="isGranted('Transfusions.Update')">{{ "Actions" | localize }}</th>
+                <th>Donation QR Code</th>
+                <th *ngIf="isGranted('Admin') || isGranted('Donor')"> Hospital</th>
+                <th>Date</th>
+                <th>Quantity</th>
+                <th style="width: 200px;" *ngIf="isGranted('Transfusions.Update')">Actions</th>
               </tr>
             </thead>
 
@@ -62,6 +63,8 @@
                 <td *ngIf="isGranted('Admin') || isGranted('Donor')">{{ transfusion.hospitalName }}</td>
 
                 <td>{{ transfusion.date }}</td>
+
+                <td>{{ transfusion.quantity }}</td>
 
                 <td *ngIf="isGranted('Transfusions.Update')">
                   <button type="button" class="btn btn-sm bg-secondary" (click)="editTransfusion(transfusion)">
