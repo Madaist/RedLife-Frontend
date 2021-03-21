@@ -81,7 +81,7 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'Transfusions.Get'
       ),
       new MenuItem('About', '/app/about', 'fas fa-info-circle'),
-      new MenuItem('MultiLevelMenu', '', 'fas fa-circle', '', [
+      new MenuItem('Useful Informations', '', 'fas fa-circle', '', [
         new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [
           new MenuItem(
             'Home',
@@ -134,6 +134,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
       ])
     ];
   }
+  /*
+  - eligibility requirements
+- how blood is used
+- tests carried
+- benefits of donationg blood
+  */
 
   patchMenuItems(items: MenuItem[], parentId?: number): void {
     items.forEach((item: MenuItem, index: number) => {
