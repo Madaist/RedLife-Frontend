@@ -18,11 +18,10 @@
     <!-- The admin can change the transfusion center -->
     <div class="form-group row required" *ngIf="isGranted('Admin')">
       <label class="col-md-3 col-form-label" for="centerId">
-       Transfusion center
+        Transfusion center
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="donation.centerId"
-          name="center">
+        <select class="form-control" placeholder="Transfusion Centers" [(ngModel)]="donation.centerId" name="center">
           <option *ngFor="let center of transfusionCenters" [value]="center.id">
             {{center.institutionName}} -
             {{center.street}} {{center.number}}, {{center.city}}, {{center.country}}
@@ -58,7 +57,7 @@
 
     <div class="form-group row mb-0 required">
       <label class="col-md-3 col-form-label" for="date">
-       Date
+        Date
       </label>
       <div class="col-md-9">
         <input type="date" class="form-control" name="date" id="date" [(ngModel)]="donation.date" required />
@@ -68,22 +67,22 @@
 
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="quantity">
-       Quantity
+        Quantity
       </label>
       <div class="col-md-9">
-        <input type="number" class="form-control" name="quantity" id="quantity"
-          [(ngModel)]="donation.quantity" [value]="donation.quantity" />
+        <input type="number" class="form-control" name="quantity" id="quantity" [(ngModel)]="donation.quantity"
+          [value]="donation.quantity" />
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-md-3 col-form-label" for="isBloodAccepted">
-       Is blood accepted
+        Is blood accepted
       </label>
       <div *ngFor="let option of isBloodAcceptedOptions; let i=index">
         <div class="radio col-md-9">
-          <input class="form-control" type="radio" id="{{option.id}}" name="radio" [(ngModel)]="donation.IsBloodAccepted"
-            [value]="option.value" />
+          <input class="form-control" type="radio" id="{{option.id}}" name="radio"
+            [(ngModel)]="donation.IsBloodAccepted" [value]="option.value" />
           <label for="{{option.id}}">{{option.id}}</label>
         </div>
       </div>
@@ -91,11 +90,10 @@
 
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="bloodType">
-       Blood type
+        Blood type
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Blood type" [(ngModel)]="donation.bloodType"
-          name="bloodType">
+        <select class="form-control" placeholder="Blood type" [(ngModel)]="donation.bloodType" name="bloodType">
           <option *ngFor="let bloodType of bloodTypes" [value]="bloodType.value">
             {{bloodType.value}}
           </option>
@@ -105,11 +103,10 @@
 
     <div class="form-group row required">
       <label class="col-md-3 col-form-label" for="donationType">
-       Donation type
+        Donation type
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Donation type" [(ngModel)]="donation.type"
-          name="type">
+        <select class="form-control" placeholder="Donation type" [(ngModel)]="donation.type" name="type">
           <option *ngFor="let type of donationTypes" [value]="type.normalizedName">
             {{type.value}}
           </option>
@@ -118,17 +115,18 @@
     </div>
 
     <div class="form-group row mb-0">
-      <label class="col-md-3 col-form-label" for="uploadedFile">
+      <label class="col-md-3 col-form-label" for="file">
         Medical Tests Result
       </label>
-      <div class="col-md-9">
-        <input type="file" class="form-control" name="uploadedFile" id="uploadedFile" value="donation.medicalTestsResult"
-           (change)="fileChanged($event)"/>
+      <div class="file-input">
+        <label for="file">Select file</label>
+        <div class="col-md-9">
+          <input type="file" class="form-control file" name="file" id="file" (change)="fileChanged($event)" />
+        </div>
       </div>
     </div>
 
   </div>
-
 
   <abp-modal-footer [cancelDisabled]="saving" [saveDisabled]="!createDonationForm.form.valid || saving"
     (onCancelClick)="bsModalRef.hide()"></abp-modal-footer>
