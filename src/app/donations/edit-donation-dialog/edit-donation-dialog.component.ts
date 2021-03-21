@@ -19,29 +19,32 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
   transfusionCenters: UserDto[] = [];
   donors: UserDto[] = [];
 
+  uploadedFile;
+  base64File;
+
   isBloodAcceptedOptions = [
-    { id: 'Yes', value: true},
-    { id: 'No', value: false}
+    { id: 'Yes', value: true },
+    { id: 'No', value: false }
   ]
 
   bloodTypes = [
-    {value: "A+"},
-    {value: "B+"},
-    {value: "C+"},
-    {value: "AB+"},
-    {value: "A-"},
-    {value: "B-"},
-    {value: "C-"},
-    {value: "AB-"},
+    { value: "A+" },
+    { value: "B+" },
+    { value: "C+" },
+    { value: "AB+" },
+    { value: "A-" },
+    { value: "B-" },
+    { value: "C-" },
+    { value: "AB-" },
   ]
 
   donationTypes = [
-    {normalizedName: "ORDINARY_DONATION", value: "Ordinary donation"},
-    {normalizedName: "SPECIAL_DONATION", value: "Special donation"},
-    {normalizedName: "COVID_PLASMA_DONATION", value: "Covid plasma donation"},
+    { normalizedName: "ORDINARY_DONATION", value: "Ordinary donation" },
+    { normalizedName: "SPECIAL_DONATION", value: "Special donation" },
+    { normalizedName: "COVID_PLASMA_DONATION", value: "Covid plasma donation" },
   ]
- 
-  
+
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -75,7 +78,24 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     };
   }
 
-  save(): void {
+  fileChanged(e) {
+    this.uploadedFile = e.target.files[0];
+  }
+
+
+  getBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+
+  async save(): Promise<void> {
     this.saving = true;
 
     const donation = new UpdateDonationDto();
@@ -84,7 +104,10 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
     if (this.isGranted('Donor')) {
       donation.donorId = abp.session.userId;
     }
- 
+
+    var promise = this.getBase64(this.uploadedFile);
+    donation.medicalTestsResult = await promise as string;
+
     this._donationService
       .update(donation)
       .pipe(
@@ -97,6 +120,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         this.bsModalRef.hide();
         this.onSave.emit();
       });
+
   }
 
 }

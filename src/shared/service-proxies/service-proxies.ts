@@ -3453,6 +3453,7 @@ export class DonationDto implements IDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 
     constructor(data?: IDonationDto) {
@@ -3476,6 +3477,7 @@ export class DonationDto implements IDonationDto {
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
+            this.medicalTestsResult = _data["medicalTestsResult"];
             this.id = _data["id"];
         }
     }
@@ -3499,6 +3501,7 @@ export class DonationDto implements IDonationDto {
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
+        data["medicalTestsResult"] = this.medicalTestsResult;
         data["id"] = this.id;
         return data; 
     }
@@ -3522,6 +3525,7 @@ export interface IDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 }
 
@@ -3588,6 +3592,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 
     constructor(data?: IUpdateDonationDto) {
@@ -3608,6 +3613,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
+            this.medicalTestsResult = _data["medicalTestsResult"];
             this.id = _data["id"];
         }
     }
@@ -3628,6 +3634,7 @@ export class UpdateDonationDto implements IUpdateDonationDto {
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
+        data["medicalTestsResult"] = this.medicalTestsResult;
         data["id"] = this.id;
         return data; 
     }
@@ -3648,6 +3655,7 @@ export interface IUpdateDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 }
 
@@ -3659,6 +3667,7 @@ export class CreateDonationDto implements ICreateDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 
     constructor(data?: ICreateDonationDto) {
@@ -3679,6 +3688,7 @@ export class CreateDonationDto implements ICreateDonationDto {
             this.quantity = _data["quantity"];
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
+            this.medicalTestsResult = _data["medicalTestsResult"];
             this.id = _data["id"];
         }
     }
@@ -3699,6 +3709,7 @@ export class CreateDonationDto implements ICreateDonationDto {
         data["quantity"] = this.quantity;
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
+        data["medicalTestsResult"] = this.medicalTestsResult;
         data["id"] = this.id;
         return data; 
     }
@@ -3719,6 +3730,7 @@ export interface ICreateDonationDto {
     quantity: number;
     bloodType: string | undefined;
     type: string | undefined;
+    medicalTestsResult: string | undefined;
     id: string | undefined;
 }
 

@@ -8,7 +8,7 @@
         <div class="col-6 text-right" *ngIf="isGranted('Donations.Create')">
           <a href="javascript:;" class="btn bg-blue" (click)="createDonation()">
             <i class="fa fa-plus-square"></i>
-           Create
+            Create
           </a>
         </div>
       </div>
@@ -41,6 +41,7 @@
                 <th *ngIf="!isGranted('Donor')">Donor id</th>
                 <th *ngIf="isGranted('Donor') || isGranted('Admin')">Transfusion center</th>
                 <th>Date</th>
+                <th>Medical tests result</th>
                 <th>Is blood accepted</th>
                 <th>Donation type</th>
                 <th>Blood type</th>
@@ -67,6 +68,17 @@
                 <td *ngIf="!isGranted('Donor')">{{ donation.donorId }}</td>
                 <td *ngIf="isGranted('Donor') || isGranted('Admin')">{{ donation.centerName }}</td>
                 <td>{{ donation.date }}</td>
+                <td>
+                  <button *ngIf="donation.medicalTestsResult != null" type="button" class="btn btn-sm bg-success"
+                    (click)="downloadResults(donation)">
+                    <i class="fas fa-download"></i>
+                    Download
+                  </button>
+                  <button *ngIf="donation.medicalTestsResult == null" type="button" class="btn btn-sm bg-secondary">
+                    <i class="fas fa-times"></i>
+                    Not added yet
+                  </button>
+                </td>
                 <td>{{donation.isBloodAccepted ? 'Yes' : 'No'}}</td>
                 <td>{{donation.type}}</td>
                 <td>{{donation.bloodType}}</td>

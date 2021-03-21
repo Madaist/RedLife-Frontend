@@ -20,7 +20,7 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
 
   donations: DonationDto[] = [];
   keyword = '';
-
+  
   constructor(
     injector: Injector,
     private _donationsService: DonationServiceProxy,
@@ -47,6 +47,14 @@ export class DonationsComponent extends PagedListingComponentBase<DonationDto> {
         this.donations = result.items;
         this.showPaging(result, pageNumber);
       });
+  }
+
+  downloadResults(donation: DonationDto){
+    const resultsContent = donation.medicalTestsResult;
+    const byteArray = new Uint8Array(atob(resultsContent).split('').map(char => char.charCodeAt(0)));
+    const blob = new Blob([byteArray], {type: 'application/pdf'});
+    const url= window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
   delete(donation: DonationDto): void {

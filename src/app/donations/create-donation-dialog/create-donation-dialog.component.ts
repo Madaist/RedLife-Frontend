@@ -19,6 +19,9 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   loggedInUser: UserDto = new UserDto();
   employer: UserDto = new UserDto();
 
+  uploadedFile;
+  base64File;
+
   isBloodAcceptedOptions = [
     { id: 'Yes', value: true },
     { id: 'No', value: false }
@@ -89,7 +92,23 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
 
   }
 
-  save(): void {
+
+  fileChanged(e) {
+    this.uploadedFile = e.target.files[0];
+  }
+
+  getBase64(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        resolve(reader.result);
+      };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async save(): Promise<void> {
     this.saving = true;
 
     if (this.isGranted('Donor')) {
@@ -102,6 +121,9 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     else if (this.isGranted('CenterPersonnel')) {
       this.donation.centerId = this.employer.id;
     }
+
+    var promise = this.getBase64(this.uploadedFile);
+    this.donation.medicalTestsResult = await promise as string;
 
     this._donationService
       .create(this.donation)
