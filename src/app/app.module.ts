@@ -58,6 +58,10 @@ import { TransfusionsComponent } from './transfusions/transfusions.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrScannerComponent } from './qr-scanner/qr-scanner.component';
 import {ChartModule} from 'primeng/chart';
+import { DonorRequirementsComponent } from './donor-requirements/donor-requirements.component';
+import { BloodUsageComponent } from './blood-usage/blood-usage.component';
+import { TestsCarriedComponent } from './tests-carried/tests-carried.component';
+import { BenefitsComponent } from './benefits/benefits.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +104,11 @@ import {ChartModule} from 'primeng/chart';
     TransfusionsComponent,
     CreateTransfusionDialogComponent,
     EditTransfusionDialogComponent,
-    QrScannerComponent
+    QrScannerComponent,
+    DonorRequirementsComponent,
+    BloodUsageComponent,
+    TestsCarriedComponent,
+    BenefitsComponent
   ],
   imports: [
     CommonModule,

@@ -81,66 +81,15 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'Transfusions.Get'
       ),
       new MenuItem('About', '/app/about', 'fas fa-info-circle'),
-      new MenuItem('Useful Informations', '', 'fas fa-circle', '', [
-        new MenuItem('ASP.NET Boilerplate', '', 'fas fa-dot-circle', '', [
-          new MenuItem(
-            'Home',
-            'https://aspnetboilerplate.com?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Templates',
-            'https://aspnetboilerplate.com/Templates?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Samples',
-            'https://aspnetboilerplate.com/Samples?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Documents',
-            'https://aspnetboilerplate.com/Pages/Documents?ref=abptmpl',
-            'far fa-circle'
-          ),
-        ]),
-        new MenuItem('ASP.NET Zero', '', 'fas fa-dot-circle', '', [
-          new MenuItem(
-            'Home',
-            'https://aspnetzero.com?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Features',
-            'https://aspnetzero.com/Features?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Pricing',
-            'https://aspnetzero.com/Pricing?ref=abptmpl#pricing',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Faq',
-            'https://aspnetzero.com/Faq?ref=abptmpl',
-            'far fa-circle'
-          ),
-          new MenuItem(
-            'Documents',
-            'https://aspnetzero.com/Documents?ref=abptmpl',
-            'far fa-circle'
-          )
-        ])
+      new MenuItem('Useful Informations', '', 'fas fa-question-circle', '', [
+        new MenuItem('Donor Requirements', '/app/requirements', 'fas fa-exclamation'),
+        new MenuItem('How blood is used', '/app/how-blood-is-used', 'fas fa-vial'),
+        new MenuItem('Tests carried', '/app/tests', 'far fa-file-alt'),
+        new MenuItem('Benefits of donating', '/app/benefits', 'far fa-laugh-beam')
       ])
     ];
   }
-  /*
-  - eligibility requirements
-- how blood is used
-- tests carried
-- benefits of donationg blood
-  */
-
+ 
   patchMenuItems(items: MenuItem[], parentId?: number): void {
     items.forEach((item: MenuItem, index: number) => {
       item.id = parentId ? Number(parentId + '' + (index + 1)) : index + 1;
