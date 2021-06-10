@@ -57,7 +57,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
 
   delete(appointment: AppointmentDto): void {
     abp.message.confirm(
-      this.l('AppointmentDeleteWarningMessage', appointment.id),
+      "Apointment on " + appointment.date + " will be canceled",
       undefined,
       (result: boolean) => {
         if (result) {
@@ -65,7 +65,7 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
             .delete(appointment.id)
             .pipe(
               finalize(() => {
-                abp.notify.success(this.l('SuccessfullyDeleted'));
+                abp.notify.success('Successfully Deleted');
                 this.refresh();
               })
             )

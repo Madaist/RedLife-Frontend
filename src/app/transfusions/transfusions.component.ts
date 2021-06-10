@@ -1,10 +1,11 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { ShowDonationQRCodeDialogComponent } from '@app/donations/show-donation-qrcode-dialog/show-donation-qrcode-dialog.component';
 import { PagedListingComponentBase, PagedRequestDto } from '@shared/paged-listing-component-base';
-import { TransfusionDto, TransfusionDtoPagedResultDto, TransfusionServiceProxy } from '@shared/service-proxies/service-proxies';
+import { DonationDto, DonationServiceProxy, TransfusionDto, TransfusionDtoPagedResultDto, TransfusionServiceProxy } from '@shared/service-proxies/service-proxies';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { finalize } from 'rxjs/operators';
 import { CreateTransfusionDialogComponent } from './create-transfusion-dialog/create-transfusion-dialog.component';
+import { DonationModalComponent } from './donation-modal/donation-modal.component';
 import { EditTransfusionDialogComponent } from './edit-transfusion-dialog/edit-transfusion-dialog.component';
 
 class PagedTransfusionsRequestDto extends PagedRequestDto {
@@ -24,7 +25,8 @@ export class TransfusionsComponent extends PagedListingComponentBase<Transfusion
   constructor(
     injector: Injector,
     private _transfusionService: TransfusionServiceProxy,
-    private _modalService: BsModalService
+    private _modalService: BsModalService,
+    private _donationsService: DonationServiceProxy
   ) {
     super(injector);
   }
@@ -98,20 +100,24 @@ export class TransfusionsComponent extends PagedListingComponentBase<Transfusion
 
 
   showDonationQRCode(id?: string): void {
-    let showDonationQRCodeDialog: BsModalRef;
-    showDonationQRCodeDialog = this._modalService.show(
-      ShowDonationQRCodeDialogComponent,
-      {
-        class: 'modal-lg',
-        initialState: {
-          id: id,
-        },
-      }
-    );
+    let donationModalComponent: BsModalRef;
+    
+    this._donationsService
+      .get(id)
+      .subscribe((result: DonationDto) => {
+        const donation = result;
+        donationModalComponent = this._modalService.show(
+          DonationModalComponent,
+          {
+            class: 'modal-lg',
+            initialState: {
+              id: id,
+              donation: donation
+            },
+          }
+        );
+      });
 
-    showDonationQRCodeDialog.content.onDownload.subscribe(() => {
-      this.refresh();
-    });
   }
 
 

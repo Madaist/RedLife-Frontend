@@ -62,6 +62,7 @@ import { DonorRequirementsComponent } from './donor-requirements/donor-requireme
 import { BloodUsageComponent } from './blood-usage/blood-usage.component';
 import { TestsCarriedComponent } from './tests-carried/tests-carried.component';
 import { BenefitsComponent } from './benefits/benefits.component';
+import { DonationModalComponent } from './transfusions/donation-modal/donation-modal.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { BenefitsComponent } from './benefits/benefits.component';
     DonorRequirementsComponent,
     BloodUsageComponent,
     TestsCarriedComponent,
-    BenefitsComponent
+    BenefitsComponent,
+    DonationModalComponent
   ],
   imports: [
     CommonModule,

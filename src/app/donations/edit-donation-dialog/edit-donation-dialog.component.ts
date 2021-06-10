@@ -105,9 +105,10 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
       donation.donorId = abp.session.userId;
     }
 
-    var promise = this.getBase64(this.uploadedFile);
-    donation.medicalTestsResult = await promise as string;
-
+    if(this.uploadedFile != null && this.uploadedFile != undefined){
+      var promise = this.getBase64(this.uploadedFile);
+      donation.medicalTestsResult = await promise as string;
+    }
     this._donationService
       .update(donation)
       .pipe(

@@ -34,8 +34,10 @@
           <table class="table table-hover text-nowrap" [busy]="isTableLoading">
             <thead class="bg-light">
               <tr>
+                <th *ngIf="isGranted('Admin')">Id</th>
                 <th *ngIf="!isGranted('Donor')">Blood donor</th>
                 <th *ngIf="isGranted('Donor') || isGranted('Admin')">Transfusion center</th>
+                <th *ngIf="isGranted('Donor') || isGranted('Admin')">Address</th>
                 <th>Date</th>
                 <th style="width: 200px;" *ngIf="isGranted('Appointments.Update')">Actions</th>
               </tr>
@@ -52,17 +54,19 @@
                             totalItems: totalItems
                           }
                   ">
+                <th *ngIf="isGranted('Admin')">{{appointment.id}}</th>
                 <td *ngIf="!isGranted('Donor')">{{ appointment.donorLastName }} {{ appointment.donorFirstName }}</td>
                 <td *ngIf="isGranted('Donor') || isGranted('Admin')">{{ appointment.centerName }}</td>
+                <td *ngIf="isGranted('Donor') || isGranted('Admin')">{{ appointment.centerAddress }}</td>
                 <td>{{ appointment.date }}</td>
                 <td *ngIf="isGranted('Appointments.Update')">
-                  <button type="button" class="btn btn-sm bg-secondary" (click)="editAppointment(appointment)">
+                  <button type="button" class="btn btn-sm bg-info" (click)="editAppointment(appointment)">
                     <i class="fas fa-pencil-alt"></i>
-                    Edit
+                    Modify
                   </button>
                   <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(appointment)">
                     <i class="fas fa-trash"></i>
-                   Delete
+                   Cancel appointment
                   </button>
                 </td>
               </tr>

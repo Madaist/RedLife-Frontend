@@ -225,11 +225,7 @@
         </div>
       </div>
 
-      <div>
-        <div class="card">
-          <p-chart type="bar" [data]="adminChartUsersData" [options]="adminChartUsersOptions"></p-chart>
-        </div>
-      </div>
+ 
 
       <div class="row">
         <div class="col-lg-6 col-6">
@@ -240,7 +236,9 @@
 
         <div class="col-lg-6 col-6">
           <div class="card">
-            <p-chart type="doughnut" [data]="adminChartDonationTypesData" [options]="adminChartDonationTypesOptions">
+            <p-chart type="doughnut" 
+              [data]="adminChartDonationTypesData" 
+              [options]="adminChartDonationTypesOptions">
             </p-chart>
           </div>
         </div>
@@ -300,6 +298,12 @@
               </span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <p-chart type="bar" [data]="adminChartUsersData" [options]="adminChartUsersOptions"></p-chart>
         </div>
       </div>
 

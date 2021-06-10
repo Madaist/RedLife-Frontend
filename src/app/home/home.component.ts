@@ -173,14 +173,8 @@ export class HomeComponent extends AppComponentBase implements OnInit {
     }
 
     this.adminChartDonationTypesOptions = {
-      title: {
-        display: true,
-        text: 'Donation Types',
-        fontSize: 16
-      },
-      legend: {
-        position: 'bottom'
-      }
+      title: { display: true, text: 'Donation Types', fontSize: 16 },
+      legend: { position: 'bottom' }
     };
   }
 
@@ -326,7 +320,7 @@ Charts used for center statistics
       this.centerChartBloodTypesOptions = {
         title: {
           display: true,
-          text: 'Blood types donated in' + new Date().getFullYear(),
+          text: 'Blood types donated in ' + new Date().getFullYear(),
           fontSize: 16
         },
         legend: {

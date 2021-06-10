@@ -67,14 +67,14 @@
                 <td>{{ transfusion.quantity }}</td>
 
                 <td *ngIf="isGranted('Transfusions.Update')">
-                  <button type="button" class="btn btn-sm bg-secondary" (click)="editTransfusion(transfusion)">
+                  <button type="button" class="btn btn-sm bg-info" (click)="editTransfusion(transfusion)">
                     <i class="fas fa-pencil-alt"></i>
-                    {{ "Edit" | localize }}
+                    Modify
                   </button>
 
                   <button type="button" class="btn btn-sm bg-danger mx-2" (click)="delete(transfusion)">
                     <i class="fas fa-trash"></i>
-                    {{ "Delete" | localize }}
+                   Remove
                   </button>
                 </td>
               </tr>

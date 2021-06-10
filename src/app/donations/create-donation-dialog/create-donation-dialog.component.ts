@@ -41,7 +41,7 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   donationTypes = [
     { normalizedName: "ORDINARY_DONATION", value: "Ordinary donation" },
     { normalizedName: "SPECIAL_DONATION", value: "Special donation" },
-    { normalizedame: "COVID_PLASMA_DONATION", value: "Covid plasma donation" },
+    { normalizedName: "COVID_PLASMA_DONATION", value: "Covid plasma donation" },
   ]
 
   @Output() onSave = new EventEmitter<any>();
@@ -122,8 +122,12 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
       this.donation.centerId = this.employer.id;
     }
 
-    var promise = this.getBase64(this.uploadedFile);
-    this.donation.medicalTestsResult = await promise as string;
+    if(this.uploadedFile != null && this.uploadedFile != undefined){
+      var promise = this.getBase64(this.uploadedFile);
+      var pdf = await promise as string;
+      if(pdf != null && pdf != undefined)
+        this.donation.medicalTestsResult = await promise as string;
+    }
 
     this._donationService
       .create(this.donation)

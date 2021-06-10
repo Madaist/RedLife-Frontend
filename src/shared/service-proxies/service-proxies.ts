@@ -3178,6 +3178,7 @@ export class AppointmentDto implements IAppointmentDto {
     donorId: number;
     centerId: number;
     date: string | undefined;
+    centerAddress: string | undefined;
     id: number;
 
     constructor(data?: IAppointmentDto) {
@@ -3197,6 +3198,7 @@ export class AppointmentDto implements IAppointmentDto {
             this.donorId = _data["donorId"];
             this.centerId = _data["centerId"];
             this.date = _data["date"];
+            this.centerAddress = _data["centerAddress"];
             this.id = _data["id"];
         }
     }
@@ -3216,6 +3218,7 @@ export class AppointmentDto implements IAppointmentDto {
         data["donorId"] = this.donorId;
         data["centerId"] = this.centerId;
         data["date"] = this.date;
+        data["centerAddress"] = this.centerAddress;
         data["id"] = this.id;
         return data; 
     }
@@ -3235,6 +3238,7 @@ export interface IAppointmentDto {
     donorId: number;
     centerId: number;
     date: string | undefined;
+    centerAddress: string | undefined;
     id: number;
 }
 

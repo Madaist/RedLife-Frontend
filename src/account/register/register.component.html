@@ -73,6 +73,7 @@
           placeholder="Social Security Number"
           required
           maxlength="13"
+          pattern="^\d{13}$"
           [(ngModel)]="model.socialSecurityNumber"
           #socialSecurityNumberModel="ngModel"
           #socialSecurityNumberEl
@@ -147,6 +148,7 @@
           [(ngModel)]="model.password"
           required
           maxlength="32"
+          minlength="8"
           #passwordModel="ngModel"
           #passwordEl
         />
