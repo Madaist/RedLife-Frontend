@@ -1,3 +1,4 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, EventEmitter, Injector, OnInit, Output } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
 import { CreateDonationDto, DonationServiceProxy, UserDto, UserServiceProxy } from '@shared/service-proxies/service-proxies';
@@ -10,7 +11,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./create-donation-dialog.component.css']
 })
 export class CreateDonationDialogComponent extends AppComponentBase implements OnInit {
-
+ 
   saving = false;
   donation = new CreateDonationDto();
 
@@ -18,6 +19,8 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   donors: UserDto[] = [];
   loggedInUser: UserDto = new UserDto();
   employer: UserDto = new UserDto();
+  selectedDonorId: number;
+  bloodType: string;
 
   uploadedFile;
   base64File;
@@ -106,6 +109,21 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
       reader.onerror = reject;
       reader.readAsDataURL(file);
     });
+  }
+
+  setSelectedDonor(userId){
+    this.selectedDonorId = userId;
+    this.bloodType = this.getBloodType(userId);
+  }
+
+  getBloodType(userId: number) : string{
+    for(let i = 0; i < this.donors.length; i++){
+      if(this.donors[i].id == userId){
+        return this.donors[i].bloodType;
+      }
+    }
+    return null;
+  
   }
 
   async save(): Promise<void> {

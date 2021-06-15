@@ -3067,6 +3067,7 @@ export class RegisterInput implements IRegisterInput {
     userName: string;
     socialSecurityNumber: number;
     emailAddress: string;
+    bloodType: string | undefined;
     password: string;
     captchaResponse: string | undefined;
 
@@ -3086,6 +3087,7 @@ export class RegisterInput implements IRegisterInput {
             this.userName = _data["userName"];
             this.socialSecurityNumber = _data["socialSecurityNumber"];
             this.emailAddress = _data["emailAddress"];
+            this.bloodType = _data["bloodType"];
             this.password = _data["password"];
             this.captchaResponse = _data["captchaResponse"];
         }
@@ -3105,6 +3107,7 @@ export class RegisterInput implements IRegisterInput {
         data["userName"] = this.userName;
         data["socialSecurityNumber"] = this.socialSecurityNumber;
         data["emailAddress"] = this.emailAddress;
+        data["bloodType"] = this.bloodType;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
         return data; 
@@ -3124,6 +3127,7 @@ export interface IRegisterInput {
     userName: string;
     socialSecurityNumber: number;
     emailAddress: string;
+    bloodType: string | undefined;
     password: string;
     captchaResponse: string | undefined;
 }
@@ -5673,6 +5677,7 @@ export class UserDto implements IUserDto {
     number: string | undefined;
     institutionName: string | undefined;
     employerId: number;
+    bloodType: string | undefined;
     id: number;
 
     constructor(data?: IUserDto) {
@@ -5706,6 +5711,7 @@ export class UserDto implements IUserDto {
             this.number = _data["number"];
             this.institutionName = _data["institutionName"];
             this.employerId = _data["employerId"];
+            this.bloodType = _data["bloodType"];
             this.id = _data["id"];
         }
     }
@@ -5739,6 +5745,7 @@ export class UserDto implements IUserDto {
         data["number"] = this.number;
         data["institutionName"] = this.institutionName;
         data["employerId"] = this.employerId;
+        data["bloodType"] = this.bloodType;
         data["id"] = this.id;
         return data; 
     }
@@ -5768,6 +5775,7 @@ export interface IUserDto {
     number: string | undefined;
     institutionName: string | undefined;
     employerId: number;
+    bloodType: string | undefined;
     id: number;
 }
 

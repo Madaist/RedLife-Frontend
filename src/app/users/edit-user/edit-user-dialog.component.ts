@@ -27,6 +27,17 @@ export class EditUserDialogComponent extends AppComponentBase
   checkedRolesMap: { [key: string]: boolean } = {};
   id: number;
 
+  bloodTypes = [
+    { value: "A+" },
+    { value: "B+" },
+    { value: "C+" },
+    { value: "AB+" },
+    { value: "A-" },
+    { value: "B-" },
+    { value: "C-" },
+    { value: "AB-" },
+  ]
+
   @Output() onSave = new EventEmitter<any>();
 
   constructor(
@@ -45,6 +56,7 @@ export class EditUserDialogComponent extends AppComponentBase
         this.roles = result2.items;
         this.setInitialRolesStatus();
       });
+
     });
   }
 

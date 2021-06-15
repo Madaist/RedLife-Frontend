@@ -105,6 +105,45 @@
           </div>
         </div>
 
+        <div class="form-group row required" 
+          *ngIf="isGranted('Admin') && user.roleNames && user.roleNames.indexOf('DONOR') > -1 && 
+                 user.bloodType != null && user.bloodType != undefined">
+          <label class="col-md-3 col-form-label" for="bloodType">
+            Blood Type
+          </label>
+          <div class="col-md-9">
+            <input
+              type="test"
+              class="form-control"
+              name="bloodType"
+              id="bloodType"
+              required
+              [(ngModel)]="user.bloodType"
+              #bloodTypeModel="ngModel"
+              #bloodTypeEl
+            />
+            <abp-validation-summary
+              [control]="bloodTypeModel"
+              [controlEl]="bloodTypeEl"
+            ></abp-validation-summary>
+          </div>
+        </div>
+
+        <div class="form-group row required" 
+          *ngIf="isGranted('Admin') && user.roleNames && user.roleNames.indexOf('DONOR') > -1 && 
+                 (user.bloodType == null || user.bloodType == undefined)">
+          <label class="col-md-3 col-form-label" for="bloodType">
+            Blood Type
+          </label>
+          <div class="col-md-9">
+            <select class="form-control" placeholder="Blood type" [(ngModel)]="user.bloodType" name="bloodType" required>
+             <option *ngFor="let bloodType of bloodTypes" [value]="bloodType.value">
+               {{bloodType.value}}
+             </option>
+           </select> 
+         </div>
+        </div>
+
         <div class="form-group row mb-0">
           <label class="col-md-3 col-form-label">
             Is active

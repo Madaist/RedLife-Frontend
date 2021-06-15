@@ -7,7 +7,8 @@
         Blood donor
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Donors" [(ngModel)]="donation.donorId" name="donor">
+        <select class="form-control" #t placeholder="Donors" [(ngModel)]="donation.donorId" name="donor"
+          (change)="setSelectedDonor(t.value)">
           <option *ngFor="let donor of donors" [value]="donor.id">
             {{donor.fullName}} - {{donor.id}} ({{donor.emailAddress}})
           </option>
@@ -92,12 +93,16 @@
       <label class="col-md-3 col-form-label" for="bloodType">
         Blood type
       </label>
-      <div class="col-md-9">
-        <select class="form-control" placeholder="Blood type" [(ngModel)]="donation.bloodType" name="bloodType">
+      <div class="col-md-9" *ngIf="bloodType == undefined || bloodType == null">
+         <select class="form-control" placeholder="Blood type" [(ngModel)]="donation.bloodType" name="bloodType">
           <option *ngFor="let bloodType of bloodTypes" [value]="bloodType.value">
             {{bloodType.value}}
           </option>
-        </select>
+        </select> 
+      </div>
+      <div class="col-md-9" *ngIf="bloodType != undefined && bloodType != null">
+        <input class="form-control" placeholder="Blood type" name="bloodType" [value]="bloodType"
+        readonly />
       </div>
     </div>
 
