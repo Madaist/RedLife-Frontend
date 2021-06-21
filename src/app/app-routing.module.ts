@@ -15,6 +15,7 @@ import { DonorRequirementsComponent } from './donor-requirements/donor-requireme
 import { BloodUsageComponent } from './blood-usage/blood-usage.component';
 import { TestsCarriedComponent } from './tests-carried/tests-carried.component';
 import { BenefitsComponent } from './benefits/benefits.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 
 @NgModule({
     imports: [
@@ -36,6 +37,7 @@ import { BenefitsComponent } from './benefits/benefits.component';
                     { path: 'appointments', component: AppointmentsComponent, data: { permission: 'Appointments.Get' }, canActivate: [AppRouteGuard] },
                     { path: 'donations', component: DonationsComponent, data: { permission: 'Donations.Get' }, canActivate: [AppRouteGuard] },
                     { path: 'transfusions', component: TransfusionsComponent, data: { permission: 'Transfusions.Get' }, canActivate: [AppRouteGuard] },
+                    { path: 'achievements', component: AchievementsComponent, data: { permission: 'Donor' }, canActivate: [AppRouteGuard] },
                 ]
             }
         ])

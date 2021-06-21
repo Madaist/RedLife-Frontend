@@ -63,6 +63,7 @@ import { BloodUsageComponent } from './blood-usage/blood-usage.component';
 import { TestsCarriedComponent } from './tests-carried/tests-carried.component';
 import { BenefitsComponent } from './benefits/benefits.component';
 import { DonationModalComponent } from './transfusions/donation-modal/donation-modal.component';
+import { AchievementsComponent } from './achievements/achievements.component';
 
 @NgModule({
   declarations: [
@@ -110,7 +111,8 @@ import { DonationModalComponent } from './transfusions/donation-modal/donation-m
     BloodUsageComponent,
     TestsCarriedComponent,
     BenefitsComponent,
-    DonationModalComponent
+    DonationModalComponent,
+    AchievementsComponent
   ],
   imports: [
     CommonModule,

@@ -80,6 +80,12 @@ export class SidebarMenuComponent extends AppComponentBase implements OnInit {
         'fas fa-hospital-user',
         'Transfusions.Get'
       ),
+      new MenuItem(
+        'Achievements',
+        '/app/achievements',
+        'fas fa-trophy',
+        'Donor'
+      ),
       new MenuItem('About', '/app/about', 'fas fa-info-circle'),
       new MenuItem('Useful Informations', '', 'fas fa-question-circle', '', [
         new MenuItem('Donor Requirements', '/app/requirements', 'fas fa-exclamation'),
