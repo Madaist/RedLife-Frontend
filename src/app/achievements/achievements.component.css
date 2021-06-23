@@ -4,3 +4,11 @@
     padding-top: 1vw; 
     width: 30%;
 }
+
+#wrapper {
+    -webkit-filter: grayscale(90%);
+    -moz-filter: grayscale(90%);
+    -o-filter: grayscale(90%);
+    -ms-filter: grayscale(90%);
+    filter: grayscale(90%);
+  }

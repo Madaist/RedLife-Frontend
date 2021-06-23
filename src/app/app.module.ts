@@ -15,6 +15,7 @@ import { SharedModule } from '@shared/shared.module';
 import { HomeComponent } from '@app/home/home.component';
 import { AboutComponent } from '@app/about/about.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import {NgxPopperjsModule} from 'ngx-popperjs';
 
 // tenants
 import { TenantsComponent } from '@app/tenants/tenants.component';
@@ -134,7 +135,8 @@ import { AchievementsComponent } from './achievements/achievements.component';
     MatTooltipModule,
     QRCodeModule,
     ZXingScannerModule,
-    ChartModule
+    ChartModule,
+    NgxPopperjsModule
   ],
   providers: [QrScannerComponent],
   entryComponents: [

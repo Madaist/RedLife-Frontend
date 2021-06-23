@@ -16,7 +16,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3> 5 </h3>
+                            <h3> {{ achievements.peopleHelpedCount }}</h3>
                             <p>People helped</p>
                         </div>
                         <div class="icon">
@@ -32,7 +32,7 @@
                 <div class="col-lg-3 col-6">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>157</h3>
+                            <h3>{{achievements.points}}</h3>
                             <p>Points</p>
                         </div>
                         <div class="icon">
@@ -48,15 +48,15 @@
                 <div class="col-lg-6 col-6">
                     <div class="small-box bg-primary">
                         <div class="icon">
-                            <img src="https://i.ibb.co/x2XhmKb/Badge-Bronze-Blank.png" class="league-icon" />
+                            <img src={{achievements.league.icon}} class="league-icon" />
 
                         </div>
                         <div class="inner">
-                            <h3>Diamond</h3>
+                            <h3>{{achievements.league.name}}</h3>
                             <p>League</p>
                         </div>
                         <p class="small-box-footer">
-                            Next one: Ruby
+                            Next one: {{achievements.nextLeague.name}}
                             <i class="fas fa-crown"></i>
                         </p>
                     </div>
@@ -76,22 +76,27 @@
                         <thead class="bg-warning text-nowrap">
                             <tr>
                                 <th>Badge</th>
+                                <th>Icon</th>
                                 <th>Points added</th>
-                                <th style="padding-left: 50px;">Icon</th>
                             </tr>
                         </thead>
                         <tbody>
                         <tbody>
-                            <!-- <tr *ngFor="
-                      let badge of badges ">
-                  <th >{{badge.name}}</th>
-                  <th >{{badge.icon}}</th>
-                </tr> -->
-                            <th style="padding-top: 40px;">Covid plasma donation </th>
-                            <th style="padding-top: 40px; text-align: center;">+20</th>
-                            <th><img src="https://i.ibb.co/sR1DLrn/first-donation.png"
-                                    style="width: 40%; padding-left: 10px" /></th>
-
+                            <tr *ngFor="let badge of achievements.assignedBadges ">
+                                <th matTooltip={{badge.name}}>{{badge.name}}</th>
+                                <th><img src={{badge.icon}} style="width: 60%;" /></th>
+                                <th>{{badge.points}}</th>
+                            </tr>
+                            <tr *ngFor="let badge of achievements.unassignedBadges ">
+                                <th matTooltip={{badge.name}}>{{badge.name}}</th>
+                                <th>
+                                    <div id="wrapper">
+                                        <popper-content #tooltip>Locked</popper-content>
+                                        <img src={{badge.icon}} style="width: 60%;" [popper]="tooltip"  popperTrigger="hover"  popperPlacement="right"/>
+                                    </div>
+                                </th>
+                                <th>{{badge.points}}</th>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -111,15 +116,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr *ngFor="
-                      let user of topUsers ">
-                  <th >{{user.username}}</th>
-                  <th >{{user.league}}</th>
-                   <th >{{user.points}}</th>
-                </tr> -->
-                            <th>madaist</th>
-                            <th>Diamond league</th>
-                            <th>178</th>
+                            <tr *ngFor="let user of achievements.topUsers">
+                                <th>{{user.userName}}</th>
+                                <th>{{user.league.name}}</th>
+                                <th>{{user.points}}</th>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

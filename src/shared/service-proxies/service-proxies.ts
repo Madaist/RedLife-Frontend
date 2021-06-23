@@ -141,6 +141,69 @@ export class AccountServiceProxy {
 }
 
 @Injectable()
+export class AchievementsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getAchievements(): Observable<AchievementsDto> {
+        let url_ = this.baseUrl + "/api/services/app/Achievements/GetAchievements";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAchievements(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAchievements(<any>response_);
+                } catch (e) {
+                    return <Observable<AchievementsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AchievementsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAchievements(response: HttpResponseBase): Observable<AchievementsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AchievementsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AchievementsDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class AppointmentServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -3067,7 +3130,6 @@ export class RegisterInput implements IRegisterInput {
     userName: string;
     socialSecurityNumber: number;
     emailAddress: string;
-    bloodType: string | undefined;
     password: string;
     captchaResponse: string | undefined;
 
@@ -3087,7 +3149,6 @@ export class RegisterInput implements IRegisterInput {
             this.userName = _data["userName"];
             this.socialSecurityNumber = _data["socialSecurityNumber"];
             this.emailAddress = _data["emailAddress"];
-            this.bloodType = _data["bloodType"];
             this.password = _data["password"];
             this.captchaResponse = _data["captchaResponse"];
         }
@@ -3107,7 +3168,6 @@ export class RegisterInput implements IRegisterInput {
         data["userName"] = this.userName;
         data["socialSecurityNumber"] = this.socialSecurityNumber;
         data["emailAddress"] = this.emailAddress;
-        data["bloodType"] = this.bloodType;
         data["password"] = this.password;
         data["captchaResponse"] = this.captchaResponse;
         return data; 
@@ -3127,7 +3187,6 @@ export interface IRegisterInput {
     userName: string;
     socialSecurityNumber: number;
     emailAddress: string;
-    bloodType: string | undefined;
     password: string;
     captchaResponse: string | undefined;
 }
@@ -3173,6 +3232,322 @@ export class RegisterOutput implements IRegisterOutput {
 
 export interface IRegisterOutput {
     canLogin: boolean;
+}
+
+export class LeagueDto implements ILeagueDto {
+    name: string | undefined;
+    icon: string | undefined;
+
+    constructor(data?: ILeagueDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.icon = _data["icon"];
+        }
+    }
+
+    static fromJS(data: any): LeagueDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LeagueDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["icon"] = this.icon;
+        return data; 
+    }
+
+    clone(): LeagueDto {
+        const json = this.toJSON();
+        let result = new LeagueDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface ILeagueDto {
+    name: string | undefined;
+    icon: string | undefined;
+}
+
+export class BadgeDto implements IBadgeDto {
+    name: string | undefined;
+    icon: string | undefined;
+    points: number;
+
+    constructor(data?: IBadgeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+            this.icon = _data["icon"];
+            this.points = _data["points"];
+        }
+    }
+
+    static fromJS(data: any): BadgeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BadgeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        data["icon"] = this.icon;
+        data["points"] = this.points;
+        return data; 
+    }
+
+    clone(): BadgeDto {
+        const json = this.toJSON();
+        let result = new BadgeDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IBadgeDto {
+    name: string | undefined;
+    icon: string | undefined;
+    points: number;
+}
+
+export class UserDto implements IUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    roleNames: string[] | undefined;
+    country: string | undefined;
+    county: string | undefined;
+    city: string | undefined;
+    street: string | undefined;
+    number: string | undefined;
+    institutionName: string | undefined;
+    employerId: number;
+    bloodType: string | undefined;
+    points: number;
+    league: LeagueDto;
+    id: number;
+
+    constructor(data?: IUserDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.userName = _data["userName"];
+            this.name = _data["name"];
+            this.surname = _data["surname"];
+            this.emailAddress = _data["emailAddress"];
+            this.isActive = _data["isActive"];
+            this.fullName = _data["fullName"];
+            this.lastLoginTime = _data["lastLoginTime"] ? moment(_data["lastLoginTime"].toString()) : <any>undefined;
+            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
+            if (Array.isArray(_data["roleNames"])) {
+                this.roleNames = [] as any;
+                for (let item of _data["roleNames"])
+                    this.roleNames.push(item);
+            }
+            this.country = _data["country"];
+            this.county = _data["county"];
+            this.city = _data["city"];
+            this.street = _data["street"];
+            this.number = _data["number"];
+            this.institutionName = _data["institutionName"];
+            this.employerId = _data["employerId"];
+            this.bloodType = _data["bloodType"];
+            this.points = _data["points"];
+            this.league = _data["league"] ? LeagueDto.fromJS(_data["league"]) : <any>undefined;
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UserDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UserDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["userName"] = this.userName;
+        data["name"] = this.name;
+        data["surname"] = this.surname;
+        data["emailAddress"] = this.emailAddress;
+        data["isActive"] = this.isActive;
+        data["fullName"] = this.fullName;
+        data["lastLoginTime"] = this.lastLoginTime ? this.lastLoginTime.toISOString() : <any>undefined;
+        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
+        if (Array.isArray(this.roleNames)) {
+            data["roleNames"] = [];
+            for (let item of this.roleNames)
+                data["roleNames"].push(item);
+        }
+        data["country"] = this.country;
+        data["county"] = this.county;
+        data["city"] = this.city;
+        data["street"] = this.street;
+        data["number"] = this.number;
+        data["institutionName"] = this.institutionName;
+        data["employerId"] = this.employerId;
+        data["bloodType"] = this.bloodType;
+        data["points"] = this.points;
+        data["league"] = this.league ? this.league.toJSON() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+
+    clone(): UserDto {
+        const json = this.toJSON();
+        let result = new UserDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IUserDto {
+    userName: string;
+    name: string;
+    surname: string;
+    emailAddress: string;
+    isActive: boolean;
+    fullName: string | undefined;
+    lastLoginTime: moment.Moment | undefined;
+    creationTime: moment.Moment;
+    roleNames: string[] | undefined;
+    country: string | undefined;
+    county: string | undefined;
+    city: string | undefined;
+    street: string | undefined;
+    number: string | undefined;
+    institutionName: string | undefined;
+    employerId: number;
+    bloodType: string | undefined;
+    points: number;
+    league: LeagueDto;
+    id: number;
+}
+
+export class AchievementsDto implements IAchievementsDto {
+    points: number;
+    peopleHelpedCount: number;
+    league: LeagueDto;
+    nextLeague: LeagueDto;
+    assignedBadges: BadgeDto[] | undefined;
+    unassignedBadges: BadgeDto[] | undefined;
+    topUsers: UserDto[] | undefined;
+
+    constructor(data?: IAchievementsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.points = _data["points"];
+            this.peopleHelpedCount = _data["peopleHelpedCount"];
+            this.league = _data["league"] ? LeagueDto.fromJS(_data["league"]) : <any>undefined;
+            this.nextLeague = _data["nextLeague"] ? LeagueDto.fromJS(_data["nextLeague"]) : <any>undefined;
+            if (Array.isArray(_data["assignedBadges"])) {
+                this.assignedBadges = [] as any;
+                for (let item of _data["assignedBadges"])
+                    this.assignedBadges.push(BadgeDto.fromJS(item));
+            }
+            if (Array.isArray(_data["unassignedBadges"])) {
+                this.unassignedBadges = [] as any;
+                for (let item of _data["unassignedBadges"])
+                    this.unassignedBadges.push(BadgeDto.fromJS(item));
+            }
+            if (Array.isArray(_data["topUsers"])) {
+                this.topUsers = [] as any;
+                for (let item of _data["topUsers"])
+                    this.topUsers.push(UserDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): AchievementsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AchievementsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["points"] = this.points;
+        data["peopleHelpedCount"] = this.peopleHelpedCount;
+        data["league"] = this.league ? this.league.toJSON() : <any>undefined;
+        data["nextLeague"] = this.nextLeague ? this.nextLeague.toJSON() : <any>undefined;
+        if (Array.isArray(this.assignedBadges)) {
+            data["assignedBadges"] = [];
+            for (let item of this.assignedBadges)
+                data["assignedBadges"].push(item.toJSON());
+        }
+        if (Array.isArray(this.unassignedBadges)) {
+            data["unassignedBadges"] = [];
+            for (let item of this.unassignedBadges)
+                data["unassignedBadges"].push(item.toJSON());
+        }
+        if (Array.isArray(this.topUsers)) {
+            data["topUsers"] = [];
+            for (let item of this.topUsers)
+                data["topUsers"].push(item.toJSON());
+        }
+        return data; 
+    }
+
+    clone(): AchievementsDto {
+        const json = this.toJSON();
+        let result = new AchievementsDto();
+        result.init(json);
+        return result;
+    }
+}
+
+export interface IAchievementsDto {
+    points: number;
+    peopleHelpedCount: number;
+    league: LeagueDto;
+    nextLeague: LeagueDto;
+    assignedBadges: BadgeDto[] | undefined;
+    unassignedBadges: BadgeDto[] | undefined;
+    topUsers: UserDto[] | undefined;
 }
 
 export class AppointmentDto implements IAppointmentDto {
@@ -5658,125 +6033,6 @@ export interface ICreateTransfusionDto {
     hospitalId: number;
     quantity: number;
     id: string | undefined;
-}
-
-export class UserDto implements IUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean;
-    fullName: string | undefined;
-    lastLoginTime: moment.Moment | undefined;
-    creationTime: moment.Moment;
-    roleNames: string[] | undefined;
-    country: string | undefined;
-    county: string | undefined;
-    city: string | undefined;
-    street: string | undefined;
-    number: string | undefined;
-    institutionName: string | undefined;
-    employerId: number;
-    bloodType: string | undefined;
-    id: number;
-
-    constructor(data?: IUserDto) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.userName = _data["userName"];
-            this.name = _data["name"];
-            this.surname = _data["surname"];
-            this.emailAddress = _data["emailAddress"];
-            this.isActive = _data["isActive"];
-            this.fullName = _data["fullName"];
-            this.lastLoginTime = _data["lastLoginTime"] ? moment(_data["lastLoginTime"].toString()) : <any>undefined;
-            this.creationTime = _data["creationTime"] ? moment(_data["creationTime"].toString()) : <any>undefined;
-            if (Array.isArray(_data["roleNames"])) {
-                this.roleNames = [] as any;
-                for (let item of _data["roleNames"])
-                    this.roleNames.push(item);
-            }
-            this.country = _data["country"];
-            this.county = _data["county"];
-            this.city = _data["city"];
-            this.street = _data["street"];
-            this.number = _data["number"];
-            this.institutionName = _data["institutionName"];
-            this.employerId = _data["employerId"];
-            this.bloodType = _data["bloodType"];
-            this.id = _data["id"];
-        }
-    }
-
-    static fromJS(data: any): UserDto {
-        data = typeof data === 'object' ? data : {};
-        let result = new UserDto();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["userName"] = this.userName;
-        data["name"] = this.name;
-        data["surname"] = this.surname;
-        data["emailAddress"] = this.emailAddress;
-        data["isActive"] = this.isActive;
-        data["fullName"] = this.fullName;
-        data["lastLoginTime"] = this.lastLoginTime ? this.lastLoginTime.toISOString() : <any>undefined;
-        data["creationTime"] = this.creationTime ? this.creationTime.toISOString() : <any>undefined;
-        if (Array.isArray(this.roleNames)) {
-            data["roleNames"] = [];
-            for (let item of this.roleNames)
-                data["roleNames"].push(item);
-        }
-        data["country"] = this.country;
-        data["county"] = this.county;
-        data["city"] = this.city;
-        data["street"] = this.street;
-        data["number"] = this.number;
-        data["institutionName"] = this.institutionName;
-        data["employerId"] = this.employerId;
-        data["bloodType"] = this.bloodType;
-        data["id"] = this.id;
-        return data; 
-    }
-
-    clone(): UserDto {
-        const json = this.toJSON();
-        let result = new UserDto();
-        result.init(json);
-        return result;
-    }
-}
-
-export interface IUserDto {
-    userName: string;
-    name: string;
-    surname: string;
-    emailAddress: string;
-    isActive: boolean;
-    fullName: string | undefined;
-    lastLoginTime: moment.Moment | undefined;
-    creationTime: moment.Moment;
-    roleNames: string[] | undefined;
-    country: string | undefined;
-    county: string | undefined;
-    city: string | undefined;
-    street: string | undefined;
-    number: string | undefined;
-    institutionName: string | undefined;
-    employerId: number;
-    bloodType: string | undefined;
-    id: number;
 }
 
 export class UserDtoPagedResultDto implements IUserDtoPagedResultDto {
