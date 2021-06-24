@@ -92,7 +92,8 @@
                                 <th>
                                     <div id="wrapper">
                                         <popper-content #tooltip>Locked</popper-content>
-                                        <img src={{badge.icon}} style="width: 60%;" [popper]="tooltip"  popperTrigger="hover"  popperPlacement="right"/>
+                                        <img src={{badge.icon}} style="width: 60%;" [popper]="tooltip"
+                                            popperTrigger="hover" popperPlacement="right" />
                                     </div>
                                 </th>
                                 <th>{{badge.points}}</th>
@@ -111,12 +112,20 @@
                         <thead class="bg-warning">
                             <tr>
                                 <th>Username</th>
-                                <th>League</th>
+                                <th style="padding-top: 0; padding-bottom: 0;">
+                                    <select class="form-control bg-warning" #select style="margin-bottom: 5px;"
+                                        (change)="setSelectedLeague(select.value)">
+                                        <option value="" disabled selected>League</option>
+                                        <option *ngFor="let league of leagues" [value]="league.id">
+                                            {{league.name}}
+                                        </option>
+                                    </select>
+                                </th>
                                 <th>Points</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let user of achievements.topUsers">
+                            <tr *ngFor="let user of topUsers">
                                 <th>{{user.userName}}</th>
                                 <th>{{user.league.name}}</th>
                                 <th>{{user.points}}</th>

@@ -201,6 +201,66 @@ export class AchievementsServiceProxy {
         }
         return _observableOf<AchievementsDto>(<any>null);
     }
+
+    /**
+     * @param leagueId (optional) 
+     * @return Success
+     */
+    getTopByLeagueId(leagueId: number | undefined): Observable<UserDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/Achievements/GetTopByLeagueId?";
+        if (leagueId === null)
+            throw new Error("The parameter 'leagueId' cannot be null.");
+        else if (leagueId !== undefined)
+            url_ += "leagueId=" + encodeURIComponent("" + leagueId) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTopByLeagueId(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTopByLeagueId(<any>response_);
+                } catch (e) {
+                    return <Observable<UserDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UserDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTopByLeagueId(response: HttpResponseBase): Observable<UserDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(UserDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UserDto[]>(<any>null);
+    }
 }
 
 @Injectable()
@@ -852,6 +912,73 @@ export class DonationServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class LeagueServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getAll(): Observable<LeagueDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/League/GetAll";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<LeagueDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<LeagueDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<LeagueDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200.push(LeagueDto.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<LeagueDto[]>(<any>null);
     }
 }
 
@@ -3235,6 +3362,7 @@ export interface IRegisterOutput {
 }
 
 export class LeagueDto implements ILeagueDto {
+    id: number;
     name: string | undefined;
     icon: string | undefined;
 
@@ -3249,6 +3377,7 @@ export class LeagueDto implements ILeagueDto {
 
     init(_data?: any) {
         if (_data) {
+            this.id = _data["id"];
             this.name = _data["name"];
             this.icon = _data["icon"];
         }
@@ -3263,6 +3392,7 @@ export class LeagueDto implements ILeagueDto {
 
     toJSON(data?: any) {
         data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
         data["name"] = this.name;
         data["icon"] = this.icon;
         return data; 
@@ -3277,6 +3407,7 @@ export class LeagueDto implements ILeagueDto {
 }
 
 export interface ILeagueDto {
+    id: number;
     name: string | undefined;
     icon: string | undefined;
 }

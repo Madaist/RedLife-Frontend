@@ -1,6 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
 import { AppComponentBase } from '@shared/app-component-base';
-import { AchievementsDto, AchievementsServiceProxy } from '@shared/service-proxies/service-proxies';
+import { AchievementsDto, AchievementsServiceProxy, LeagueDto, LeagueServiceProxy, UserDto } from '@shared/service-proxies/service-proxies';
 
 @Component({
   selector: 'app-achievements',
@@ -10,10 +10,13 @@ import { AchievementsDto, AchievementsServiceProxy } from '@shared/service-proxi
 export class AchievementsComponent  extends AppComponentBase implements OnInit {
 
   achievements: AchievementsDto;
-  
+  leagues: LeagueDto[] = []
+  topUsers: UserDto[] = [];
+
   constructor(
     injector: Injector,
-    private _achievementsService: AchievementsServiceProxy) {
+    private _achievementsService: AchievementsServiceProxy,
+    private _leagueService: LeagueServiceProxy) {
       super(injector);
      }
 
@@ -22,7 +25,23 @@ export class AchievementsComponent  extends AppComponentBase implements OnInit {
         .getAchievements()
         .subscribe((result: AchievementsDto) => {
           this.achievements = result;
+          this.topUsers = result.topUsers;
         });
+    
+    this._leagueService
+        .getAll()
+        .subscribe((result : LeagueDto[]) => {
+          this.leagues = result;
+        })
+  }
+
+  setSelectedLeague(leagueId){
+    this._achievementsService
+      .getTopByLeagueId(leagueId)
+      .subscribe((result: UserDto[]) => {
+        this.topUsers = result;
+      })
+   
   }
 
 }

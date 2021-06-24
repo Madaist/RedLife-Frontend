@@ -18,6 +18,7 @@ import * as ApiServiceProxies from './service-proxies';
         ApiServiceProxies.TransfusionServiceProxy,
         ApiServiceProxies.StatisticsServiceProxy,
         ApiServiceProxies.AchievementsServiceProxy,
+        ApiServiceProxies.LeagueServiceProxy,
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true }
     ]
 })
