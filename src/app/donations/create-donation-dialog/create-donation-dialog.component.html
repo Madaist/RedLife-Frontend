@@ -111,11 +111,32 @@
         Donation type
       </label>
       <div class="col-md-9">
-        <select class="form-control" placeholder="Donation type" [(ngModel)]="donation.type" name="type">
+        <select class="form-control" placeholder="Donation type" [(ngModel)]="donation.type" name="type"
+        #selectType (change)="setDonationType(selectType.value)">
           <option *ngFor="let type of donationTypes" [value]="type.normalizedName">
             {{type.value}}
           </option>
         </select>
+      </div>
+    </div>
+
+    <div class="form-group row" *ngIf="isSpecialDonation">
+      <label class="col-md-3 col-form-label" for="bloodReceiver">
+        Blood receiver
+      </label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" name="bloodReceiver" id="bloodReceiver" [(ngModel)]="donation.bloodReceiver"
+          [value]="donation.bloodReceiver"/>
+      </div>
+    </div>
+
+    <div class="form-group row"  *ngIf="isSpecialDonation"> 
+      <label class="col-md-3 col-form-label" for="hospitalReceiver">
+        Hospital receiver
+      </label>
+      <div class="col-md-9">
+        <input type="text" class="form-control" name="hospitalReceiver" id="hospitalReceiver" [(ngModel)]="donation.hospitalReceiver"
+          [value]="donation.hospitalReceiver" />
       </div>
     </div>
 

@@ -51,8 +51,15 @@ export class AppointmentsComponent extends PagedListingComponentBase<Appointment
       )
       .subscribe((result: AppointmentDtoPagedResultDto) => {
         this.appointments = result.items;
+
         this.showPaging(result, pageNumber);
       });
+  }
+
+  isPastAppointment(appointmentDate: string) : boolean{
+    let currentDate = new Date()
+    let appDate = new Date(appointmentDate);
+    return (currentDate > appDate);
   }
 
   delete(appointment: AppointmentDto): void {

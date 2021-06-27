@@ -21,6 +21,7 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   employer: UserDto = new UserDto();
   selectedDonorId: number;
   bloodType: string;
+  isSpecialDonation: boolean = false;
 
   uploadedFile;
   base64File;
@@ -124,6 +125,15 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     }
     return null;
   
+  }
+
+  setDonationType(donationType: string){
+    if(donationType == "SPECIAL_DONATION"){
+      this.isSpecialDonation = true;
+    }
+    else{
+      this.isSpecialDonation = false;
+    }
   }
 
   async save(): Promise<void> {

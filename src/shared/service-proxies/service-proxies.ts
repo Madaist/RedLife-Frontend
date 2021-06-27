@@ -3968,6 +3968,8 @@ export class DonationDto implements IDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 
     constructor(data?: IDonationDto) {
@@ -3992,6 +3994,8 @@ export class DonationDto implements IDonationDto {
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
             this.medicalTestsResult = _data["medicalTestsResult"];
+            this.bloodReceiver = _data["bloodReceiver"];
+            this.hospitalReceiver = _data["hospitalReceiver"];
             this.id = _data["id"];
         }
     }
@@ -4016,6 +4020,8 @@ export class DonationDto implements IDonationDto {
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
         data["medicalTestsResult"] = this.medicalTestsResult;
+        data["bloodReceiver"] = this.bloodReceiver;
+        data["hospitalReceiver"] = this.hospitalReceiver;
         data["id"] = this.id;
         return data; 
     }
@@ -4040,6 +4046,8 @@ export interface IDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 }
 
@@ -4107,6 +4115,8 @@ export class UpdateDonationDto implements IUpdateDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 
     constructor(data?: IUpdateDonationDto) {
@@ -4128,6 +4138,8 @@ export class UpdateDonationDto implements IUpdateDonationDto {
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
             this.medicalTestsResult = _data["medicalTestsResult"];
+            this.bloodReceiver = _data["bloodReceiver"];
+            this.hospitalReceiver = _data["hospitalReceiver"];
             this.id = _data["id"];
         }
     }
@@ -4149,6 +4161,8 @@ export class UpdateDonationDto implements IUpdateDonationDto {
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
         data["medicalTestsResult"] = this.medicalTestsResult;
+        data["bloodReceiver"] = this.bloodReceiver;
+        data["hospitalReceiver"] = this.hospitalReceiver;
         data["id"] = this.id;
         return data; 
     }
@@ -4170,6 +4184,8 @@ export interface IUpdateDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 }
 
@@ -4182,6 +4198,8 @@ export class CreateDonationDto implements ICreateDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 
     constructor(data?: ICreateDonationDto) {
@@ -4203,6 +4221,8 @@ export class CreateDonationDto implements ICreateDonationDto {
             this.bloodType = _data["bloodType"];
             this.type = _data["type"];
             this.medicalTestsResult = _data["medicalTestsResult"];
+            this.bloodReceiver = _data["bloodReceiver"];
+            this.hospitalReceiver = _data["hospitalReceiver"];
             this.id = _data["id"];
         }
     }
@@ -4224,6 +4244,8 @@ export class CreateDonationDto implements ICreateDonationDto {
         data["bloodType"] = this.bloodType;
         data["type"] = this.type;
         data["medicalTestsResult"] = this.medicalTestsResult;
+        data["bloodReceiver"] = this.bloodReceiver;
+        data["hospitalReceiver"] = this.hospitalReceiver;
         data["id"] = this.id;
         return data; 
     }
@@ -4245,6 +4267,8 @@ export interface ICreateDonationDto {
     bloodType: string | undefined;
     type: string | undefined;
     medicalTestsResult: string | undefined;
+    bloodReceiver: string | undefined;
+    hospitalReceiver: string | undefined;
     id: string | undefined;
 }
 

@@ -100,6 +100,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
 
     const donation = new UpdateDonationDto();
     donation.init(this.getDonation);
+    donation.type = this.getDonation.type.toUpperCase().replace(" ", "_");
 
     if (this.isGranted('Donor')) {
       donation.donorId = abp.session.userId;
@@ -117,7 +118,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         })
       )
       .subscribe(() => {
-        this.notify.info('SavedSuccessfully');
+        this.notify.info('Saved Successfully');
         this.bsModalRef.hide();
         this.onSave.emit();
       });

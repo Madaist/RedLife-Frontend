@@ -60,28 +60,36 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
 
     save(): void {
         this.saving = true;
+
         const transfusion = new CreateTransfusionDto();
         transfusion.init(this.transfusion);
-        transfusion.donationId = this.qrScannerComponent.getQRCode();
 
-        if (this.isGranted('HospitalAdmin')) {
-            transfusion.hospitalId = this.appSession.userId;
+        if (transfusion.quantity > 0.4) {
+            this.notify.error('Quantity can not be bigger than 0.4');
+            this.saving = false;
         }
-        else if (this.isGranted('HospitalPersonnel')) {
-            transfusion.hospitalId = this.employer.id;
-        } 
+        else {
+            transfusion.donationId = this.qrScannerComponent.getQRCode();
 
-        this._transfusionService
-            .create(transfusion)
-            .pipe(
-                finalize(() => {
-                    this.saving = false;
-                })
-            )
-            .subscribe(() => {
-                this.notify.info('Saved successfully');
-                this.bsModalRef.hide();
-                this.onSave.emit();
-            });
+            if (this.isGranted('HospitalAdmin')) {
+                transfusion.hospitalId = this.appSession.userId;
+            }
+            else if (this.isGranted('HospitalPersonnel')) {
+                transfusion.hospitalId = this.employer.id;
+            }
+
+            this._transfusionService
+                .create(transfusion)
+                .pipe(
+                    finalize(() => {
+                        this.saving = false;
+                    })
+                )
+                .subscribe(() => {
+                    this.notify.info('Saved successfully');
+                    this.bsModalRef.hide();
+                    this.onSave.emit();
+                });
+        }
     }
 }
