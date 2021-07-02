@@ -76,13 +76,14 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
 
   save(): void {
     this.saving = true;
-    this.appointment.init(this.appointment);
+    this.appointment.init(this.appointment); 
 
     if (this.appointment.date.toDate() < new Date()) {
       this.notify.error("Appointment can not be in the past or for the current day");
       this.saving = false;
     }
     else {
+      
       if (this.isGranted('Donor')) {
         this.appointment.donorId = abp.session.userId;
       }
@@ -92,18 +93,30 @@ export class CreateAppointmentDialogComponent extends AppComponentBase implement
       }
 
       this._appointmentService
-        .create(this.appointment)
-        .pipe(
-          finalize(() => {
-            this.saving = false;
-            console.log("finalize");
-          })
-        )
-        .subscribe(() => {
-          this.notify.info('Saved successfully');
-          this.bsModalRef.hide();
-          this.onSave.emit();
-        });
+      .isAppointmentDateValid(this.appointment.donorId, this.appointment.date)
+      .subscribe((result) => {
+         if(result == false){
+           this.notify.error("You already have an appointment for this day.");
+           this.saving = false;
+         }
+         else {
+            
+      this._appointmentService
+      .create(this.appointment)
+      .pipe(
+        finalize(() => {
+          this.saving = false;
+          console.log("finalize");
+        })
+      )
+      .subscribe(() => {
+        this.notify.info('Saved successfully');
+        this.bsModalRef.hide();
+        this.onSave.emit();
+      });
+         }
+      });
+
     }
   }
 

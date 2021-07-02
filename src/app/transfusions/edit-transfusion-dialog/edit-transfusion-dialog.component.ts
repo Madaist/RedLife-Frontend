@@ -67,27 +67,32 @@ export class EditTransfusionDialogComponent extends AppComponentBase implements 
     const transfusion = new UpdateTransfusionDto();
     transfusion.init(this.getTransfusion);
 
-    if (this.isGranted('HospitalAdmin')) {
-      transfusion.hospitalId = this.appSession.userId;
-    }
-    else if (this.isGranted('HospitalPersonnel')) {
-      transfusion.hospitalId = this.employer.id;
-    }
+    if (transfusion.quantity > 0.4 || transfusion.quantity <= 0) {
+      this.notify.error('Quantity can not be bigger than 0.4 or less than 0');
+      this.saving = false;
+    } else {
 
-    this._transfusionService
-      .update(transfusion)
-      .pipe(
-        finalize(() => {
-          this.saving = false;
-        })
-      )
-      .subscribe(() => {
-        this.notify.info('Saved successfully');
-        this.bsModalRef.hide();
-        this.onSave.emit();
-      });
+      if (this.isGranted('HospitalAdmin')) {
+        transfusion.hospitalId = this.appSession.userId;
+      }
+      else if (this.isGranted('HospitalPersonnel')) {
+        transfusion.hospitalId = this.employer.id;
+      }
+
+      this._transfusionService
+        .update(transfusion)
+        .pipe(
+          finalize(() => {
+            this.saving = false;
+          })
+        )
+        .subscribe(() => {
+          this.notify.info('Saved successfully');
+          this.bsModalRef.hide();
+          this.onSave.emit();
+        });
+    }
   }
-
 
 
 }

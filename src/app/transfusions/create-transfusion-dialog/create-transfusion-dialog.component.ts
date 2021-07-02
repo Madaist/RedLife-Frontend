@@ -64,8 +64,8 @@ export class CreateTransfusionDialogComponent extends AppComponentBase implement
         const transfusion = new CreateTransfusionDto();
         transfusion.init(this.transfusion);
 
-        if (transfusion.quantity > 0.4) {
-            this.notify.error('Quantity can not be bigger than 0.4');
+        if (transfusion.quantity > 0.4 || transfusion.quantity <= 0)  {
+            this.notify.error('Quantity can not be bigger than 0.4 or less than 0');
             this.saving = false;
         }
         else {

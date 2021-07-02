@@ -100,11 +100,17 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
 
     const donation = new UpdateDonationDto();
     donation.init(this.getDonation);
-    donation.type = this.getDonation.type.toUpperCase().replace(" ", "_");
-
+    donation.type = this.getDonation.type.toUpperCase().split(' ').join('_');
     if (this.isGranted('Donor')) {
       donation.donorId = abp.session.userId;
     }
+
+    console.log(donation.quantity);
+    if(donation.quantity <= 0){
+      this.notify.error("Quantity has to be bigger than 0");
+      this.saving = false;
+    }
+    else{
 
     if(this.uploadedFile != null && this.uploadedFile != undefined){
       var promise = this.getBase64(this.uploadedFile);
@@ -122,7 +128,7 @@ export class EditDonationDialogComponent extends AppComponentBase implements OnI
         this.bsModalRef.hide();
         this.onSave.emit();
       });
-
+    }
   }
 
 }

@@ -101,7 +101,7 @@
         </select> 
       </div>
       <div class="col-md-9" *ngIf="bloodType != undefined && bloodType != null">
-        <input class="form-control" placeholder="Blood type" name="bloodType" [value]="bloodType"
+        <input class="form-control"  name="bloodType" [value]="bloodType" [(ngModel)]="bloodType"
         readonly />
       </div>
     </div>

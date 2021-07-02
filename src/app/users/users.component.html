@@ -138,7 +138,7 @@
                 <th>Full name</th>
                 <th>Email address</th>
                 <th>Is active</th>
-                <th style="width: 310px;">Actions</th>
+                <th >Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -185,7 +185,7 @@
                     <i class="fas fa-trash"></i>
                    Delete
                   </button>
-                  <button
+                  <button *ngIf="isGranted('Admin')"
                     type="button"
                     class="btn btn-sm bg-success"
                     (click)="resetPassword(user)"

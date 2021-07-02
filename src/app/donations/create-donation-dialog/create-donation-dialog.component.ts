@@ -11,7 +11,7 @@ import { finalize } from 'rxjs/operators';
   styleUrls: ['./create-donation-dialog.component.css']
 })
 export class CreateDonationDialogComponent extends AppComponentBase implements OnInit {
- 
+
   saving = false;
   donation = new CreateDonationDto();
 
@@ -112,26 +112,26 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
     });
   }
 
-  setSelectedDonor(userId){
+  setSelectedDonor(userId) {
     this.selectedDonorId = userId;
     this.bloodType = this.getBloodType(userId);
   }
 
-  getBloodType(userId: number) : string{
-    for(let i = 0; i < this.donors.length; i++){
-      if(this.donors[i].id == userId){
+  getBloodType(userId: number): string {
+    for (let i = 0; i < this.donors.length; i++) {
+      if (this.donors[i].id == userId) {
         return this.donors[i].bloodType;
       }
     }
     return null;
-  
+
   }
 
-  setDonationType(donationType: string){
-    if(donationType == "SPECIAL_DONATION"){
+  setDonationType(donationType: string) {
+    if (donationType == "SPECIAL_DONATION") {
       this.isSpecialDonation = true;
     }
-    else{
+    else {
       this.isSpecialDonation = false;
     }
   }
@@ -139,36 +139,46 @@ export class CreateDonationDialogComponent extends AppComponentBase implements O
   async save(): Promise<void> {
     this.saving = true;
 
-    if (this.isGranted('Donor')) {
-      this.donation.donorId = abp.session.userId;
-    }
+    if (this.donation.quantity <= 0) {
+      this.notify.error("Quantity has to be bigger than 0");
+      this.saving = false;
+    } else {
+      if (this.isGranted('Donor')) {
+        this.donation.donorId = abp.session.userId;
+      }
 
-    if (this.isGranted('CenterAdmin')) {
-      this.donation.centerId = this.loggedInUser.id;
-    }
-    else if (this.isGranted('CenterPersonnel')) {
-      this.donation.centerId = this.employer.id;
-    }
 
-    if(this.uploadedFile != null && this.uploadedFile != undefined){
-      var promise = this.getBase64(this.uploadedFile);
-      var pdf = await promise as string;
-      if(pdf != null && pdf != undefined)
-        this.donation.medicalTestsResult = await promise as string;
-    }
+      if (this.isGranted('CenterAdmin')) {
+        this.donation.centerId = this.loggedInUser.id;
+      }
+      else if (this.isGranted('CenterPersonnel')) {
+        this.donation.centerId = this.employer.id;
+      }
 
-    this._donationService
-      .create(this.donation)
-      .pipe(
-        finalize(() => {
-          this.saving = false;
-        })
-      )
-      .subscribe(() => {
-        this.notify.info('Saved successfully');
-        this.bsModalRef.hide();
-        this.onSave.emit();
-      });
+      if (this.uploadedFile != null && this.uploadedFile != undefined) {
+        var promise = this.getBase64(this.uploadedFile);
+        var pdf = await promise as string;
+        if (pdf != null && pdf != undefined)
+          this.donation.medicalTestsResult = await promise as string;
+      }
+
+      if (this.bloodType != null && this.bloodType != undefined) {
+        this.donation.bloodType = this.bloodType;
+      }
+
+      this._donationService
+        .create(this.donation)
+        .pipe(
+          finalize(() => {
+            this.saving = false;
+          })
+        )
+        .subscribe(() => {
+          this.notify.info('Saved successfully');
+          this.bsModalRef.hide();
+          this.onSave.emit();
+        });
+    }
   }
 
 }
